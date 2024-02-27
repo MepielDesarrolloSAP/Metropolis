@@ -1,0 +1,31 @@
+﻿body {
+}
+
+/*#BtnLogin {
+    padding: 5px 10px;*/ /* Ajusta el espaciado interno para adaptarse al texto */
+    /*font-size: 14px;*/ /* Ajusta el tamaño del texto según sea necesario */
+    /*background-color: #236ddb;
+    border-style: solid;
+    border-color: #236ddb;
+    color:white;
+
+}*/
+
+#BtnLogin {
+    border-radius: 20px; /* Ajusta el valor según el grado de redondez que desees */
+    padding: 10px 20px; /* Ajusta el relleno según sea necesario */
+    border: none; /* Elimina el borde para un aspecto más limpio */
+    background-color: #236ddb; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-align: center; /* Centra el texto */
+    text-decoration: none; /* Elimina cualquier decoración de texto */
+    display: inline-block; /* Permite que el botón se ajuste al contenido */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition-duration: 0.4s; /* Duración de la transición para efectos suaves */
+}
+
+    /* Estilo para cambiar el aspecto al pasar el cursor sobre el botón */
+    .boton-redondeado:hover {
+        background-color: #45a049; /* Cambia el color de fondo al pasar el cursor */
+    }

@@ -1,0 +1,211 @@
+﻿body {
+}
+
+#CuerpoGeneral, #ContainerAddress, #ContaiRoute, #GeneratedRoutes {
+    margin-top: 80px;
+    display: none;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    /*border: 1px solid;*/
+    padding: 1px;
+    /*    box-shadow: 1px 10px #236ddb;*/
+    box-shadow: 0 0 15px 5px rgba(31, 73, 125, 0.8);
+    border-style: solid;
+    border-color: #236ddb;
+    width: 100%; /* El div interno ocupará todo el ancho del contenedor */
+    height: 100%; /* El div interno ocupará todo el alto del contenedor */
+}
+
+#Route {
+    margin-top: 80px;
+    display: Flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    /*border: 1px solid;*/
+    padding: 1px;
+    /*    box-shadow: 1px 10px #236ddb;*/
+    box-shadow: 0 0 15px 5px rgba(31, 73, 125, 0.8);
+    border-style: solid;
+    border-color: #236ddb;
+    width: 100%; /* El div interno ocupará todo el ancho del contenedor */
+    height: 100%; /* El div interno ocupará todo el alto del contenedor */
+}
+
+#ContaiRoute{
+    font-size:12px;
+}
+
+.btn-secondary {
+    --bs-btn-bg: #236ddb;
+    --bs-btn-border-color: #236ddb;
+}
+
+#toolbar {
+    padding: 5px 5px; /* Ajusta el espaciado interno para adaptarse al texto */
+    font-size: 14px; /* Ajusta el tamaño del texto según sea necesario */
+    background-color:white
+}
+
+#AddUser, #AddAddress, #AddUserTable, #AddAddressTable, #EditU, #EditAddress, #EditRoute, #AddRouteTable, #AddRouteTableOV, #FindOV, #AddOVR {
+    border-radius: 20px; /* Ajusta el valor según el grado de redondez que desees */
+    padding: 10px 20px; /* Ajusta el relleno según sea necesario */
+    border: none; /* Elimina el borde para un aspecto más limpio */
+    background-color: #236ddb; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-align: center; /* Centra el texto */
+    text-decoration: none; /* Elimina cualquier decoración de texto */
+    display: inline-block; /* Permite que el botón se ajuste al contenido */
+    font-size: 14px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition-duration: 0.4s; /* Duración de la transición para efectos suaves */
+    border-style: solid;
+    border-color: #236ddb;
+}
+
+#CloseMA, #CloseME, #CloseMAA, #CloseMEA, #CloseMER, #CloseMFOV, #CloseMAOV, #CloseMSR {
+    border-radius: 20px; /* Ajusta el valor según el grado de redondez que desees */
+    padding: 10px 20px; /* Ajusta el relleno según sea necesario */
+    border: none; /* Elimina el borde para un aspecto más limpio */
+    background-color: #c03221; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-align: center; /* Centra el texto */
+    text-decoration: none; /* Elimina cualquier decoración de texto */
+    display: inline-block; /* Permite que el botón se ajuste al contenido */
+    font-size: 14px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition-duration: 0.4s; /* Duración de la transición para efectos suaves */
+    border-style: solid;
+    border-color: #c03221;
+}
+
+label {
+    color: #236ddb;
+}
+
+#Data-Usuarios {
+    /*width: 100%;*/ /* La tabla ocupará todo el ancho del div interno */
+    /*height: 100%;*/ /* La tabla ocupará todo el alto del div interno */
+    /*border-collapse: collapse;
+    border: 1px solid white;*/
+    font-size:12px;
+}
+
+#Data-Usuarios td {
+        padding: 8px;
+    }
+
+#Data-Route {
+    font-size: 10px;
+    table-layout: fixed;
+}
+
+#Data-Route td {
+        /*border: 1px solid #dddddd;
+        text-align: left;*/
+        padding: 8px;
+        white-space: nowrap; /* Evita que el contenido se envuelva dentro de las celdas */
+        overflow: hidden; /* Oculta cualquier contenido que no quepa dentro de la celda */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) si el contenido se desborda */
+    }
+
+#Data-Routes {
+    font-size: 10px;
+    table-layout: fixed;
+}
+
+#Data-Routes td {
+        /*border: 1px solid #dddddd;
+        text-align: left;*/
+        padding: 8px;
+        white-space: nowrap; /* Evita que el contenido se envuelva dentro de las celdas */
+        overflow: hidden; /* Oculta cualquier contenido que no quepa dentro de la celda */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) si el contenido se desborda */
+    }
+
+#Data-Adress {
+    font-size: 12px;
+}
+
+#Data-Adress td {
+        padding: 8px;
+    }
+
+#Data-ShowRoute {
+    font-size: 10px;
+    table-layout: fixed;
+}
+
+#Data-ShowRoute td {
+        /*border: 1px solid #dddddd;
+        text-align: left;*/
+        padding: 6px;
+        white-space: nowrap; /* Evita que el contenido se envuelva dentro de las celdas */
+        overflow: hidden; /* Oculta cualquier contenido que no quepa dentro de la celda */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) si el contenido se desborda */
+    }
+
+#page_layout {
+    padding: 10px;
+}
+
+.responsive-table {
+    width: 100%;
+    max-width: 100%; /* Opcional: establece un ancho máximo */
+
+}
+
+    .responsive-table th,
+    .responsive-table td {
+        padding: 8px; /* Ajusta según tus necesidades */
+        border: 1px solid #ddd; /* Borde opcional */
+    }
+
+@media screen and (max-width: 600px) {
+    .responsive-table th,
+    .responsive-table td {
+        padding: 5px; /* Reducir el relleno */
+    }
+}
+
+#RTCDMX, #RMCDMX, #RMG, #RTG{
+    font-size:12px;
+}
+
+#DivAddOV{
+    overflow-y: scroll;
+    height: 41rem;
+}
+
+#DivAddUser {
+    overflow-y: scroll;
+    height: 38rem;
+}
+
+#DivShowRoute {
+    overflow-y: scroll;
+    height: 38rem;
+}
+
+/*////////////////*/
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey;
+    border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--bs-primary);
+    border-radius: 2px;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--bs-primary);
+    }

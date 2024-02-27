@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Gate.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="HanaConec" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Server=Hanab1:30013;UserID=SYSTEM;Password=B1AdminH2;Database=NDB</Value>
+    </Setting>
+    <Setting Name="Base" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SB1CSL</Value>
+    </Setting>
+    <Setting Name="Baseexterna" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">172.16.101.125</Value>
+    </Setting>
+    <Setting Name="Usuario" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="contraseña" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
