@@ -470,7 +470,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base +".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '"+ fechaFormateada +"'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n "+ Settings.Default.Base +".ORDR T0\r\nINNER JOIN "+ Settings.Default.Base +".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base +".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base +".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '"+ fechaFormateada +"'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base +".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '"+ fechaFormateada +"'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n "+ Settings.Default.Base +".ORDR T0\r\nINNER JOIN "+ Settings.Default.Base +".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base +".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base +".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '"+ fechaFormateada +"'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -484,15 +484,16 @@ namespace Gate.Controllers
 
                         route.Id = Id;
                         route.ShipToCode = Globals.reader.GetString(0);
-                        route.CardName = Globals.reader.GetString(1);
-                        route.Street = Globals.reader.GetString(2);
-                        route.Block = Globals.reader.GetString(3);
-                        route.ZipCode = Globals.reader.GetString(4);
-                        route.City = Globals.reader.GetString(5);
-                        route.U_NAME = Globals.reader.GetString(6);
-                        route.Condition = Globals.reader.GetString(7);
-                        route.ConditionsType= Globals.reader.GetString(8);
-                        route.DocNums = Globals.reader.GetString(9);
+                        route.CardCode= Globals.reader.GetString(1);
+                        route.CardName = Globals.reader.GetString(2);
+                        route.Street = Globals.reader.GetString(3);
+                        route.Block = Globals.reader.GetString(4);
+                        route.ZipCode = Globals.reader.GetString(5);
+                        route.City = Globals.reader.GetString(6);
+                        route.U_NAME = Globals.reader.GetString(7);
+                        route.Condition = Globals.reader.GetString(8);
+                        route.ConditionsType= Globals.reader.GetString(9);
+                        route.DocNums = Globals.reader.GetString(10);
 
                         lista.Add(route);
 
@@ -525,7 +526,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -539,15 +540,16 @@ namespace Gate.Controllers
 
                         route.Id = Id;
                         route.ShipToCode = Globals.reader.GetString(0);
-                        route.CardName = Globals.reader.GetString(1);
-                        route.Street = Globals.reader.GetString(2);
-                        route.Block = Globals.reader.GetString(3);
-                        route.ZipCode = Globals.reader.GetString(4);
-                        route.City = Globals.reader.GetString(5);
-                        route.U_NAME = Globals.reader.GetString(6);
-                        route.Condition = Globals.reader.GetString(7);
-                        route.ConditionsType= Globals.reader.GetString(8);
-                        route.DocNums = Globals.reader.GetString(9);
+                        route.CardCode = Globals.reader.GetString(1);
+                        route.CardName = Globals.reader.GetString(2);
+                        route.Street = Globals.reader.GetString(3);
+                        route.Block = Globals.reader.GetString(4);
+                        route.ZipCode = Globals.reader.GetString(5);
+                        route.City = Globals.reader.GetString(6);
+                        route.U_NAME = Globals.reader.GetString(7);
+                        route.Condition = Globals.reader.GetString(8);
+                        route.ConditionsType = Globals.reader.GetString(9);
+                        route.DocNums = Globals.reader.GetString(10);
 
                         lista.Add(route);
 
@@ -580,7 +582,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -594,15 +596,16 @@ namespace Gate.Controllers
 
                         route.Id = Id;
                         route.ShipToCode = Globals.reader.GetString(0);
-                        route.CardName = Globals.reader.GetString(1);
-                        route.Street = Globals.reader.GetString(2);
-                        route.Block = Globals.reader.GetString(3);
-                        route.ZipCode = Globals.reader.GetString(4);
-                        route.City = Globals.reader.GetString(5);
-                        route.U_NAME = Globals.reader.GetString(6);
-                        route.Condition = Globals.reader.GetString(7);
-                        route.ConditionsType= Globals.reader.GetString(8);
-                        route.DocNums = Globals.reader.GetString(9);
+                        route.CardCode = Globals.reader.GetString(1);
+                        route.CardName = Globals.reader.GetString(2);
+                        route.Street = Globals.reader.GetString(3);
+                        route.Block = Globals.reader.GetString(4);
+                        route.ZipCode = Globals.reader.GetString(5);
+                        route.City = Globals.reader.GetString(6);
+                        route.U_NAME = Globals.reader.GetString(7);
+                        route.Condition = Globals.reader.GetString(8);
+                        route.ConditionsType = Globals.reader.GetString(9);
+                        route.DocNums = Globals.reader.GetString(10);
 
                         lista.Add(route);
 
@@ -635,7 +638,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -649,15 +652,16 @@ namespace Gate.Controllers
 
                         route.Id = Id;
                         route.ShipToCode = Globals.reader.GetString(0);
-                        route.CardName = Globals.reader.GetString(1);
-                        route.Street = Globals.reader.GetString(2);
-                        route.Block = Globals.reader.GetString(3);
-                        route.ZipCode = Globals.reader.GetString(4);
-                        route.City = Globals.reader.GetString(5);
-                        route.U_NAME = Globals.reader.GetString(6);
-                        route.Condition = Globals.reader.GetString(7);
-                        route.ConditionsType= Globals.reader.GetString(8);
-                        route.DocNums = Globals.reader.GetString(9);
+                        route.CardCode = Globals.reader.GetString(1);
+                        route.CardName = Globals.reader.GetString(2);
+                        route.Street = Globals.reader.GetString(3);
+                        route.Block = Globals.reader.GetString(4);
+                        route.ZipCode = Globals.reader.GetString(5);
+                        route.City = Globals.reader.GetString(6);
+                        route.U_NAME = Globals.reader.GetString(7);
+                        route.Condition = Globals.reader.GetString(8);
+                        route.ConditionsType = Globals.reader.GetString(9);
+                        route.DocNums = Globals.reader.GetString(10);
 
                         lista.Add(route);
 

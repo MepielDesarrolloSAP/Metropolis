@@ -9,6 +9,7 @@ namespace Gate.Clases
     {
         public int Id { get; set; }
         public string ShipToCode { get; set; }
+        public string CardCode { get; set; }
         public string CardName { get; set; }
         public string Street { get; set; }
         public string Block { get; set; }
