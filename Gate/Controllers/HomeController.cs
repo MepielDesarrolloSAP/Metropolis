@@ -1111,6 +1111,11 @@ namespace Gate.Controllers
                                 }
 
                                 //Guardar direccion de cliente
+                                val = DL.AddClientAddress(v.ShipToCode,v.Street,v.Block,v.ZipCode,v.City,idclient,v.DocNums);
+                                if (val == false)
+                                {
+                                    return Json(val);
+                                }
 
                             }
                             //No existe cliente//
@@ -1127,6 +1132,11 @@ namespace Gate.Controllers
                                 }
 
                                 //Guardar direccion de cliente
+                                val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient,v.DocNums);
+                                if (val == false)
+                                {
+                                    return Json(val);
+                                }
 
                             }
 
