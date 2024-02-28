@@ -7,7 +7,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using Gate.Properties;
-
+using System.Web.Routing;
+using Microsoft.Ajax.Utilities;
 
 namespace Gate.Components.DL
 {
@@ -203,7 +204,7 @@ namespace Gate.Components.DL
             return lastId;
         }
 
-        //Obtener ultimo Id agregado en usuarios
+        //Obtener ultimo Id agregado en users
         public static int LastIdAddress()
         {
             int lastId = 0;
@@ -257,7 +258,7 @@ namespace Gate.Components.DL
             return lastId;
         }
 
-        //Obtener ultimo Id agregado en usuarios
+        //Obtener ultimo Id agregado en users
         public static int LastIdRoute()
         {
             int lastId = 0;
@@ -268,6 +269,37 @@ namespace Gate.Components.DL
                 {
                     // Obtiene el último ID de la tabla 'caca'
                     string Query = "SELECT MAX(id) as LastID FROM Route";
+                    MySqlCommand lastIdCommand = new MySqlCommand(Query, conexion);
+                    //if (lastIdCommand.LastInsertedId == 0)
+                    //{
+                    //    lastId = 1;
+                    //}
+                    //else
+                    //{
+                    lastId = Convert.ToInt32(lastIdCommand.ExecuteScalar());
+                    //}
+
+                }
+                catch (Exception x)
+                {
+                    lastId = 0;
+                }
+                conexion.Close();
+            }
+            return lastId;
+        }
+
+        //Obtener ultimo Id agregado en clients
+        public static int LastIdClient()
+        {
+            int lastId = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    // Obtiene el último ID de la tabla 'caca'
+                    string Query = "SELECT MAX(id) as LastID FROM Clients";
                     MySqlCommand lastIdCommand = new MySqlCommand(Query, conexion);
                     //if (lastIdCommand.LastInsertedId == 0)
                     //{
@@ -324,7 +356,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','"+ fechaFormateada + "','"+ Id_typeofroute + "');";
+                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Driver,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','"+ fechaFormateada + "','','" + Id_typeofroute + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -349,6 +381,106 @@ namespace Gate.Components.DL
             return folio;
         }
 
+        public static int ClientExist(string CardCode)
+        {
+            int idClient = 0;
 
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT T0.Id FROM Clients T0 where  T0.CardCode = 'CardCode'"; // where users.Enable = 0";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        idClient = Convert.ToInt32(row["Id"]);
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return idClient;
+
+        }
+
+        public static int AddClient(string CardName, string CardCode)
+        {
+            int folio = 0;
+
+            int FolioClient = LastIdClient() + 1;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string Query = "insert into Clients(Id, CardName,CardCode)\r\nvalue('" + FolioClient + "', '" + CardName + "','" + CardCode + "');";
+
+                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        folio = FolioClient;
+                    }
+                    else
+                    {
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return folio;
+        }
+
+        public static bool AddRoute(string U_NAME, string Conditions, string ConditionsType, string DocNums, string Comments, string Phone, bool enable, int Id_Users, int Id_FolioRoute, int Id_clients)
+        {
+            bool val = false;
+
+            int idroute = DL.LastIdRoute() + 1;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string Query = "insert into Route(Id, U_NAME,Conditions,ConditionsType,DocNums,Comments,Phone,Id_Users,Id_FolioRoute,Id_Clients)\r\nvalue('" + idroute + "', '" + U_NAME + "', '" + Conditions + "', '" + ConditionsType + "','" + DocNums + "','" + Comments + "','" + Phone + "', '" + enable + "', '" + Id_Users + "', '" + Id_FolioRoute + "', '" + Id_clients + "')";
+
+                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        val = true;
+                    }
+                    else
+                    {
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+                return val;
+            }
+
+        }
     }
 }

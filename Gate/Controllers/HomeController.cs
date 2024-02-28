@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using Gate.Properties;
 using Sap.Data.Hana;
 using Microsoft.AspNet.Identity;
+using System.Net.Sockets;
 
 namespace Gate.Controllers
 {
@@ -1057,6 +1058,8 @@ namespace Gate.Controllers
 
         public JsonResult SaveRoute(List<Route> Route, string laruta)
         {
+            bool val = false;
+
             int Id_typeofroute = 0;
 
             if (laruta == "R1")
@@ -1076,16 +1079,16 @@ namespace Gate.Controllers
                 Id_typeofroute = 4;
             }
 
-            int id = 0;
+            int idclient = 0;
 
-            bool val = false;
-
-            int folio = DL.AddFolioRoute(Id_typeofroute);
+            bool valRoute = false;
 
             Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
 
             if (User != null)
             {
+
+                int folio = DL.AddFolioRoute(Id_typeofroute);
 
                 using (MySqlConnection conexion = DL.OpenConnectionMysql())
                 {
@@ -1094,22 +1097,37 @@ namespace Gate.Controllers
 
                         foreach (var v in Route)
                         {
-                            id = DL.LastIdRoute() + 1;
 
-                            string Query = "insert into Route(Id, U_NAME,Conditions,DocNums,Comments,Phone,Id_Users,Id_typeofroute,Id_FolioRoute)\r\nvalue('"+ id +"', '"+ v.ShipToCode +"', '"+ v.CardName +"', '"+ v.Street +"','"+ v.Block +"','"+ v.ZipCode +"','"+ v.City +"', '"+ v.U_NAME +"', '"+ v.Condition +"', '"+ v.DocNums +"', '"+ v.Comments +"', '"+ v.Phone +"', '"+ User.Id +"', '"+ Id_typeofroute + "', '"+ folio +"')";
+                            idclient = DL.ClientExist(v.CardCode);
 
-                            MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
-                            //MySqlDataReader reader = mySqlData.ExecuteReader();
-
-                            int rowsAffected = mySqlData.ExecuteNonQuery();
-
-                            if (rowsAffected > 0)
+                            //Existe cliente//
+                            if (idclient != 0)
                             {
-                                val = true;
+                                //Guardar ruta
+                                val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
+                                if (val == false)
+                                {
+                                    return Json(val);
+                                }
+
+                                //Guardar direccion de cliente
+
                             }
+                            //No existe cliente//
                             else
                             {
-                                val = false;
+                                //Guardamos cliente
+                                idclient = DL.AddClient(v.CardName, v.CardCode);
+
+                                //Guardar ruta
+                                val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
+                                if(val == false)
+                                {
+                                    return Json(val);
+                                }
+
+                                //Guardar direccion de cliente
+
                             }
 
                         }
