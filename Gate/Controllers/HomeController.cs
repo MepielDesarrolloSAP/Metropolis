@@ -1062,6 +1062,8 @@ namespace Gate.Controllers
 
             int Id_typeofroute = 0;
 
+            int AddressExist = 0;
+
             if (laruta == "R1")
             {
                 Id_typeofroute = 1;
@@ -1081,65 +1083,91 @@ namespace Gate.Controllers
 
             int idclient = 0;
 
-            bool valRoute = false;
+            //bool valRoute = false;
 
             Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
 
             if (User != null)
             {
 
-                int folio = DL.AddFolioRoute(Id_typeofroute);
-
                 using (MySqlConnection conexion = DL.OpenConnectionMysql())
                 {
                     try
                     {
+                        int folio = DL.AddFolioRoute(Id_typeofroute,Route);
 
-                        foreach (var v in Route)
+                        if (folio > 0)
                         {
-
-                            idclient = DL.ClientExist(v.CardCode);
-
-                            //Existe cliente//
-                            if (idclient != 0)
+                            foreach (var v in Route)
                             {
-                                //Guardar ruta
-                                val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
-                                if (val == false)
-                                {
-                                    return Json(val);
-                                }
 
-                                //Guardar direccion de cliente
-                                val = DL.AddClientAddress(v.ShipToCode,v.Street,v.Block,v.ZipCode,v.City,idclient,v.DocNums);
-                                if (val == false)
+                                idclient = DL.ClientExist(v.CardCode);
+
+                                //Existe cliente//
+                                if (idclient != 0)
                                 {
-                                    return Json(val);
+
+                                    ////falta validar si ya se guardo anteriormente la ruta.
+                                    //val = DL.DocNumsExist(v.DocNums);
+                                    //if (val == true)
+                                    //{
+                                    //    return Json("RutaG");
+                                    //}
+
+
+                                    //Guardar ruta
+                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
+                                    if (val == false)
+                                    {
+                                        return Json(val);
+                                    }
+
+                                    AddressExist = DL.ClientAddressExist(idclient, v.ShipToCode);
+
+                                    if (AddressExist != 0)
+                                    {
+                                        val = val = DL.AddDocNums(v.DocNums, AddressExist);
+                                    }
+                                    else
+                                    {
+                                        //Guardar direccion de cliente
+                                        val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums);
+                                        if (val == false)
+                                        {
+                                            return Json(val);
+                                        }
+                                    }
+
+
+                                }
+                                //No existe cliente//
+                                else
+                                {
+                                    //Guardamos cliente
+                                    idclient = DL.AddClient(v.CardName, v.CardCode);
+
+                                    //Guardar ruta
+                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
+                                    if (val == false)
+                                    {
+                                        return Json(val);
+                                    }
+
+
+                                    //Guardar direccion de cliente
+                                    val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums);
+                                    if (val == false)
+                                    {
+                                        return Json(val);
+                                    }
+
                                 }
 
                             }
-                            //No existe cliente//
-                            else
-                            {
-                                //Guardamos cliente
-                                idclient = DL.AddClient(v.CardName, v.CardCode);
-
-                                //Guardar ruta
-                                val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
-                                if(val == false)
-                                {
-                                    return Json(val);
-                                }
-
-                                //Guardar direccion de cliente
-                                val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient,v.DocNums);
-                                if (val == false)
-                                {
-                                    return Json(val);
-                                }
-
-                            }
-
+                        }
+                        else
+                        {
+                            return Json("RutaG");
                         }
 
                     }

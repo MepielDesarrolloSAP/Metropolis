@@ -430,6 +430,37 @@ namespace Gate.Components.DL
         }
 
         //Obtener ultimo Id agregado en Packages
+        public static int LastIdPendingPackages()
+        {
+            int lastId = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    // Obtiene el último ID de la tabla 'caca'
+                    string Query = "SELECT MAX(id) as LastID FROM PendingPackages";
+                    MySqlCommand lastIdCommand = new MySqlCommand(Query, conexion);
+                    //if (lastIdCommand.LastInsertedId == 0)
+                    //{
+                    //    lastId = 1;
+                    //}
+                    //else
+                    //{
+                    lastId = Convert.ToInt32(lastIdCommand.ExecuteScalar());
+                    //}
+
+                }
+                catch (Exception x)
+                {
+                    lastId = 0;
+                }
+                conexion.Close();
+            }
+            return lastId;
+        }
+
+        //Obtener ultimo Id agregado en Packages
         public static int LastIdPackagedetails()
         {
             int lastId = 0;
@@ -483,9 +514,36 @@ namespace Gate.Components.DL
             return Id;
         }
 
-        public static int AddFolioRoute(int Id_typeofroute)
+        public static int AddFolioRoute(int Id_typeofroute, List<Clases.Route> Route)
         {
+
             int folio = 0;
+
+            bool val = false;
+
+            int idclient = 0;
+
+            foreach (var v in Route)
+            {
+
+                idclient = DL.ClientExist(v.CardCode);
+
+                //Existe cliente//
+                if (idclient != 0)
+                {
+
+                    //falta validar si ya se guardo anteriormente la ruta.
+                    val = DL.DocNumsExist(v.DocNums);
+
+                }
+
+                break;
+            }
+
+            if (val == true)
+            {
+                return folio;
+            }
 
             int FolioRoute = LastIdAFolioRoute() + 1;
 
@@ -496,7 +554,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Driver,Id_typeofroute,Enable)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','"+ fechaFormateada + "','','" + Id_typeofroute + "','" + true + "');";
+                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Driver,Id_typeofroute,Enable)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','','" + Id_typeofroute + "','" + true + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -529,7 +587,7 @@ namespace Gate.Components.DL
             {
                 try
                 {
-                    string Query = "SELECT T0.Id FROM Clients T0 where  T0.CardCode = 'CardCode'"; // where users.Enable = 0";
+                    string Query = "SELECT T0.Id FROM Clients T0 where  T0.CardCode = '"+ CardCode +"'"; // where users.Enable = 0";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -548,6 +606,36 @@ namespace Gate.Components.DL
             }
 
             return idClient;
+
+        }
+
+        public static int ClientAddressExist(int idClient, string ClientAddress)
+        {
+            int AddressExist = 0;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT T0.Id FROM clientaddress T0 where  T0.Id_clients = '" + idClient + "' and T0.ShipToCode = '" + ClientAddress + "'"; // where users.Enable = 0";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        AddressExist = Convert.ToInt32(row["Id"]);
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return AddressExist;
 
         }
 
@@ -598,7 +686,7 @@ namespace Gate.Components.DL
                 try
                 {
 
-                    string Query = "insert into Route(Id, U_NAME,Conditions,ConditionsType,DocNums,Comments,Phone,Id_Users,Id_FolioRoute,Id_Clients)\r\nvalue('" + idroute + "', '" + U_NAME + "', '" + Conditions + "', '" + ConditionsType + "','" + DocNums + "','" + Comments + "','" + Phone + "', '" + enable + "', '" + Id_Users + "', '" + Id_FolioRoute + "', '" + Id_clients + "')";
+                    string Query = "insert into Route(Id, U_NAME,Conditions,ConditionsType,DocNums,Comments,Phone,Enable,Id_Users,Id_FolioRoute,Id_Clients)\r\nvalue('" + idroute + "', '" + U_NAME + "', '" + Conditions + "', '" + ConditionsType + "','" + DocNums + "','" + Comments + "','" + Phone + "', '" + enable + "', '" + Id_Users + "', '" + Id_FolioRoute + "', '" + Id_clients + "')";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -659,6 +747,46 @@ namespace Gate.Components.DL
 
         }
 
+        public static bool DocNumsExist(string docnums)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string[] registros = docnums.Split(new string[] { ", " }, StringSplitOptions.None);
+
+                    foreach (string Order in registros)
+                    {
+                        string Query = "SELECT T0.DocNum FROM docnums T0 where  T0.DocNum = '" + Order + "' and T0.Enable = 'true'";
+
+                        MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                        DataTable data = new DataTable();
+                        mySqlData.Fill(data);
+
+                        foreach (DataRow row in data.Rows)
+                        {
+                            val = true;
+                        }
+                        if (val)
+                        {
+                            break;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+                return val;
+            }
+
+        }
+
         public static bool AddDocNums(string docnums, int IdClientAddress)
         {
             bool val = false;
@@ -678,7 +806,7 @@ namespace Gate.Components.DL
                     foreach (string Order in registros)
                     {
                         IdDocNums = DL.LastIdDocNums() + 1;
-                        string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Id_ClientAddress\r\n,Id_Clients)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + IdClientAddress + "')";
+                        string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Id_ClientAddress)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + IdClientAddress + "')";
 
                         MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                         //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -714,6 +842,28 @@ namespace Gate.Components.DL
 
                     jsonObject = JsonConvert.DeserializeObject<JObject>(jsonObject);
 
+                    //si paking esta vacio  agregar a PendingPackages y regresar true.
+                    string Docnum = jsonObject["message"]["DocNum"];
+
+                    if(Docnum == null)
+                    {
+                        int IdPendingPackages = LastIdPendingPackages() + 1;
+                        string QueryTwo = "insert into PendingPackages(Id, Docnum,Enable,Id_Docnum)\r\nvalue('" + IdPendingPackages + "', '" + Order + "', '" + true + "','" + IdDocNums + "')";
+
+                        MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
+                        //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                        int rowsAffectedTwo = mySqlDataTwo.ExecuteNonQuery();
+
+                        if (rowsAffectedTwo > 0)
+                        {
+                            val = true;
+                            return val;
+                        }
+
+                    }
+
+
                     // Acceder a los valores
                     var details = jsonObject["message"]["Details"];
 
@@ -739,7 +889,7 @@ namespace Gate.Components.DL
                                 MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
                                 //MySqlDataReader reader = mySqlData.ExecuteReader();
 
-                                int rowsAffectedTwo = mySqlData.ExecuteNonQuery();
+                                int rowsAffectedTwo = mySqlDataTwo.ExecuteNonQuery();
 
                                 if (rowsAffectedTwo > 0)
                                 {
