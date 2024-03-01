@@ -205,7 +205,12 @@ label {
     border-radius: 2px;
 }
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--bs-primary);
-    }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bs-primary);
+}
+
+::placeholder {
+    color: rgba(255, 0, 0, 0.484);
+    font-size: 5.1em;
+}
