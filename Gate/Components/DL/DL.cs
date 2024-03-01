@@ -514,7 +514,7 @@ namespace Gate.Components.DL
             return Id;
         }
 
-        public static int AddFolioRoute(int Id_typeofroute, List<Clases.Route> Route)
+        public static int AddFolioRoute(int Id_typeofroute, List<Gate.Clases.Route> Route)
         {
 
             int folio = 0;
@@ -760,7 +760,7 @@ namespace Gate.Components.DL
 
                     foreach (string Order in registros)
                     {
-                        string Query = "SELECT T0.DocNum FROM docnums T0 where  T0.DocNum = '" + Order + "' and T0.Enable = 'true'";
+                        string Query = "SELECT T0.DocNum FROM docnums T0 where  T0.DocNum = '" + Order + "' and T0.Enable = '1'";
 
                         MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -806,7 +806,7 @@ namespace Gate.Components.DL
                     foreach (string Order in registros)
                     {
                         IdDocNums = DL.LastIdDocNums() + 1;
-                        string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Id_ClientAddress)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + IdClientAddress + "')";
+                        string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','"+true+"','" + IdClientAddress + "')";
 
                         MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                         //MySqlDataReader reader = mySqlData.ExecuteReader();
