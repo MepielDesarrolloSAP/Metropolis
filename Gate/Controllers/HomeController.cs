@@ -687,7 +687,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '3';";
+                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '3' and T0.Enable = 1; ";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -724,7 +724,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '4';";
+                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '4' and T0.Enable = 1;";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -761,7 +761,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '1';";
+                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '1' and T0.Enable = 1;";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -798,7 +798,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '2';";
+                    string Query = "SELECT \r\nT0.Id, \r\nT0.CreateDate,\r\nT1.Name,\r\nT1.Description\r\n\r\nFROM \r\nfolioroute T0 \r\ninner join typeofroute T1 on T0.Id_typeofroute = T1.Id\r\n\r\nwhere\r\nT1.Id = '2' and T0.Enable = 1;";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -835,7 +835,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT\r\n* \r\n\r\nFROM \r\nmetropolis.route\r\n\r\nwhere Id_FolioRoute = '"+ Id +"';";
+                    string Query = "SELECT\r\n* \r\n\r\nFROM \r\nmetropolis.route\r\n\r\nwhere Id_FolioRoute = '"+ Id +"' ;";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
