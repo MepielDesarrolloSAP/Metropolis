@@ -820,6 +820,12 @@ function CloseModalShowRoute() {
 
 function ShowModalAddUser() {
 
+    console.log('Show modal add user');
+
+    var selectAdressUser = 'ChooseAddres';
+    //Limpiar el Select de la dirección
+    CleanSelect(selectAdressUser);
+    
     $.ajax({
 
         url: '/Home/Address',
@@ -930,15 +936,25 @@ const AddUser = () => {
     const Id_Role = document.getElementById('Id_Role').value;
     const ChooseAddres = document.getElementById('ChooseAddres').value;
 
-    if (Name == "" || Lastname == "" || Username == "" || Password == "" || Email == "" || Phone == "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Es nesesario llenar todos los campos',
-            text: '',
-
-        })
+    const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    const regexPhone = /^\(?(\d{3})\)?[-]?(\d{3})[-]?(\d{4})$/;
+ 
+    resetFormAddUser();
+    //Verificar que los campos no esten vacios y que sea un correo valido 
+    if (Name == "" || Lastname == "" || Username == "" || Password == "" || Email == "" || Phone == "") { 
+        myMessage('info', 'Favor de completar el formulario')
+        // debugger
+        if(Name == null || Name == "") invalidFeedbackForm('Name', 'invalidFeedback-Form-AddUser-Name', 'Por favor, ingresar un nombre(s).'); 
+        if(Lastname == null || Lastname == "") invalidFeedbackForm('Lastname', 'invalidFeedback-Form-AddUser-Lastname', 'Por favor, ingresar el apellido(s).'); 
+        if(Username == null || Username == "") invalidFeedbackForm('Username', 'invalidFeedback-Form-AddUser-Username', 'Por favor, ingresar un nombre de usuario.');   
+        if(Password == null || Password == '') invalidFeedbackForm('Password', 'invalidFeedback-Form-AddUser-Password', 'Por favor, ingresar una contraseña.');
+        if(Email == null || Email == '') invalidFeedbackForm('Email', 'invalidFeedback-Form-AddUser-Email', 'Por favor, ingresar un correo.'); 
+        if(!regexCorreo.test(Email) && Email != null && Email != '') invalidFeedbackForm('Email', 'invalidFeedback-Form-AddUser-Email', 'Correo invalido.');
+        if(Phone == null || Phone == '') invalidFeedbackForm('Phone', 'invalidFeedback-Form-AddUser-Phone', 'Por favor, ingresar un numero de telefono.'); 
+        if(!regexPhone.test(Phone) && Phone != null && Phone != '') invalidFeedbackForm('Phone', 'invalidFeedback-Form-AddUser-Phone', 'Numero de telefono valido.'); 
+       
         return
-    }
+    } 
 
     $.ajax({
 
@@ -1801,6 +1817,9 @@ const SaveRoute = () => {
             }
             else if (data1 == "login") {
                 setTimeout(() => window.location.href = '/Auth/Signin', 2000)
+            }else if (data1 == "RutaG") {
+                myMessage('error', 'La ruta ya habia sido guardada previamente');
+                return
             }
 
 
@@ -1823,5 +1842,72 @@ document.getElementById('toggle-multiple-collapse').addEventListener('click', fu
     }
 });
 
+const CleanSelect = (select_id) => { 
 
+    var selectAdressUser = document.getElementById(select_id);
+    // var selectAdressUser = document.getElementById('ChooseAddres');
+ 
+        if (selectAdressUser.selectedIndex != -1){
+          //Limpiar el SELECT LOTES
+          var length = selectAdressUser.options.length;
+          for (i = length-1; i >= 0; i--) {
+            selectAdressUser.options[i] = null;
+          }
+        } 
+}
 
+const CheckShowPassword = () => {
+    console.log("CheckShowPassword");
+
+    var passwordInput = document.getElementById("Password");
+    var toggleCheckbox = document.getElementById("checkshowpasswordAdduser");
+    
+    if (toggleCheckbox.checked) {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
+    }
+}
+
+const myMessage = (icon, title) => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+    Toast.fire({
+        icon: icon,
+        title: title,
+        text: ""
+    })
+
+}
+
+const invalidFeedbackForm = (id, feedback_id, feedbackText) => {
+
+    console.log(id);
+    console.log(feedback_id);
+    var input = document.getElementById(id);
+    var invalidFeedback = document.getElementById(feedback_id);
+ 
+    input.classList.add('is-invalid');
+    invalidFeedback.innerText = feedbackText;
+    // input.style.border = '1px solid #eee ';
+}
+
+const resetFormAddUser = () => {
+
+    document.getElementById('Name').classList.remove('is-invalid');
+    document.getElementById('Lastname').classList.remove('is-invalid');;
+    document.getElementById('Username').classList.remove('is-invalid');;
+    document.getElementById('Password').classList.remove('is-invalid');;
+    document.getElementById('Email').classList.remove('is-invalid');;
+    document.getElementById('Phone').classList.remove('is-invalid');;
+
+}
