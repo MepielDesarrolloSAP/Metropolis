@@ -648,6 +648,8 @@ window.operateEventsOne = {
     },
 
     'click .Borrar': function (e, value, row, index) {
+
+        
         DisableUser(row.Id);
 
     },
@@ -719,13 +721,14 @@ window.operateEventsThree = {
 };
 
 function Opciones(value, row, index) {
+    console.log('valor',row.Enable == true);
     return [
         `<a class="Editar" href="javascript:void(0)"  title="Editar" >
                     `,
         `<i class='fa fa-edit' style="font-size: 20px; margin:5px; color:#236ddb;"></i>`,
         `
                 </a>`,
-        `<a class="Borrar" href="javascript:void(0)"  title="Borrar" >
+        `<a class="Borrar" href="javascript:void(0)" ${row.Enable ? "" : "hidden"} title="Desactivar Usuario" >
                     `,
         `<i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#236ddb;"></i>`,
         `
@@ -1909,5 +1912,21 @@ const resetFormAddUser = () => {
     document.getElementById('Password').classList.remove('is-invalid');;
     document.getElementById('Email').classList.remove('is-invalid');;
     document.getElementById('Phone').classList.remove('is-invalid');;
+
+}
+
+window.operateEventUsersEnable = { 
+};
+
+function OpcionesUserEnable(value, row, index) {
+    if(value == true){
+    return [
+        ` <h5> <span class="badge rounded-pill text-bg-primary">Activo</span> </h5>`,  
+    ].join('')
+}else{
+    return [
+        ` <h5> <span class="badge rounded-pill text-bg-danger">Desactivado</span> </h5>`,  
+    ].join('')
+}
 
 }
