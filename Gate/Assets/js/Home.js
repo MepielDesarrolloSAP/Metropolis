@@ -1769,7 +1769,7 @@ const SaveRoute = () => {
                 })
                 Toast.fire({
                     icon: 'error',
-                    title: 'No se pudo guardar la ruta',
+                    title: 'Hubo un error interno en el guardado',
                     text: ""
                 })
 
