@@ -892,7 +892,7 @@ namespace Gate.Controllers
                 //string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n\r\n T0.\"DocNum\", \r\n\r\n T0.\"U_Ruta\",  \r\n\r\n T0.\"DocDate\"  \r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"ShipToCode\" = T2.\"Address\"\r\n and T0.\"U_Sucursal\" = '02' and T0.\"DocNum\" = '" + OvText + "'";
 
                 //Sing filtro
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n\r\n T0.\"DocNum\", \r\n\r\n T0.\"U_Ruta\",  \r\n\r\n T0.\"DocDate\"  \r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"ShipToCode\" = T2.\"Address\"\r\n  and T0.\"DocNum\" = '"+ OvText +"'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\", CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",   \r\n\r\n T0.\"DocNum\", \r\n\r\n T0.\"U_Ruta\",  \r\n\r\n T0.\"DocDate\"  \r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"ShipToCode\" = T2.\"Address\"\r\n  and T0.\"DocNum\" = '"+ OvText +"'";
                 
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
@@ -914,9 +914,10 @@ namespace Gate.Controllers
                         route.City = Globals.reader.GetString(5);
                         route.U_NAME = Globals.reader.GetString(6);
                         route.Condition = Globals.reader.GetString(7);
-                        route.DocNums = Globals.reader.GetString(8);
-                        route.Route = Globals.reader.GetString(9);
-                        route.DocDate = Globals.reader.GetString(10);
+                        route.ConditionsType = Globals.reader.GetString(8);
+                        route.DocNums = Globals.reader.GetString(9);
+                        route.Route = Globals.reader.GetString(10);
+                        route.DocDate = Globals.reader.GetString(11);
                         break;
                     }
                 }

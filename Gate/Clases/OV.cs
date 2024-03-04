@@ -16,6 +16,7 @@ namespace Gate.Clases
         public string City { get; set; }
         public string U_NAME { get; set; }
         public string Condition { get; set; }
+        public string ConditionsType { get; set; }
         public string DocNums { get; set; }
         public string Route { get; set; }
         public string DocDate { get; set; }
