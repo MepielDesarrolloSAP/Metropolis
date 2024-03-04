@@ -2247,38 +2247,51 @@
                     <form>
 
                         <div class="form-group">
-                            <label for="IdEdit">Id</label>
-                            <input type="text" class="form-control" id="IdEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
+                            <label for="IdEdit" hidden>Id</label>
+                            <input type="text" class="form-control" id="IdEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" hidden>
+                            
                         </div>
 
                         <div class="form-group">
                             <label for="NameEdit">Name</label>
                             <input type="text" class="form-control" id="NameEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditUser-NameEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="LastnameEdit">Lastname</label>
                             <input type="text" class="form-control" id="LastnameEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditUser-LastnameEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="UsernameEdit">Username</label>
                             <input type="text" class="form-control" id="UsernameEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditUser-UsernameEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="PasswordEdit">Password</label>
                             <input type="password" class="form-control" id="PasswordEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditUser-PasswordEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="EmailEdit">Email</label>
                             <input type="email" class="form-control" id="EmailEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditUser-EmailEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="PhoneEdit">Phone</label>
                             <input type="number" class="form-control" id="PhoneEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditUser-PhoneEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -2294,10 +2307,8 @@
                         <div class="form-group">
                             <label for="Id_RoleEdit">Role</label>
                             <select id="Id_RoleEdit" class="form-control" style="margin-bottom: 10px;">
-
                                 <option value="1">Administrador</option>
                                 <option value="2">Operador</option>
-
                             </select>
                         </div>
 
@@ -2752,7 +2763,26 @@
         </div>
     </div>
 
-    
+     @* Modal Eliminar Usuario *@
+    <div class="modal fade" id="ModalDeleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input id="DeleteUserId" type="text" hidden>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas desactivar el usuario seleccionado?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close" onclick="DeleteUser()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "Sí, desactivar" a continuación si desea dar de baja el usuario</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="closeModalDeleteUser()">Cerrar</button>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="DisableUser()">Sí, desactivar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
