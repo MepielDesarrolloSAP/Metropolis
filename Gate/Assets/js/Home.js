@@ -650,8 +650,9 @@ window.operateEventsOne = {
 
     'click .Borrar': function (e, value, row, index) {
 
-        
-        DisableUser(row.Id);
+        document.getElementById("DeleteUserId").value = row.Id;
+        ShowModalDeleteUser();
+        // DisableUser(row.Id);
 
     },
 
@@ -861,6 +862,13 @@ function ShowModalAddUser() {
 
 }
 
+function ShowModalDeleteUser() {
+    $('#ModalDeleteUser').modal('show')
+}
+function closeModalDeleteUser() {
+    $('#ModalDeleteUser').modal('hide')
+}
+
 function CloseModalAddUser() {
 
     $('#ModalAddUser').modal('hide')
@@ -988,22 +996,7 @@ const AddUser = () => {
                     contentType: "application/json; charset=utf-8",
                     success: function (data1) {
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registro guardado',
-                            text: ""
-                        })
+                       myMessage('success', 'Se ha agregado correctamente el usuario')
 
                         //$('#Data-Usuarios').bootstrapTable({ data: data1 })
                         $('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 })
@@ -1011,32 +1004,10 @@ const AddUser = () => {
                     }
 
                 });
-
-                //$('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 })
-
+ 
             }
             else {
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'error',
-                    title: 'No se pudo agregar el usuario',
-                    text: ""
-                })
-
-                //$('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 })
-                //CerrarModales();
-
+                myMessage('error','No se pudo agregar el usuario');
             }
 
 
@@ -1057,13 +1028,25 @@ const EditUser = () => {
     const Id_RoleEdit = document.getElementById('Id_RoleEdit').value;
     const ChooseAddresEdit = document.getElementById('ChooseAddresEdit').value;
 
-    if (NameEdit == "" || LastnameEdit == "" || UsernameEdit == "" || PasswordEdit == "" || EmailEdit == "" || PhoneEdit == "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Es nesesario llenar todos los campos',
-            text: '',
+    const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    const regexPhone = /^\(?(\d{3})\)?[-]?(\d{3})[-]?(\d{4})$/;
+    //Reiniciar el formulario
+    resetFormEditUser();
+    if (NameEdit == "" || LastnameEdit == "" || UsernameEdit == "" || PasswordEdit == "" || EmailEdit == "" || PhoneEdit == "" || !regexCorreo.test(EmailEdit) || !regexCorreo.test(PhoneEdit)) {
 
-        })
+        //Verificar que los campos no esten vacios y que sea un correo valido 
+        myMessage('info', 'Favor de completar el formulario')
+        // debugger
+        if(NameEdit == null || NameEdit == "") invalidFeedbackForm('NameEdit', 'invalidFeedback-Form-EditUser-NameEdit', 'Por favor, ingresar un nombre(s).'); 
+        if(LastnameEdit == null || LastnameEdit == "") invalidFeedbackForm('LastnameEdit', 'invalidFeedback-Form-EditUser-LastnameEdit', 'Por favor, ingresar el apellido(s).'); 
+        if(UsernameEdit == null || UsernameEdit == "") invalidFeedbackForm('UsernameEdit', 'invalidFeedback-Form-EditUser-UsernameEdit', 'Por favor, ingresar un nombre de usuario.');   
+        if(PasswordEdit == null || PasswordEdit == '') invalidFeedbackForm('PasswordEdit', 'invalidFeedback-Form-EditUser-PasswordEdit', 'Por favor, ingresar una contraseña.');
+        if(EmailEdit == null || EmailEdit == '') invalidFeedbackForm('EmailEdit', 'invalidFeedback-Form-EditUser-EmailEdit', 'Por favor, ingresar un correo.'); 
+        if(PhoneEdit == null || PhoneEdit == '') invalidFeedbackForm('PhoneEdit', 'invalidFeedback-Form-EditUser-PhoneEdit', 'Por favor, ingresar un numero de celular.'); 
+        if(EnableEdit == null || EnableEdit == '') invalidFeedbackForm('EnableEdit', 'invalidFeedback-Form-EditUser-EnableEdit', 'Por favor, ingresar un correo.'); 
+        if(!regexCorreo.test(EmailEdit) && EmailEdit != null && EmailEdit != '') invalidFeedbackForm('EmailEdit', 'invalidFeedback-Form-EditUser-EmailEdit', 'Correo invalido.');
+        if(!regexPhone.test(PhoneEdit) && PhoneEdit != null && PhoneEdit != '') invalidFeedbackForm('PhoneEdit', 'invalidFeedback-Form-EditUser-PhoneEdit', 'Numero de telefono valido.'); 
+    
         return
     }
 
@@ -1104,7 +1087,10 @@ const EditUser = () => {
 
                         //$('#Data-Usuarios').bootstrapTable({ data: data1 })
                         $('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 })
+                        //Cerrar modal 
                         CloseModalEditUser();
+                        //Mensaje de exito
+                        myMessage('success', 'Se ha actualizado con exito el usuario')
                     }
 
                 });
@@ -1135,7 +1121,8 @@ const EditUser = () => {
     });
 }
 
-const DisableUser = (Id) => {
+const DisableUser = () => {
+    let Id = document.getElementById("DeleteUserId").value;
 
     $.ajax({
 
@@ -1148,18 +1135,19 @@ const DisableUser = (Id) => {
 
             if (data1 == true) {
 
-                $.ajax({
-
+                $.ajax({ 
                     url: '/Home/Users',
                     //data: JSON.stringify({ UsuarioPar: usr, PswPar: pwd }),
                     dataType: "json",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (data1) {
-
+                        //Cerrar modal
+                        closeModalDeleteUser(); 
+                        //Mensaje de exito
+                        myMessage('success', "Se ha dado de baja correctamente el usuario")
                         //$('#Data-Usuarios').bootstrapTable({ data: data1 })
-                        $('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 })
-
+                        $('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 }) 
                     }
 
                 });
@@ -1167,24 +1155,7 @@ const DisableUser = (Id) => {
             }
 
             else {
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'error',
-                    title: 'No se pudo Eliminar el usuario',
-                    text: ""
-                })
-
+                myMessage('error', "Ocurrio un error al tratar de desactivar el usuario")
             }
 
         }
@@ -1942,6 +1913,17 @@ const resetFormAddUser = () => {
     document.getElementById('Password').classList.remove('is-invalid');;
     document.getElementById('Email').classList.remove('is-invalid');;
     document.getElementById('Phone').classList.remove('is-invalid');;
+
+}
+
+const resetFormEditUser = () => {
+
+    document.getElementById('EditName').classList.remove('is-invalid');
+    document.getElementById('EditLastname').classList.remove('is-invalid');;
+    document.getElementById('EditUsername').classList.remove('is-invalid');;
+    document.getElementById('EditPassword').classList.remove('is-invalid');;
+    document.getElementById('EditEmail').classList.remove('is-invalid');;
+    document.getElementById('EditPhone').classList.remove('is-invalid');;
 
 }
 
