@@ -97,6 +97,36 @@ namespace Gate.Components.DL
             return user;
         }
 
+        public static Problems UserExist(string UsernamePar, string CorreoPar)
+        {
+            Problems pro = new Problems();
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM metropolis.users T0  where T0.Username = '"+ UsernamePar + "' or Email = '" + CorreoPar + "';"; // val user exist
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        pro.problem = true;
+                        pro.description = " Usuario o Email ya registrados";
+                        break;
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return pro;
+        }
+
+
         public static Users FindUserTwo(string UsernamePar)
         {
             Users user = new Users();
