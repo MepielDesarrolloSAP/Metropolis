@@ -14,6 +14,7 @@ using System.Reflection.Emit;
 using Newtonsoft.Json;
 using Sap.Data.Hana;
 using Newtonsoft.Json.Linq;
+using Mysqlx.Prepare;
 
 namespace Gate.Components.DL
 {
@@ -675,7 +676,7 @@ namespace Gate.Components.DL
             return folio;
         }
 
-        public static bool AddRoute(string U_NAME, string Conditions, string ConditionsType, string DocNums, string Comments, string Phone, bool enable, int Id_Users, int Id_FolioRoute, int Id_clients)
+        public static bool AddRoute(string U_NAME, string Conditions, string ConditionsType, string DocNums, string Comments, string Phone, string ShipToCode, bool enable, int Id_Users, int Id_FolioRoute, int Id_clients)
         {
             bool val = false;
 
@@ -686,7 +687,7 @@ namespace Gate.Components.DL
                 try
                 {
 
-                    string Query = "insert into Route(Id, U_NAME,Conditions,ConditionsType,DocNums,Comments,Phone,Enable,Id_Users,Id_FolioRoute,Id_Clients)\r\nvalue('" + idroute + "', '" + U_NAME + "', '" + Conditions + "', '" + ConditionsType + "','" + DocNums + "','" + Comments + "','" + Phone + "', '" + enable + "', '" + Id_Users + "', '" + Id_FolioRoute + "', '" + Id_clients + "')";
+                    string Query = "insert into Route(Id, U_NAME,Conditions,ConditionsType,DocNums,Comments,Phone,ShipToCode,Enable,Id_Users,Id_FolioRoute,Id_Clients)\r\nvalue('" + idroute + "', '" + U_NAME + "', '" + Conditions + "', '" + ConditionsType + "','" + DocNums + "','" + Comments + "','" + Phone + "', '" + ShipToCode + "', '" + enable + "', '" + Id_Users + "', '" + Id_FolioRoute + "', '" + Id_clients + "')";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -1185,7 +1186,155 @@ namespace Gate.Components.DL
 
         }
 
+        public static Gate.Clases.routedisabled FindRoute()
+        {
+            Gate.Clases.routedisabled route = new Clases.routedisabled();
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT \r\nT0.Id,\r\nT0.U_NAME,\r\nT0.Conditions,\r\nT0.ConditionsType,\r\nT0.DocNums,\r\nT0.Comments,\r\nT0.Phone,\r\nT0.enable,\r\nT0.Id_Users,\r\nT0.Id_FolioRoute,\r\nT0.Id_clients,\r\nT0.ShipToCode\r\n\r\nFROM \r\n routedisabled T0\r\n\r\n where T0.Status = '1';";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        route.Id = Convert.ToInt32(row["Id"]);
+                        route.U_NAME = Convert.ToString(row["U_NAME"]);
+                        route.Condition = Convert.ToString(row["Conditions"]);
+                        route.ConditionsType = Convert.ToString(row["ConditionsType"]);
+                        route.DocNums = Convert.ToString(row["DocNums"]);
+                        route.Comments = Convert.ToString(row["Comments"]);
+                        route.Phone = Convert.ToString(row["Phone"]);
+                        route.ShipToCode = Convert.ToString(row["ShipToCode"]);
+                        route.Enable = Convert.ToBoolean(row["Enable"]);
+                        route.Status = true;
+                        route.Id_Users = Convert.ToInt32(row["Id_Users"]);
+                        route.Id_FolioRoute = Convert.ToInt32(row["Id_FolioRoute"]);
+                        route.Id_clients = Convert.ToInt32(row["Id_clients"]);
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+
+                conexion.Close();
+            }
+
+            return route;
+        }
+
+        public static bool DisableRoute(int id)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string Query = " UPDATE route SET Enable = 0 WHERE (Id = '" + id + "')";
 
 
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            val = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return val;
+        }
+
+        public static bool Changeroutedisabled(int id)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string Query = " UPDATE routedisabled SET Status = 0 WHERE (Id = '" + id + "')";
+
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            val = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return val;
+        }
+
+        public static bool DisableDocNums(string DocNums)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string[] registros = DocNums.Split(new string[] { ", " }, StringSplitOptions.None);
+
+                    foreach (string Order in registros)
+                    {
+
+                        string Query = " UPDATE Docnums SET Enable = 0 WHERE (DocNum = '" + Order + "')";
+
+                        using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                        {
+
+                            // Ejecutar la consulta
+                            int rowsAffected = command.ExecuteNonQuery();
+
+                            // Comprobar si la actualización fue exitosa
+                            if (rowsAffected > 0)
+                            {
+                                val = true;
+                            }
+                        }
+                    
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return val;
+        }
     }
 }

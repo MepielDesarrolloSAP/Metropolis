@@ -12,6 +12,8 @@ using Gate.Properties;
 using Sap.Data.Hana;
 using Microsoft.AspNet.Identity;
 using System.Net.Sockets;
+using System.Reflection.Emit;
+using Microsoft.Ajax.Utilities;
 
 namespace Gate.Controllers
 {
@@ -826,6 +828,7 @@ namespace Gate.Controllers
             return Json(lista.ToList());
         }
 
+        //Traer Json de ruta guardada por folio de ruta
         public JsonResult FindMCDMX(int Id)
         {
             Route route = new Route();
@@ -835,7 +838,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT\r\n* \r\n\r\nFROM \r\nmetropolis.route\r\n\r\nwhere Id_FolioRoute = '"+ Id +"' ;";
+                    string Query = "SELECT\r\n  T0.Id\r\n, T3.ShipToCode\r\n, T2.CardName\r\n, T3.Street\r\n, T3.Colony\r\n, T3.ZipCode\r\n, T3.City\r\n, T0.U_NAME\r\n, T0.Conditions\r\n, T0.ConditionsType\r\n, T0.docnums\r\n, T0.Comments\r\n, T0.Phone\r\n\r\nFROM \r\nroute T0\r\ninner join folioroute T1 on T0.Id_FolioRoute = T1.Folio\r\ninner join clients T2 on T0.Id_clients = T2.Id\r\ninner join clientaddress T3 on T2.Id = T3.Id_clients and T0.ShipToCode = T3.ShipToCode\r\n\r\nwhere T1.Id = 1 \r\n\r\norder by T0.Id asc";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -853,6 +856,7 @@ namespace Gate.Controllers
                         route.City = Convert.ToString(row["City"]);
                         route.U_NAME = Convert.ToString(row["U_NAME"]);
                         route.Condition = Convert.ToString(row["Conditions"]);
+                        route.ConditionsType = Convert.ToString(row["ConditionsType"]);
                         route.DocNums = Convert.ToString(row["DocNums"]);
                         route.Comments = Convert.ToString(row["Comments"]);
                         route.Phone = Convert.ToString(row["Phone"]);
@@ -888,7 +892,7 @@ namespace Gate.Controllers
                 //string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n\r\n T0.\"DocNum\", \r\n\r\n T0.\"U_Ruta\",  \r\n\r\n T0.\"DocDate\"  \r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"ShipToCode\" = T2.\"Address\"\r\n and T0.\"U_Sucursal\" = '02' and T0.\"DocNum\" = '" + OvText + "'";
 
                 //Sing filtro
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n\r\n T0.\"DocNum\", \r\n\r\n T0.\"U_Ruta\",  \r\n\r\n T0.\"DocDate\"  \r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"ShipToCode\" = T2.\"Address\"\r\n  and T0.\"DocNum\" = '"+ OvText +"'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\", CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",   \r\n\r\n T0.\"DocNum\", \r\n\r\n T0.\"U_Ruta\",  \r\n\r\n T0.\"DocDate\"  \r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"ShipToCode\" = T2.\"Address\"\r\n  and T0.\"DocNum\" = '"+ OvText +"'";
                 
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
@@ -910,9 +914,10 @@ namespace Gate.Controllers
                         route.City = Globals.reader.GetString(5);
                         route.U_NAME = Globals.reader.GetString(6);
                         route.Condition = Globals.reader.GetString(7);
-                        route.DocNums = Globals.reader.GetString(8);
-                        route.Route = Globals.reader.GetString(9);
-                        route.DocDate = Globals.reader.GetString(10);
+                        route.ConditionsType = Globals.reader.GetString(8);
+                        route.DocNums = Globals.reader.GetString(9);
+                        route.Route = Globals.reader.GetString(10);
+                        route.DocDate = Globals.reader.GetString(11);
                         break;
                     }
                 }
@@ -1116,7 +1121,7 @@ namespace Gate.Controllers
 
 
                                     //Guardar ruta
-                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
+                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone,v.ShipToCode, true, User.Id, folio, idclient);
                                     if (val == false)
                                     {
                                         return Json(val);
@@ -1147,7 +1152,7 @@ namespace Gate.Controllers
                                     idclient = DL.AddClient(v.CardName, v.CardCode);
 
                                     //Guardar ruta
-                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, true, User.Id, folio, idclient);
+                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone,v.ShipToCode ,true, User.Id, folio, idclient);
                                     if (val == false)
                                     {
                                         return Json(val);
@@ -1187,6 +1192,32 @@ namespace Gate.Controllers
 
             return Json(val);
         }
+
+        public  JsonResult routedisabled(List<Ids> ListIds)
+        {
+            bool val = false;
+            foreach (var va in ListIds) 
+            {
+                //cambiar valor de campo enable de true a false en tabla route donde coincide Id
+                val = DL.DisableRoute(va.Id);
+
+                if (val == false)
+                {
+                    return Json(val);
+                }
+
+                val = DL.DisableDocNums(va.DocNums);
+
+                if (val == false)
+                {
+                    return Json(val);
+                }
+
+            }
+
+            return Json(val);
+        }
+
 
     }
 }
