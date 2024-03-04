@@ -152,6 +152,7 @@ const RouteMCDMX = () => {
             } else {
                 // La tabla no está inicializada, debes inicializarla antes de realizar operaciones en ella
                 console.log("La tabla no está inicializada");
+                console.log(data1);
                 $('#Data-Route').bootstrapTable({ data: data1 });
                 // Aquí puedes agregar el código para inicializar la tabla si es necesario
             }
@@ -692,6 +693,7 @@ window.operateEventsTwo = {
 
 window.operateEventsThree = {
     'click .Disable': function (e, value, row, index) {
+        console.log("Funcion");
 
         var primaryKey = row.Id;
         $('#Data-Route').bootstrapTable('remove', {
@@ -885,6 +887,11 @@ function CloseModalAddAddress() {
 }
 
 function ShowModalAddOV() {
+
+    //Limpiar campos opcionales
+    resetFormAddOv(); 
+    document.getElementById("CommentsAddOv").value = "";
+    document.getElementById("PhoneAddOv").value = "";
 
     $('#ModalAddOV').modal('show')
 
@@ -1701,6 +1708,24 @@ const AddOvToROute = () => {
     const DocNums = document.getElementById("DocNumsAddOv").value;
     const Comments = document.getElementById("CommentsAddOv").value;
     const Phone = document.getElementById("PhoneAddOv").value;
+  
+    resetFormAddOv();
+    //Verificar que los campos no esten vacios y que sea un correo valido 
+    if (ShipToCode == "" || Lastname == "" || Username == "" || Password == "" || Email == "" ) { 
+        myMessage('info', 'Favor de completar el formulario')
+        // debugger
+        if(ShipToCode == null || ShipToCode == "") invalidFeedbackForm('ShipToCodeAddOv', 'invalidFeedback-Form-AddOv-ShipToCodeAddOv', 'Por favor, ingresar un codigo de destino.'); 
+        if(CardName == null || CardName == "") invalidFeedbackForm('CardNameAddOv', 'invalidFeedback-Form-AddOv-CardNameAddOv', 'Por favor, ingresar el nombre del cliente.'); 
+        if(Street == null || Street == "") invalidFeedbackForm('StreetAddOv', 'invalidFeedback-Form-AddOv-StreetAddOv', 'Por favor, ingresar una direccion.');   
+        if(Block == null || Block == '') invalidFeedbackForm('BlockAddOv', 'invalidFeedback-Form-AddOv-BlockAddOv', 'Por favor, ingresar la colonia.');
+        if(ZipCode == null || ZipCode == '') invalidFeedbackForm('ZipCodeAddOv', 'invalidFeedback-Form-AddOv-ZipCodeAddOv', 'Por favor, ingresar un codigo postal.'); 
+        if(City == null || City == '') invalidFeedbackForm('CityAddOv', 'invalidFeedback-Form-AddOv-CityAddOv', 'Por favor, ingresar la ciudad.'); 
+        if(U_NAME == null || U_NAME == '') invalidFeedbackForm('U_NAMEAddOv', 'invalidFeedback-Form-AddOv-U_NAMEAddOv', 'Por favor, ingresar un ejecutivo(a).'); 
+        if(Condition == null || Condition == '') invalidFeedbackForm('ConditionAddOv', 'invalidFeedback-Form-AddOv-ConditionAddOv', 'Por favor, ingresar condicion de pago.'); 
+        if(DocNums == null || DocNums == '') invalidFeedbackForm('DocNumsAddOv', 'invalidFeedback-Form-AddOv-DocNumsAddOv', 'Por favor, ingresar la orden de venta.'); 
+         
+        return
+    } 
 
     CloseModalAddOV();
 
@@ -1710,6 +1735,8 @@ const AddOvToROute = () => {
     // Obtener los datos de la tabla
     var tableData = $table.bootstrapTable('getData');
 
+    var currentId =  tableData.length > 0 ? tableData.at(-1).Id + 1 : 1;
+    console.log(currentId);
     // tableData ahora contiene los datos de tu tabla
     //console.log(tableData);
 
@@ -1723,7 +1750,7 @@ const AddOvToROute = () => {
 
     // Nuevo objeto a agregar
     var nuevoElemento = {
-        "Id": 23,
+        "Id": currentId,
         "ShipToCode": ShipToCode,
         "CardName": CardName,
         "Street": Street,
@@ -1742,6 +1769,9 @@ const AddOvToROute = () => {
 
     // Ahora la tabla tiene un nuevo elemento agregado
     console.log(tableData);
+
+    //Mensaje Exitoso
+    myMessage('success', 'Se ha agredado correctamente la OV')
 
     $('#Data-Route').bootstrapTable('refreshOptions', { data: tableData })
 
@@ -1912,6 +1942,21 @@ const resetFormAddUser = () => {
     document.getElementById('Password').classList.remove('is-invalid');;
     document.getElementById('Email').classList.remove('is-invalid');;
     document.getElementById('Phone').classList.remove('is-invalid');;
+
+}
+
+const resetFormAddOv = () => {
+    document.getElementById("ShipToCodeAddOv").classList.remove('is-invalid');
+    document.getElementById("CardNameAddOv").classList.remove('is-invalid');
+    document.getElementById("StreetAddOv").classList.remove('is-invalid');
+    document.getElementById("BlockAddOv").classList.remove('is-invalid');
+    document.getElementById("ZipCodeAddOv").classList.remove('is-invalid');
+    document.getElementById("CityAddOv").classList.remove('is-invalid');
+    document.getElementById("U_NAMEAddOv").classList.remove('is-invalid');
+    document.getElementById("ConditionAddOv").classList.remove('is-invalid');
+    document.getElementById("DocNumsAddOv").classList.remove('is-invalid');
+    document.getElementById("CommentsAddOv").classList.remove('is-invalid');
+    document.getElementById("PhoneAddOv").classList.remove('is-invalid');
 
 }
 
