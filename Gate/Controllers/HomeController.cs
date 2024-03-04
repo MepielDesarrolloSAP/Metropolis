@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using System.Net.Sockets;
 using System.Reflection.Emit;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 
 namespace Gate.Controllers
 {
@@ -95,33 +96,45 @@ namespace Gate.Controllers
             NewUser.Id_Role = Id_Role;
             NewUser.Id_Address = DL.GetIdAddress(ChooseAddres);
 
-            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            Problems val = DL.UserExist(NewUser.Username, NewUser.Email);
+
+            if (!val.problem)
             {
-                try
+                using (MySqlConnection conexion = DL.OpenConnectionMysql())
                 {
-
-                    string Query = "insert into Users(Id, Name, Lastname, Username, Password, Email, Phone, Enable, Id_Role, Id_Address)\r\nvalue('" + NewUser.Id + "', '" + NewUser.Name + "', '" + NewUser.Lastname + "', '" + NewUser.Username + "', '" + NewUser.Password + "', '" + NewUser.Email + "', '" + NewUser.Phone + "', " + NewUser.Enable + ", '" + NewUser.Id_Role + "', '" + NewUser.Id_Address + "' )";
-
-                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
-                    //MySqlDataReader reader = mySqlData.ExecuteReader();
-
-                    int rowsAffected = mySqlData.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
+                    try
                     {
 
-                    }
-                    else
-                    {
-                        NewUser = new Users();
-                    }
+                        string Query = "insert into Users(Id, Name, Lastname, Username, Password, Email, Phone, Enable, Id_Role, Id_Address)\r\nvalue('" + NewUser.Id + "', '" + NewUser.Name + "', '" + NewUser.Lastname + "', '" + NewUser.Username + "', '" + NewUser.Password + "', '" + NewUser.Email + "', '" + NewUser.Phone + "', " + NewUser.Enable + ", '" + NewUser.Id_Role + "', '" + NewUser.Id_Address + "' )";
 
+                        MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                        //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                        int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+
+                        }
+                        else
+                        {
+                            NewUser = new Users();
+                        }
+
+                    }
+                    catch (Exception x)
+                    {
+                    }
+                    conexion.Close();
                 }
-                catch (Exception x)
-                {
-                }
-                conexion.Close();
+
             }
+            else
+            {
+                string jsonString = JsonConvert.SerializeObject(val);
+                return Json(jsonString);
+            }
+
 
             return Json(NewUser);
         }
