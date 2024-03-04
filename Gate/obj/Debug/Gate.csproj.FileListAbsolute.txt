@@ -151,6 +151,8 @@ C:\Users\Ismael\Desktop\Proyects\Gate\Gate\obj\Debug\Gate.csproj.CoreCompileInpu
 C:\Users\Ismael\Desktop\Proyects\Gate\Gate\obj\Debug\Gate.csproj.CopyComplete
 C:\Users\Ismael\Desktop\Proyects\Gate\Gate\obj\Debug\Gate.dll
 C:\Users\Ismael\Desktop\Proyects\Gate\Gate\obj\Debug\Gate.pdb
+C:\Git\Abraham\Metropolis\Gate\obj\Debug\Gate.csproj.AssemblyReference.cache
+C:\Git\Abraham\Metropolis\Gate\obj\Debug\Gate.csproj.CoreCompileInputs.cache
 C:\Git\Abraham\Metropolis\Gate\bin\Gate.dll.config
 C:\Git\Abraham\Metropolis\Gate\bin\Gate.dll
 C:\Git\Abraham\Metropolis\Gate\bin\Gate.pdb
@@ -299,8 +301,6 @@ C:\Git\Abraham\Metropolis\Gate\bin\es\System.Web.WebPages.Razor.resources.dll
 C:\Git\Abraham\Metropolis\Gate\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
 C:\Git\Abraham\Metropolis\Gate\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
 C:\Git\Abraham\Metropolis\Gate\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
-C:\Git\Abraham\Metropolis\Gate\obj\Debug\Gate.csproj.AssemblyReference.cache
-C:\Git\Abraham\Metropolis\Gate\obj\Debug\Gate.csproj.CoreCompileInputs.cache
 C:\Git\Abraham\Metropolis\Gate\obj\Debug\Gate.csproj.CopyComplete
 C:\Git\Abraham\Metropolis\Gate\obj\Debug\Gate.dll
 C:\Git\Abraham\Metropolis\Gate\obj\Debug\Gate.pdb

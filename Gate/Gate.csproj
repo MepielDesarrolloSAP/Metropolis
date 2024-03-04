@@ -227,6 +227,7 @@
     <Compile Include="Clases\Details.cs" />
     <Compile Include="Clases\Direction.cs" />
     <Compile Include="Clases\Globals.cs" />
+    <Compile Include="Clases\Id.cs" />
     <Compile Include="Clases\InfoRoute.cs" />
     <Compile Include="Clases\items.cs" />
     <Compile Include="Clases\Message.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Clases\Problems.cs" />
     <Compile Include="Clases\Response.cs" />
     <Compile Include="Clases\Route.cs" />
+    <Compile Include="Clases\routedisabled.cs" />
     <Compile Include="Clases\selectPackage.cs" />
     <Compile Include="Clases\Users.cs" />
     <Compile Include="Components\BL\BL.cs" />
