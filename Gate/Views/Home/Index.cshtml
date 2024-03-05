@@ -900,10 +900,10 @@
                                     <th data-field="Enable" class="text-center" data-Formatter="OpcionesUserEnable" data-events="window.operateEventUsersEnable"@*style="width: 150px; "*@>
                                         Estado
                                     </th>
-                                    <th data-field="Id_Role" class="text-center" @*style="width: 150px; "*@>
+                                    <th data-field="Id_Role" class="text-center" data-Formatter="optionsUserRol" data-events="window.operateEventUserRol" @*style="width: 150px; "*@>
                                         Rol
                                     </th>
-                                    <th data-field="Id_Address" class="text-center"  @*style="width: 150px; "*@>
+                                    <th data-field="Id_Address" class="text-center" data-Formatter="optionsUserAddress" data-events="window.operateEventUserAddress"@*style="width: 150px; "*@>
                                         Direccion
                                     </th>
                                     <th data-Formatter="Opciones" data-events="window.operateEventsOne" class="text-center" @*style="width:150px"*@>
@@ -2771,14 +2771,35 @@
                 <div class="modal-header">
                     <input id="DeleteUserId" type="text" hidden>
                     <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas desactivar el usuario seleccionado?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close" onclick="DeleteUser()">
+                    @* <button class="close" type="button" data-dismiss="modal" aria-label="Close" onclick="closeModalDeleteUser()">
                         <span aria-hidden="true">×</span>
-                    </button>
+                    </button> *@
                 </div>
                 <div class="modal-body">Seleccione "Sí, desactivar" a continuación si desea dar de baja el usuario</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="closeModalDeleteUser()">Cerrar</button>
                     <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="DisableUser()">Sí, desactivar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+         @* Modal Eliminar OV  *@
+    <div class="modal fade" id="ModalDeleteRoute" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input id="DeleteRouteId" type="text" hidden>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas quitar la ruta seleccionado?</h5>
+                    @* <button class="close" type="button" data-dismiss="modal" aria-label="Close" onclick="CloseModalDeleteRoute()">
+                        <span aria-hidden="true">×</span>
+                    </button> *@
+                </div>
+                <div class="modal-body">Seleccione "Sí, quitar" a continuación si desea remover la ruta seleccionada</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="CloseModalDeleteRoute()">Cerrar</button>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="DeleteRoute()">Sí, quitar</button>
                 </div>
             </div>
         </div>
