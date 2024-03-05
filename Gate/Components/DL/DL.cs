@@ -78,7 +78,7 @@ namespace Gate.Components.DL
                     foreach (DataRow row in data.Rows)
                     {
                         user.Id = Convert.ToInt32(row["Id"]);
-                        user.Name = Convert.ToString(row["Name"]);
+                        user.Name = Convert.ToString(row["NameU"]);
                         user.Lastname = Convert.ToString(row["Lastname"]);
                         user.Username = Convert.ToString(row["Username"]);
                         user.Password = Convert.ToString(row["Password"]);
@@ -144,7 +144,7 @@ namespace Gate.Components.DL
                     foreach (DataRow row in data.Rows)
                     {
                         user.Id = Convert.ToInt32(row["Id"]);
-                        user.Name = Convert.ToString(row["Name"]);
+                        user.Name = Convert.ToString(row["NameU"]);
                         user.Lastname = Convert.ToString(row["Lastname"]);
                         user.Username = Convert.ToString(row["Username"]);
                         user.Password = Convert.ToString(row["Password"]);
