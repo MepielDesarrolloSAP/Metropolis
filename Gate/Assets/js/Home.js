@@ -686,6 +686,7 @@ window.operateEventsTwo = {
     },
 
     'click .Disable': function (e, value, row, index) {
+
         DisableAddress(row.Id);
 
     }
@@ -694,14 +695,12 @@ window.operateEventsTwo = {
 
 window.operateEventsThree = {
     'click .Disable': function (e, value, row, index) {
-        console.log("Funcion");
-
-        var primaryKey = row.Id;
-        $('#Data-Route').bootstrapTable('remove', {
-            field: 'Id',
-            values: [primaryKey]
-        });
-
+ 
+        // Asignar Id al input del modal
+        document.getElementById("DeleteRouteId").value = row.Id;
+        //Mostrar modal
+        ShowModalDeleteRoute();
+ 
     },
     'click .Edit': function (e, value, row, index) {
 
@@ -721,6 +720,35 @@ window.operateEventsThree = {
         document.getElementById("PhoneRouteEdit").value = row.Phone;
 
     }
+};
+
+function optionsUserRol(value, row, index) {
+    if(value == 1){
+        return [
+            ` <h5> <span class="badge rounded-pill text-bg-secondary">Admin</span> </h5>`,  
+        ].join('')
+    }else if(value == 2){
+        return [
+            ` <h5> <span class="badge rounded-pill text-bg-secondary">Operador</span> </h5>`,  
+        ].join('') 
+    }else if(value == 3){
+        return [
+            ` <h5> <span class="badge rounded-pill text-bg-secondary">Ventas</span> </h5>`,  
+        ].join('')
+    } 
+}
+
+window.operateEventUserRol = { 
+};
+
+function optionsUserAddress(value, row, index) { 
+    console.log(row);
+    return [
+        ` <h5> <span class="badge rounded-pill text-bg-secondary">Admin</span> </h5>`,  
+    ].join('') 
+}
+
+window.operateEventUserAddress = { 
 };
 
 function Opciones(value, row, index) {
@@ -760,12 +788,13 @@ function Options(value, row, index) {
 
 function OptionsOne(value, row, index) {
     return [
+        
+        `<a class="Edit" href="javascript:void(0)" title="editar línea" data-index="${index}">
+            <i class='fa fa-edit' style="font-size: 20px; margin:5px; color:#236ddb;"></i>
+        </a>`,
         `<a class="Disable" href="javascript:void(0)" title="eliminar línea" data-index="${index}">
             <i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#236ddb;"></i>
         </a>`,
-        `<a class="Edit" href="javascript:void(0)" title="editar línea" data-index="${index}">
-            <i class='fa fa-edit' style="font-size: 20px; margin:5px; color:#236ddb;"></i>
-        </a>`
     ].join('');
 }
 
@@ -892,6 +921,14 @@ function CloseModalAddAddress() {
 
     $('#ModalAddAddress').modal('hide')
 
+}
+
+function ShowModalDeleteRoute() {
+    $('#ModalDeleteRoute').modal('show')
+}
+
+function CloseModalDeleteRoute() {
+    $('#ModalDeleteRoute').modal('hide')
 }
 
 function ShowModalAddOV() {
@@ -1031,8 +1068,9 @@ const EditUser = () => {
     const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     const regexPhone = /^\(?(\d{3})\)?[-]?(\d{3})[-]?(\d{4})$/;
     //Reiniciar el formulario
+    // debugger
     resetFormEditUser();
-    if (NameEdit == "" || LastnameEdit == "" || UsernameEdit == "" || PasswordEdit == "" || EmailEdit == "" || PhoneEdit == "" || !regexCorreo.test(EmailEdit) || !regexCorreo.test(PhoneEdit)) {
+    if (NameEdit == "" || LastnameEdit == "" || UsernameEdit == "" || PasswordEdit == "" || EmailEdit == "" || PhoneEdit == "" || (!regexCorreo.test(EmailEdit) && EmailEdit != null && EmailEdit != '') || (!regexPhone.test(PhoneEdit) && PhoneEdit != null && PhoneEdit != '')) {
 
         //Verificar que los campos no esten vacios y que sea un correo valido 
         myMessage('info', 'Favor de completar el formulario')
@@ -1918,12 +1956,12 @@ const resetFormAddUser = () => {
 
 const resetFormEditUser = () => {
 
-    document.getElementById('EditName').classList.remove('is-invalid');
-    document.getElementById('EditLastname').classList.remove('is-invalid');;
-    document.getElementById('EditUsername').classList.remove('is-invalid');;
-    document.getElementById('EditPassword').classList.remove('is-invalid');;
-    document.getElementById('EditEmail').classList.remove('is-invalid');;
-    document.getElementById('EditPhone').classList.remove('is-invalid');;
+    document.getElementById('NameEdit').classList.remove('is-invalid');
+    document.getElementById('LastnameEdit').classList.remove('is-invalid');;
+    document.getElementById('UsernameEdit').classList.remove('is-invalid');;
+    document.getElementById('PasswordEdit').classList.remove('is-invalid');;
+    document.getElementById('EmailEdit').classList.remove('is-invalid');;
+    document.getElementById('PhoneEdit').classList.remove('is-invalid');;
 
 }
 
@@ -1942,6 +1980,24 @@ const resetFormAddOv = () => {
 
 }
 
+const DeleteRoute = () => {
+
+    //Tomar ID del modal
+    var primaryKey = document.getElementById("DeleteRouteId").value;
+    console.log(primaryKey);
+    //Eliminar el id de la tabla Routa
+    $('#Data-Route').bootstrapTable('remove', {
+        field: 'Id',
+        values: [primaryKey]
+    });
+
+    //Escoden el modal
+    CloseModalDeleteRoute();
+    //Mandar mensaje de exito 
+    myMessage('success', 'Se ha eliminado correctamente la OV')
+
+}
+
 window.operateEventUsersEnable = { 
 };
 
@@ -1957,3 +2013,6 @@ function OpcionesUserEnable(value, row, index) {
 }
 
 }
+
+
+
