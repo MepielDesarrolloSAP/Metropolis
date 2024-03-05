@@ -1021,7 +1021,7 @@ const AddUser = () => {
         success: function (data1) {
 
             console.log(data1)
-
+            return
             if (data1.Name != null) {
 
                 $.ajax({
