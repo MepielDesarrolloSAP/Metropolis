@@ -1706,5 +1706,37 @@ namespace Gate.Components.DL
 
         }
 
+        public static bool synchronizationlogExist()
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    DateTime date = DateTime.Now;
+                    string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+                    string Query = "SELECT * FROM synchronizationlog T0  where T0.CreateDate = '" + fechaFormateada + "'";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        val = true;
+                        break;
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return val;
+        }
+
     }
 }
