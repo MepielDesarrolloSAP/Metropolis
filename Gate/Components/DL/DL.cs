@@ -16,6 +16,9 @@ using Sap.Data.Hana;
 using Newtonsoft.Json.Linq;
 using Mysqlx.Prepare;
 using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Gate.Components.DL
 {
@@ -1443,5 +1446,42 @@ namespace Gate.Components.DL
 
             return val;
         }
+
+        //Revisar
+        public async Task<string> BuscarPedido(long Pedido)
+        {
+            string respuesta;
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    //client.BaseAddress = new Uri("http://172.16.101.191:8080/dealermepiel/guide?orderid=" + Pedido);
+                    client.BaseAddress = new Uri("http://172.16.101.128:8080/dealermepiel/guide?orderid=" + Pedido);
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "c2yc10cH1J3068kKLSCK6f1Ts75qe8PpUmVa69P6.oKLLWBq16Dmj8n/myf6");
+                    var response = client.GetAsync("").Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        respuesta = await response.Content.ReadAsStringAsync();
+                        if (respuesta.Contains("<br />"))
+                        {
+                            respuesta = "Error";
+                        }
+                    }
+                    else
+                    {
+                        respuesta = "Error";
+                    }
+                }
+            }
+            catch (Exception t)
+            {
+                respuesta = "Error";
+            }
+
+            //return Json(respuesta.ToString());
+            return "";
+        }
+
     }
 }
