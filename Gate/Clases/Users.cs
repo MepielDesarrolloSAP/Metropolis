@@ -17,5 +17,6 @@ namespace Gate.Clases
         public bool Enable { get; set; }
         public int Id_Role { get; set; }
         public int Id_Address { get; set; }
+        public string NameAddress { get; set; }
     }
 }

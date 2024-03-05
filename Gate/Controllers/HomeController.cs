@@ -60,7 +60,7 @@ namespace Gate.Controllers
                     foreach (DataRow row in data.Rows)
                     {
                         user.Id = Convert.ToInt32(row["Id"]);
-                        user.Name = Convert.ToString(row["Name"]);
+                        user.Name = Convert.ToString(row["NameU"]);
                         user.Lastname = Convert.ToString(row["Lastname"]);
                         user.Username = Convert.ToString(row["Username"]);
                         user.Password = Convert.ToString(row["Password"]);
@@ -69,6 +69,7 @@ namespace Gate.Controllers
                         user.Enable = Convert.ToBoolean(row["Enable"]);
                         user.Id_Role = Convert.ToInt32(row["Id_Role"]);
                         user.Id_Address = Convert.ToInt32(row["Id_Address"]);
+                        user.NameAddress = Convert.ToString(row["Name"]);
                         users.Add(user);
                         user = new Users();
                     }
@@ -105,7 +106,7 @@ namespace Gate.Controllers
                     try
                     {
 
-                        string Query = "insert into Users(Id, Name, Lastname, Username, Password, Email, Phone, Enable, Id_Role, Id_Address)\r\nvalue('" + NewUser.Id + "', '" + NewUser.Name + "', '" + NewUser.Lastname + "', '" + NewUser.Username + "', '" + NewUser.Password + "', '" + NewUser.Email + "', '" + NewUser.Phone + "', " + NewUser.Enable + ", '" + NewUser.Id_Role + "', '" + NewUser.Id_Address + "' )";
+                        string Query = "insert into Users(Id, NameU, Lastname, Username, Password, Email, Phone, Enable, Id_Role, Id_Address)\r\nvalue('" + NewUser.Id + "', '" + NewUser.Name + "', '" + NewUser.Lastname + "', '" + NewUser.Username + "', '" + NewUser.Password + "', '" + NewUser.Email + "', '" + NewUser.Phone + "', " + NewUser.Enable + ", '" + NewUser.Id_Role + "', '" + NewUser.Id_Address + "' )";
 
                         MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                         //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -162,7 +163,7 @@ namespace Gate.Controllers
 
                     string Query = @"
                                         UPDATE users
-                                        SET Name = @Name,
+                                        SET NameU = @Name,
                                         Lastname = @Lastname,
                                         Username = @Username,
                                         Password = @Password,
