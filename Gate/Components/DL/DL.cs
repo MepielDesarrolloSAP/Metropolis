@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Sap.Data.Hana;
 using Newtonsoft.Json.Linq;
 using Mysqlx.Prepare;
+using System.Text;
 
 namespace Gate.Components.DL
 {
@@ -125,7 +126,6 @@ namespace Gate.Components.DL
             }
             return pro;
         }
-
 
         public static Users FindUserTwo(string UsernamePar)
         {
@@ -585,7 +585,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Driver,Id_typeofroute,Enable)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','','" + Id_typeofroute + "','" + true + "');";
+                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_Driver,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','','" + true + "','','" + Id_typeofroute + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -834,22 +834,56 @@ namespace Gate.Components.DL
                     //string a = "72193, 72194, 72196";
                     string[] registros = docnums.Split(new string[] { ", " }, StringSplitOptions.None);
 
-                    foreach (string Order in registros)
+                    if(registros.Length > 2)
                     {
-                        IdDocNums = DL.LastIdDocNums() + 1;
-                        string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','"+true+"','" + IdClientAddress + "')";
-
-                        MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
-                        //MySqlDataReader reader = mySqlData.ExecuteReader();
-
-                        int rowsAffected = mySqlData.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
+                        foreach (string Order in registros)
                         {
-                            val = AddPackages(Order, IdDocNums);
-                        }
+                            IdDocNums = DL.LastIdDocNums() + 1;
 
+                            string code = "";
+
+                            bool v = true;
+
+                            while (v)
+                            {
+                                code = generateCode();
+                                v = CodeInDocNumExist(code);
+                            }
+
+                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"')";
+
+                            MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                            //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                            int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                val = AddPackages(Order, IdDocNums);
+                            }
+
+                        }
                     }
+                    else
+                    {
+                        foreach (string Order in registros)
+                        {
+                            IdDocNums = DL.LastIdDocNums() + 1;
+                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','')";
+
+                            MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                            //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                            int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                val = AddPackages(Order, IdDocNums);
+                            }
+
+                        }
+                    }
+
 
                 }
                 catch (Exception x)
@@ -859,6 +893,49 @@ namespace Gate.Components.DL
                 return val;
             }
 
+        }
+
+        public static bool CodeInDocNumExist(string code)
+        {
+            bool val = false;
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM Docnums T0  where T0.Code = '" + code + "'"; // val user exist
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        val = true;
+                        break;
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return val;
+        }
+
+        public static string generateCode()
+        {
+            const string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            StringBuilder sb = new StringBuilder();
+            Random rnd = new Random();
+
+            for (int i = 0; i < 4; i++)
+            {
+                int index = rnd.Next(caracteres.Length);
+                sb.Append(caracteres[index]);
+            }
+
+            return sb.ToString();
         }
 
         public static bool AddPackages(string Order, int IdDocNums)
