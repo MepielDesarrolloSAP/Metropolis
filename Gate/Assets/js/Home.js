@@ -49,7 +49,7 @@ const Users = () => {
     document.getElementById('MsjOne').innerHTML = 'Definicion de usuarios';
     document.getElementById('MsjTwo').innerHTML = '¡Bienvenido, Administrador! Gestiona usuarios y mejora el sistema con privilegios especiales. Gracias por tu servicio';
 
-
+    console.log('users');
     $.ajax({
 
         url: '/Home/Users',
@@ -59,7 +59,7 @@ const Users = () => {
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
 
-            //console.log(data1)
+            console.log('usuarios',data1)
             $('#Data-Usuarios').bootstrapTable({ data: data1 })
 
         }
@@ -744,7 +744,7 @@ window.operateEventUserRol = {
 function optionsUserAddress(value, row, index) { 
     console.log(row);
     return [
-        ` <h5> <span class="badge rounded-pill text-bg-secondary">Admin</span> </h5>`,  
+        ` <h5> <span class="badge rounded-pill text-bg-secondary">${row.NameAddress}</span> </h5>`,  
     ].join('') 
 }
 
@@ -1044,7 +1044,7 @@ const AddUser = () => {
  
             }
             else {
-                myMessage('error','No se pudo agregar el usuario');
+                myMessage('error', data1.problem);
             }
 
 
