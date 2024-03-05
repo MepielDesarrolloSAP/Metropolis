@@ -50,7 +50,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT \r\nT0.Id, \r\nT0.Name, \r\nT0.Lastname, \r\nT0.Username, \r\nT0.Password, \r\nT0.Email, \r\nT0.Phone, \r\nT0.Enable, \r\nT0.Id_Role,\r\nT0.Id_Address,\r\nT1.Name\r\n\r\nFROM \r\nusers T0\r\ninner join Address T1 on T0.Id_Address = T1.Id;"; // where users.Enable = 0";
+                    string Query = "SELECT \r\nT0.Id, \r\nT0.NameU, \r\nT0.Lastname, \r\nT0.Username, \r\nT0.Password, \r\nT0.Email, \r\nT0.Phone, \r\nT0.Enable, \r\nT0.Id_Role,\r\nT0.Id_Address,\r\nT1.Name\r\n\r\nFROM \r\nusers T0\r\ninner join Address T1 on T0.Id_Address = T1.Id;"; // where users.Enable = 0";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
