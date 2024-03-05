@@ -1448,24 +1448,85 @@ namespace Gate.Components.DL
         }
 
         //Revisar
-        public async Task<string> BuscarPedido(long Pedido)
+        public static async Task<string> Choferes()
         {
             string respuesta;
+
+            bool val = false;
+
+            string Status = "";
+            int Code = 0;
+
             try
             {
                 using (var client = new HttpClient())
                 {
-                    //client.BaseAddress = new Uri("http://172.16.101.191:8080/dealermepiel/guide?orderid=" + Pedido);
-                    client.BaseAddress = new Uri("http://172.16.101.128:8080/dealermepiel/guide?orderid=" + Pedido);
-                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "c2yc10cH1J3068kKLSCK6f1Ts75qe8PpUmVa69P6.oKLLWBq16Dmj8n/myf6");
+                    client.BaseAddress = new Uri("https://api.simpliroute.com/v1/accounts/drivers/");
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Token 8834f564ed5abed860e13f3a6e72ab05150dc557");
                     var response = client.GetAsync("").Result;
 
                     if (response.IsSuccessStatusCode)
                     {
                         respuesta = await response.Content.ReadAsStringAsync();
-                        if (respuesta.Contains("<br />"))
+
+                        // Deserializar el JSON
+                        dynamic jsonObject = JsonConvert.DeserializeObject(respuesta);
+
+                        foreach (var details in jsonObject)
                         {
-                            respuesta = "Error";
+                            Status = details.status;
+
+                            //Active
+                            if (Status == "active")
+                            {
+                                Code = details.id;
+                                //Validar si existe con consulta
+                                val = DriverExist(Code);
+
+                                //Si existe
+                                if (val)
+                                {
+                                    //Nada
+                                }
+                                //Si no existe lo agrego
+                                else
+                                {
+                                    //Agregar chofer
+                                    AddDriver(details.name, Code);
+
+                                }
+                            }
+                            //Deleted
+                            else
+                            {
+                                //Validar si ya existe para desabilitarlo con una consulta
+                                Code = details.id;
+
+                                val = DriverExist(Code);
+
+                                if (val)
+                                {
+                                    val = DriverStatus(Code);
+
+                                    if (val)
+                                    {
+                                        //Desabilitar driver
+                                        DisableDriver(Code);
+                                    }
+                                    else
+                                    {
+                                        //Nada
+                                    }
+
+                                }
+                                else
+                                {
+                                    //Nada
+                                }
+
+                            }
+
+
                         }
                     }
                     else
@@ -1480,7 +1541,169 @@ namespace Gate.Components.DL
             }
 
             //return Json(respuesta.ToString());
-            return "";
+            return respuesta;
+        }
+
+        public static bool DisableDriver(int Id)
+        {
+            bool validation = false;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    bool Enable = false;
+
+                    string Query = @"
+                                        UPDATE drivers
+                                        SET Enable = @Enable
+                                        WHERE Id = @Id";
+
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+                        // Asignar valores a los parámetros
+                        command.Parameters.AddWithValue("@Id", Id);
+                        command.Parameters.AddWithValue("@Enable", Enable);
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            validation = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return (validation);
+
+        }
+
+        public static bool DriverExist(int idsimpleroute)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM drivers T0  where T0.Id_SimpleRoute = '" + idsimpleroute + "'";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        val = true; 
+                        break;
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return val;
+        }
+
+        public static bool DriverStatus(int idsimpleroute)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM drivers T0  where T0.Id_SimpleRoute = '" + idsimpleroute + "'";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        val = Convert.ToBoolean(row["Enable"]);
+                        break;
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return val;
+        }
+
+        //Obtener ultimo Id agregado en Drivers
+        public static int LastIdDrivers()
+        {
+            int lastId = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    // Obtiene el último ID de la tabla 'caca'
+                    string Query = "SELECT MAX(id) as LastID FROM drivers";
+                    MySqlCommand lastIdCommand = new MySqlCommand(Query, conexion);
+                    //if (lastIdCommand.LastInsertedId == 0)
+                    //{
+                    //    lastId = 1;
+                    //}
+                    //else
+                    //{
+                    lastId = Convert.ToInt32(lastIdCommand.ExecuteScalar());
+                    //}
+
+                }
+                catch (Exception x)
+                {
+                    lastId = 0;
+                }
+                conexion.Close();
+            }
+            return lastId;
+        }
+
+        public static void AddDriver(string name, int idsimpleroute)
+        {
+
+            int IdDriver = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    IdDriver = DL.LastIdDrivers() + 1;
+                    string Query = "insert into drivers(Id, Name,Id_SimpleRoute,Enable)\r\nvalue('" + IdDriver + "', '" + name + "', '" + idsimpleroute + "','true')";
+
+                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
         }
 
     }
