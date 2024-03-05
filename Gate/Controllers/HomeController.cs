@@ -132,8 +132,9 @@ namespace Gate.Controllers
             }
             else
             {
-                string jsonString = JsonConvert.SerializeObject(val);
-                return Json(jsonString);
+                //string jsonString = JsonConvert.SerializeObject(val);
+                //return Json(jsonString);
+                return Json(val);
             }
 
 
