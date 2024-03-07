@@ -2156,75 +2156,98 @@
                 <div class="modal-body" id="DivAddUser">
                     <form>
 
-                        <div class="form-group">
-                            <label for="Name">Nombre(s)</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Ingrese nombre" style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-AddUser-Name" class="invalid-feedback">
-                                Por favor, ingresar un nombre(s).
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Name">Nombre(s)</label>
+                                <input type="text" class="form-control" id="Name" placeholder="Ingrese nombre" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Name" class="invalid-feedback">
+                                    Por favor, ingresar un nombre(s).
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="Lastname">Apellido(s)</label>
-                            <input type="text" class="form-control" id="Lastname" placeholder="Ingrese apellido" style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-AddUser-Lastname" class="invalid-feedback">
-                                Por favor, ingresar el apellido(s).
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="Lastname">Apellido(s)</label>
+                                <input type="text" class="form-control" id="Lastname" placeholder="Ingrese apellido" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Lastname" class="invalid-feedback">
+                                    Por favor, ingresar el apellido(s).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Username">Nombre del Usuario</label>
+                                <input type="text" class="form-control" id="Username" placeholder="Ingrese nombre del usuario" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Username" class="invalid-feedback">
+                                    Por favor, ingresar un nombre de usuario.
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="Username">Nombre del Usuario</label>
-                            <input type="text" class="form-control" id="Username" placeholder="Ingrese nombre del usuario" style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-AddUser-Username" class="invalid-feedback">
-                                Por favor, ingresar un nombre de usuario.
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="Password">Contraseña</label>
+                                <input type="password" class="form-control" id="Password" placeholder="Ingrese contraseña" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Password" class="invalid-feedback">
+                                    Por favor, ingresar una contraseña.
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="Password">Contraseña</label>
-                            <input type="password" class="form-control" id="Password" placeholder="Ingrese contraseña" style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-AddUser-Password" class="invalid-feedback">
-                                Por favor, ingresar una contraseña.
-                            </div>
-                        </div>
                         @* Check para mostrar Contraseña *@
                         <div class="form-check mb-3">
                             <input type="checkbox" class="form-check-input" id="checkshowpasswordAdduser" onchange="CheckShowPassword()">
                             <label class="form-check-label" for="checkshowpasswordAdduser">Mostrar contraseña</label>
                         </div>
 
-                        <div class="form-group">
-                            <label for="Email">Correo</label>
-                            <input type="email" class="form-control" id="Email" placeholder="Ingrese correo" style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-AddUser-Email" class="invalid-feedback">
-                                Por favor, ingresar un correo.
+                    <div class="row">
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="Email">Correo</label>
+                                <input type="email" class="form-control" id="Email" placeholder="Ingrese correo" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Email" class="invalid-feedback">
+                                    Por favor, ingresar un correo.
+                                </div>
+                            </div> 
+                        </div>
+                     
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Phone">Celular</label>
+                                <input type="number" class="form-control" id="Phone" placeholder="Ingrese numero de telefono" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Phone" class="invalid-feedback">
+                                    Por favor, ingresar un numero de telefono.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Role">Rol</label>
+                                <select id="Id_Role" class="form-control" style="margin-bottom: 10px;"> 
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Almacén</option>
+                                    <option value="2">Ventas</option> 
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="Phone">Celular</label>
-                            <input type="number" class="form-control" id="Phone" placeholder="Ingrese numero de telefono" style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-AddUser-Phone" class="invalid-feedback">
-                                Por favor, ingresar un numero de telefono.
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ChooseAddres">Dirección</label>
+                                <select id="ChooseAddres" class="form-control" style="margin-bottom: 10px;">
+                                </select>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="Id_Role">Rol</label>
-                            <select id="Id_Role" class="form-control" style="margin-bottom: 10px;">
-
-                                <option value="1">Administrador</option>
-                                <option value="2">Almacén</option>
-                                <option value="2">Ventas</option>
-
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="ChooseAddres">Dirección</label>
-                            <select id="ChooseAddres" class="form-control" style="margin-bottom: 10px;">
-                            </select>
-                        </div>
+                    </div>
 
                     </form>
                 </div>
@@ -2252,68 +2275,92 @@
                             
                         </div>
 
-                        <div class="form-group">
-                            <label for="NameEdit">Name</label>
-                            <input type="text" class="form-control" id="NameEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-EditUser-NameEdit" class="invalid-feedback"> 
+                    <div class="row">
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="NameEdit">Nombre(s)</label>
+                                <input type="text" class="form-control" id="NameEdit" placeholder="Ingrese nombre" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-NameEdit" class="invalid-feedback"> 
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="LastnameEdit">Lastname</label>
-                            <input type="text" class="form-control" id="LastnameEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-EditUser-LastnameEdit" class="invalid-feedback"> 
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="LastnameEdit">Apellidos(s)</label>
+                                <input type="text" class="form-control" id="LastnameEdit" placeholder="Ingrese apellido" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-LastnameEdit" class="invalid-feedback"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row">
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="UsernameEdit">Nombre de usuario</label>
+                                <input type="text" class="form-control" id="UsernameEdit" placeholder="Ingrese nombre de usuario" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-UsernameEdit" class="invalid-feedback"> 
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="UsernameEdit">Username</label>
-                            <input type="text" class="form-control" id="UsernameEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-EditUser-UsernameEdit" class="invalid-feedback"> 
+                        <div class="col">  
+                            <div class="form-group">
+                                <label for="PasswordEdit">Contraseña</label>
+                                <input type="password" class="form-control" id="PasswordEdit" placeholder="Ingrese contraseña" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-PasswordEdit" class="invalid-feedback"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="EmailEdit">Correo</label>
+                                <input type="email" class="form-control" id="EmailEdit" placeholder="Ingrese correo" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-EmailEdit" class="invalid-feedback"> 
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="PasswordEdit">Password</label>
-                            <input type="password" class="form-control" id="PasswordEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-EditUser-PasswordEdit" class="invalid-feedback"> 
+                        <div class="col">  
+                            <div class="form-group">
+                                <label for="PhoneEdit">Celular</label>
+                                <input type="number" class="form-control" id="PhoneEdit" placeholder="Ingrese celular" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-PhoneEdit" class="invalid-feedback"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="EnableEdit">Estado</label>
+                                <select id="EnableEdit" class="form-control" style="margin-bottom: 10px;"> 
+                                    <option value="True"> Activo</option>
+                                    <option value="False"> Inactivo</option> 
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="EmailEdit">Email</label>
-                            <input type="email" class="form-control" id="EmailEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-EditUser-EmailEdit" class="invalid-feedback"> 
+                        <div class="col">  
+                            <div class="form-group">
+                                <label for="Id_RoleEdit">Rol</label>
+                                <select id="Id_RoleEdit" class="form-control" style="margin-bottom: 10px;">
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Almacén</option>
+                                    <option value="2">Ventas</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
 
                         <div class="form-group">
-                            <label for="PhoneEdit">Phone</label>
-                            <input type="number" class="form-control" id="PhoneEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                            <div id="invalidFeedback-Form-EditUser-PhoneEdit" class="invalid-feedback"> 
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="EnableEdit">Enable</label>
-                            <select id="EnableEdit" class="form-control" style="margin-bottom: 10px;">
-
-                                <option value="True"> Activo</option>
-                                <option value="False"> Inactivo</option>
-
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="Id_RoleEdit">Role</label>
-                            <select id="Id_RoleEdit" class="form-control" style="margin-bottom: 10px;">
-                                <option value="1">Administrador</option>
-                                <option value="2">Operador</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="ChooseAddresEdit">Choose Addres</label>
+                            <label for="ChooseAddresEdit">Dirección</label>
                             <select id="ChooseAddresEdit" class="form-control" style="margin-bottom: 10px;">
                             </select>
                         </div>
@@ -2465,65 +2512,116 @@
                     <form>
 
                         <div class="form-group">
-                            <label for="IDAddresEdit">ID</label>
-                            <input type="text" class="form-control" id="IDRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
+                            <label for="IDAddresEdit" hidden>ID</label>
+                            <input type="text" class="form-control" id="IDRouteEdit" hidden @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         </div>
 
-                        <div class="form-group">
-                            <label for="ShipToCodeRouteEdit">CODIGO DE DESTINO</label>
-                            <input type="text" class="form-control" id="ShipToCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ShipToCodeRouteEdit">Código destino</label>
+                                <input type="text" class="form-control" id="ShipToCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-ShipToCodeRouteEdit" class="invalid-feedback"> 
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="CardNameRouteEdit">NOMBRE DEL CLIENTE</label>
-                            <input type="text" class="form-control" id="CardNameRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="CardNameRouteEdit">Nombre del cliente</label>
+                                <input type="text" class="form-control" id="CardNameRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-CardNameRouteEdit" class="invalid-feedback"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="StreetRouteEdit">Dirección</label>
+                                <input type="text" class="form-control" id="StreetRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-StreetRouteEdit" class="invalid-feedback"> 
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="StreetRouteEdit">DIRECCION</label>
-                            <input type="text" class="form-control" id="StreetRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div class="col"> 
+                            <div class="form-group">
+                                <label for="BlockRouteEdit">Colonia</label>
+                                <input type="text" class="form-control" id="BlockRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-BlockRouteEdit" class="invalid-feedback"> 
+                                </div>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="BlockRouteEdit">COLONIA</label>
-                            <input type="text" class="form-control" id="BlockRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                        </div>
-
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
                             <label for="ZipCodeRouteEdit">C.P.</label>
                             <input type="text" class="form-control" id="ZipCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditOv-ZipCodeRouteEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
+                    </div>
 
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="CityRouteEdit">CIUDAD</label>
+                            <label for="CityRouteEdit">Ciudad</label>
                             <input type="text" class="form-control" id="CityRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditOv-CityRouteEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="U_NAMERouteEdit">EJECUTIVA(O)</label>
+                            <label for="U_NAMERouteEdit">Ejecutivo(a)</label>
                             <input type="text" class="form-control" id="U_NAMERouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditOv-U_NAMERouteEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
+                    </div>
 
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="ConditionRouteEdit">CONDICION DE PAGO</label>
+                            <label for="ConditionRouteEdit">Condición de pago</label>
                             <input type="text" class="form-control" id="ConditionRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <div id="invalidFeedback-Form-EditOv-ConditionRouteEdit" class="invalid-feedback"> 
+                            </div>
                         </div>
+                    </div>
+                </div>
 
+                
+                <div class="row">
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="DocNumsRouteEdit">CANTIDAD DE OV</label>
-                            <input type="text" class="form-control" id="DocNumsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <label for="DocNumsRouteEdit">Cantidad de OV</label>
+                            <textarea type="text" class="form-control" id="DocNumsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50"> </textarea>
+                            <div id="invalidFeedback-Form-EditOv-DocNumsRouteEdit" class="invalid-feedback"> 
+                            </div> 
                         </div>
+                    </div>
 
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="CommentsRouteEdit">COMENTARIOS</label>
-                            <input type="text" class="form-control" id="CommentsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                        </div>
-
+                            <label for="CommentsRouteEdit">Comentarios</label>
+                            <textarea type="text" class="form-control" id="CommentsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50"> </textarea>  
+                        </div> 
+                    </div>
+                </div>
+ 
                         <div class="form-group">
-                            <label for="PhoneRouteEdit">TELEFONO DE CONTACTO</label>
+                            <label for="PhoneRouteEdit">Telefono de contacto</label>
                             <input type="text" class="form-control" id="PhoneRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
                         </div>
+                   
 
+                    
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -2573,92 +2671,130 @@
                 <div class="modal-body" id="DivAddOV">
                     <form>
 
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="ShipToCodeAddOv">CODIGO DE DESTINO</label>
+                            <label for="ShipToCodeAddOv">Código destino</label>
                             <input type="text" class="form-control" id="ShipToCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-ShipToCodeAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
 
+                    <div class="col">
                         <div class="form-group">
-                            <label for="CardNameAddOv">NOMBRE DEL CLIENTE</label>
+                            <label for="CardNameAddOv">Nombre del cliente</label>
                             <input type="text" class="form-control" id="CardNameAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-CardNameAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
+                </div>
 
+
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="StreetAddOv">DIRECCION</label>
+                            <label for="StreetAddOv">Dirección</label>
                             <input type="text" class="form-control" id="StreetAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-StreetAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
 
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="BlockAddOv">COLONIA</label>
+                            <label for="BlockAddOv">Colonia</label>
                             <input type="text" class="form-control" id="BlockAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-BlockAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
                             <label for="ZipCodeAddOv">C.P.</label>
                             <input type="text" class="form-control" id="ZipCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-ZipCodeAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
 
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="CityAddOv">CIUDAD</label>
+                            <label for="CityAddOv">Ciudad</label>
                             <input type="text" class="form-control" id="CityAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-CityAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
-
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="U_NAMEAddOv">EJECUTIVA(O)</label>
+                            <label for="U_NAMEAddOv">Ejecutivo(a)</label>
                             <input type="text" class="form-control" id="U_NAMEAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-U_NAMEAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
 
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="ConditionAddOv">CONDICION DE PAGO</label>
+                            <label for="ConditionAddOv">Condición de pago</label>
                             <input type="text" class="form-control" id="ConditionAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-ConditionAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="DocNumsAddOv">OV</label>
-                            <input type="text" class="form-control" id="DocNumsAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            <label for="DocNumsAddOv">N° OV</label>
+                            <input type="text" class="form-control" id="DocNumsAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                             <div id="invalidFeedback-Form-AddOv-DocNumsAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
 
+                    <div class="col"> 
                         <div class="form-group">
-                            <label for="DocDateAddOv">FECHA OV</label>
+                            <label for="DocDateAddOv">Fecha OV</label>
                             <input type="text" class="form-control" id="DocDateAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                             <div id="invalidFeedback-Form-AddOv-DocDateAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="RouteAddOv">RUTA</label>
+                            <label for="RouteAddOv">Ruta</label>
                             <input type="text" class="form-control" id="RouteAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                             <div id="invalidFeedback-Form-AddOv-RouteAddOv" class="invalid-feedback"> 
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="CommentsAddOv">COMENTARIOS</label>
-                            <input type="text" class="form-control" id="CommentsAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;"> 
-                        </div>
-
-                        <div class="form-group">
-                            <label for="PhoneAddOv">TELEFONO DE CONTACTO</label>
+                    <div class="col"> 
+                       <div class="form-group">
+                            <label for="PhoneAddOv">Telefono de contacto</label>
                             <input type="text" class="form-control" id="PhoneAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
                         </div>
+                    </div>
+                </div>
+
+                        <div class="form-group">
+                            <label for="CommentsAddOv">Comentarios</label>
+                            <textarea type="text" class="form-control" id="CommentsAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50" > </textarea>
+                        </div>
+                     
 
 
                     </form>
@@ -2790,7 +2926,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <input id="DeleteRouteId" type="text" hidden>
+                    <input id="DeleteRouteId" type="number" hidden>
                     <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas quitar la ruta seleccionado?</h5>
                     @* <button class="close" type="button" data-dismiss="modal" aria-label="Close" onclick="CloseModalDeleteRoute()">
                         <span aria-hidden="true">×</span>

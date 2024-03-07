@@ -696,6 +696,13 @@ window.operateEventsTwo = {
 window.operateEventsThree = {
     'click .Disable': function (e, value, row, index) {
  
+
+        //Eliminar el id de la tabla Routa
+        // $('#Data-Route').bootstrapTable('remove', {
+        //     field: 'Id',
+        //     values: [row.Id]
+        // });
+
         // Asignar Id al input del modal
         document.getElementById("DeleteRouteId").value = row.Id;
         //Mostrar modal
@@ -742,7 +749,7 @@ window.operateEventUserRol = {
 };
 
 function optionsUserAddress(value, row, index) { 
-    console.log(row);
+ 
     return [
         ` <h5> <span class="badge rounded-pill text-bg-secondary">${row.NameAddress}</span> </h5>`,  
     ].join('') 
@@ -996,7 +1003,7 @@ const AddUser = () => {
  
     resetFormAddUser();
     //Verificar que los campos no esten vacios y que sea un correo valido 
-    if (Name == "" || Lastname == "" || Username == "" || Password == "" || Email == "" || Phone == "") { 
+    if (Name == "" || Lastname == "" || Username == "" || Password == "" || Email == "" || Phone == "" || (!regexCorreo.test(Email) && Email != null && Email != '') || (!regexPhone.test(Phone) && Phone != null && Phone != '')) { 
         myMessage('info', 'Favor de completar el formulario')
         // debugger
         if(Name == null || Name == "") invalidFeedbackForm('Name', 'invalidFeedback-Form-AddUser-Name', 'Por favor, ingresar un nombre(s).'); 
@@ -1021,9 +1028,10 @@ const AddUser = () => {
         success: function (data1) {
 
             console.log(data1)
-            return
-            if (data1.Name != null) {
-
+             
+            if (data1.problem) {
+                myMessage('error', data1.description);
+            }else{
                 $.ajax({
 
                     url: '/Home/Users',
@@ -1041,13 +1049,7 @@ const AddUser = () => {
                     }
 
                 });
- 
             }
-            else {
-                myMessage('error', data1.problem);
-            }
-
-
         }
     });
 }
@@ -1529,6 +1531,24 @@ const EditRoute = () => {
 
     // tableData ahora contiene los datos de tu tabla
     console.log(tableData);
+    //Validar que los campo no esten vacios 
+    resetFormEditRoute();
+    //Verificar que los campos no esten vacios y que sea un correo valido 
+    if (ShipToCodeRouteEdit == "" || CardNameRouteEdit == "" || StreetRouteEdit == "" || BlockRouteEdit == "" || ZipCodeRouteEdit == "" || CityRouteEdit == "" || U_NAMERouteEdit == "" || ConditionRouteEdit == "" || DocNumsRouteEdit == "" ) { 
+        // myMessage('info', 'Favor de completar el formulario')
+        // debugger
+        if(ShipToCodeRouteEdit == null || ShipToCodeRouteEdit == "") invalidFeedbackForm('ShipToCodeRouteEdit', 'invalidFeedback-Form-EditOv-ShipToCodeRouteEdit', 'Por favor, ingresar un código de destino.');  
+        if(CardNameRouteEdit == null || CardNameRouteEdit == "") invalidFeedbackForm('CardNameRouteEdit', 'invalidFeedback-Form-EditOv-CardNameRouteEdit', 'Por favor, ingresar un nombre del cliente.');   
+        if(StreetRouteEdit == null || StreetRouteEdit == '') invalidFeedbackForm('StreetRouteEdit', 'invalidFeedback-Form-EditOv-StreetRouteEdit', 'Por favor, ingresar una dirección.');
+        if(BlockRouteEdit == null || BlockRouteEdit == '') invalidFeedbackForm('BlockRouteEdit', 'invalidFeedback-Form-EditOv-BlockRouteEdit', 'Por favor, ingresar una colonia.'); 
+        if(ZipCodeRouteEdit == null || ZipCodeRouteEdit == '') invalidFeedbackForm('ZipCodeRouteEdit', 'invalidFeedback-Form-EditOv-ZipCodeRouteEdit', 'Por favor, ingresar codigo postal.'); 
+        if(CityRouteEdit == null || CityRouteEdit == '') invalidFeedbackForm('CityRouteEdit', 'invalidFeedback-Form-EditOv-CityRouteEdit', 'Por favor, ingresar la ciudad.'); 
+        if(U_NAMERouteEdit == null || U_NAMERouteEdit == '') invalidFeedbackForm('U_NAMERouteEdit', 'invalidFeedback-Form-EditOv-U_NAMERouteEdit', 'Por favor, ingresar el nombre del ejecutivo(a).'); 
+        if(ConditionRouteEdit == null || ConditionRouteEdit == '') invalidFeedbackForm('ConditionRouteEdit', 'invalidFeedback-Form-EditOv-ConditionRouteEdit', 'Por favor, ingresar la condición de pago.'); 
+        if(DocNumsRouteEdit == null || DocNumsRouteEdit == '') invalidFeedbackForm('DocNumsRouteEdit', 'invalidFeedback-Form-EditOv-DocNumsRouteEdit', 'Por favor, ingresar la OV.'); 
+       
+        return
+    } 
 
     //Variable validacion
     var found = false;
@@ -1562,8 +1582,22 @@ const EditRoute = () => {
         console.log("actualizacion de tabla"); // Imprime cada número en la consola
         console.log(tableData);
         $('#Data-Route').bootstrapTable('refreshOptions', { data: tableData })
+         //Mandar mensaje de Exito
+        myMessage('success', 'Se ha actualizado correctamente')
     }
 
+    cleanModalEditOv();
+
+    // Cerrar el modal
+    $('#ModaEditRoute').modal('hide')
+   
+
+    return
+   
+
+}
+
+const cleanModalEditOv = () => {
     // Limpiar campos del modal
     document.getElementById('IDRouteEdit').value = '';
     document.getElementById('ShipToCodeRouteEdit').value = '';
@@ -1577,60 +1611,6 @@ const EditRoute = () => {
     document.getElementById('DocNumsRouteEdit').value = '';
     document.getElementById('CommentsRouteEdit').value = '';
     document.getElementById('PhoneRouteEdit').value = '';
-
-    // Cerrar el modal
-    $('#ModaEditRoute').modal('hide')
-
-    return
-    //var existingRow = null;
-
-    //for (var i = 0; i < rows.length; i++) {
-    //    var cells = rows[i].getElementsByTagName('td');
-    //    if (cells.length > 0 && cells[0].textContent === elementId) {
-    //        existingRow = rows[i];
-    //        break;
-    //    }
-    //}
-
-    // Si ya existe una fila con el mismo ID, actualizarla
-    /*if (existingRow) {*/
-    //    existingRow.cells[1].textContent = elementName; // Actualizar el nombre
-    //} else {
-    //    // Si no existe una fila con el mismo ID, crear una nueva fila
-    //    var newRow = table.insertRow();
-    //    newRow.insertCell(0).appendChild(document.createTextNode(elementId));
-    //    newRow.insertCell(1).appendChild(document.createTextNode(elementName));
-    //}
-
-    //rows[IDRouteEdit].cells[1].textContent = ShipToCodeRouteEdit; // Actualizar ShipToCode
-    //rows[IDRouteEdit].cells[2].textContent = CardNameRouteEdit; // Actualizar CardName
-    //rows[IDRouteEdit].cells[3].textContent = StreetRouteEdit; // Actualizar Street
-    //rows[IDRouteEdit].cells[4].textContent = BlockRouteEdit; // Actualizar Block
-    //rows[IDRouteEdit].cells[5].textContent = ZipCodeRouteEdit; // Actualizar ZipCode
-    //rows[IDRouteEdit].cells[6].textContent = CityRouteEdit; // Actualizar City
-    //rows[IDRouteEdit].cells[7].textContent = U_NAMERouteEdit; // Actualizar U_NAME
-    //rows[IDRouteEdit].cells[8].textContent = ConditionRouteEdit; // Actualizar Condition
-    //rows[IDRouteEdit].cells[9].textContent = DocNumsRouteEdit; // Actualizar DocNums
-    //rows[IDRouteEdit].cells[10].textContent = CommentsRouteEdit; // Actualizar Comments
-    //rows[IDRouteEdit].cells[11].textContent = PhoneRouteEdit; // Actualizar Phone
-
-    //// Limpiar campos del modal
-    //document.getElementById('IDRouteEdit').value = '';
-    //document.getElementById('ShipToCodeRouteEdit').value = '';
-    //document.getElementById('CardNameRouteEdit').value = '';
-    //document.getElementById('StreetRouteEdit').value = '';
-    //document.getElementById('BlockRouteEdit').value = '';
-    //document.getElementById('ZipCodeRouteEdit').value = '';
-    //document.getElementById('CityRouteEdit').value = '';
-    //document.getElementById('U_NAMERouteEdit').value = '';
-    //document.getElementById('ConditionRouteEdit').value = '';
-    //document.getElementById('DocNumsRouteEdit').value = '';
-    //document.getElementById('CommentsRouteEdit').value = '';
-    //document.getElementById('PhoneRouteEdit').value = '';
-
-    //// Cerrar el modal
-    //$('#ModaEditRoute').modal('hide')
-
 }
 
 const FindRouteOV = () => {
@@ -1717,10 +1697,10 @@ const AddOvToROute = () => {
     const DocNums = document.getElementById("DocNumsAddOv").value;
     const Comments = document.getElementById("CommentsAddOv").value;
     const Phone = document.getElementById("PhoneAddOv").value;
-  
+    // debugger
     resetFormAddOv();
     //Verificar que los campos no esten vacios y que sea un correo valido 
-    if (ShipToCode == "" || Lastname == "" || Username == "" || Password == "" || Email == "" ) { 
+    if (ShipToCode == "" || CardName == "" || Street == "" || Block == "" || ZipCode == "" || City == "" || U_NAME == "" || Condition == "" || DocNums == "") { 
         myMessage('info', 'Favor de completar el formulario')
         // debugger
         if(ShipToCode == null || ShipToCode == "") invalidFeedbackForm('ShipToCodeAddOv', 'invalidFeedback-Form-AddOv-ShipToCodeAddOv', 'Por favor, ingresar un codigo de destino.'); 
@@ -1954,6 +1934,34 @@ const resetFormAddUser = () => {
 
 }
 
+const resetFormEditRoute = () => {
+    document.getElementById("ShipToCodeRouteEdit").classList.remove('is-invalid');
+    document.getElementById("CardNameRouteEdit").classList.remove('is-invalid');
+    document.getElementById("StreetRouteEdit").classList.remove('is-invalid');
+    document.getElementById("BlockRouteEdit").classList.remove('is-invalid');
+    document.getElementById("ZipCodeRouteEdit").classList.remove('is-invalid');
+    document.getElementById("CityRouteEdit").classList.remove('is-invalid');
+    document.getElementById("U_NAMERouteEdit").classList.remove('is-invalid');
+    document.getElementById("ConditionRouteEdit").classList.remove('is-invalid');
+    document.getElementById("DocNumsRouteEdit").classList.remove('is-invalid');
+    document.getElementById("CommentsRouteEdit").classList.remove('is-invalid');
+    document.getElementById("PhoneRouteEdit").classList.remove('is-invalid');
+
+    // const ShipToCodeRouteEdit = document.getElementById('ShipToCodeRouteEdit').value;
+    // const CardNameRouteEdit = document.getElementById('CardNameRouteEdit').value;
+    // const StreetRouteEdit = document.getElementById('StreetRouteEdit').value;
+    // const BlockRouteEdit = document.getElementById('BlockRouteEdit').value;
+    // const ZipCodeRouteEdit = document.getElementById('ZipCodeRouteEdit').value;
+    // const CityRouteEdit = document.getElementById('CityRouteEdit').value;
+    // const U_NAMERouteEdit = document.getElementById('U_NAMERouteEdit').value;
+    // const ConditionRouteEdit = document.getElementById('ConditionRouteEdit').value;
+    // const DocNumsRouteEdit = document.getElementById('DocNumsRouteEdit').value;
+    // const CommentsRouteEdit = document.getElementById('CommentsRouteEdit').value;
+    // const PhoneRouteEdit = document.getElementById('PhoneRouteEdit').value;
+
+
+}
+
 const resetFormEditUser = () => {
 
     document.getElementById('NameEdit').classList.remove('is-invalid');
@@ -1982,17 +1990,21 @@ const resetFormAddOv = () => {
 
 const DeleteRoute = () => {
 
+    //Escoden el modal
+    CloseModalDeleteRoute();
+
     //Tomar ID del modal
-    var primaryKey = document.getElementById("DeleteRouteId").value;
-    console.log(primaryKey);
+    var id = parseInt(document.getElementById("DeleteRouteId").value); 
+    
     //Eliminar el id de la tabla Routa
     $('#Data-Route').bootstrapTable('remove', {
         field: 'Id',
-        values: [primaryKey]
+        values: [id]
     });
 
-    //Escoden el modal
-    CloseModalDeleteRoute();
+    let getdata = $('#Data-Route').bootstrapTable('getData');
+    console.log('getdata', getdata);
+
     //Mandar mensaje de exito 
     myMessage('success', 'Se ha eliminado correctamente la OV')
 
