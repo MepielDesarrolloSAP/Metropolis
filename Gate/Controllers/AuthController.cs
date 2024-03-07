@@ -83,11 +83,31 @@ namespace Gate.Controllers
         public RedirectToRouteResult ValidaRol()
         {
             Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
-
+            bool val = false;
 
             switch (User.Id_Role)
             {
                 case 1:
+
+                    #region SINCRONIZACION
+
+                    Task.Run(() =>
+                    {
+                        //Validar si existe una sincronizacion con fecha del dia de hoy
+                        val = DL.synchronizationlogExist();
+
+                        if (val)
+                        {
+                            //nada
+                        }
+                        else
+                        {
+                            _ = DL.Choferes();
+                        }
+                    });
+
+                    #endregion
+
                     return RedirectToAction("Index", "Home"/*, new { User = User.UserName }*/);
 
                 case 2:
