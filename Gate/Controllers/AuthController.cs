@@ -102,7 +102,10 @@ namespace Gate.Controllers
                         }
                         else
                         {
-                            _ = DL.Choferes();
+                            _ = DL.Drivers();
+
+                            //Crear log
+                            DL.Addsynchronizationlog();
                         }
                     });
 
