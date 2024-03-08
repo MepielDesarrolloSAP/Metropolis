@@ -588,7 +588,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_Driver,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','','" + true + "','','" + Id_typeofroute + "');";
+                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_Driver,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','" + true + "','','" + Id_typeofroute + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -673,7 +673,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static int AddClient(string CardName, string CardCode)
+        public static int AddClient(string CardName, string CardCode, string phone)
         {
             int folio = 0;
 
@@ -684,7 +684,7 @@ namespace Gate.Components.DL
                 try
                 {
 
-                    string Query = "insert into Clients(Id, CardName,CardCode)\r\nvalue('" + FolioClient + "', '" + CardName + "','" + CardCode + "');";
+                    string Query = "insert into Clients(Id, CardName,CardCode,Phone)\r\nvalue('" + FolioClient + "', '" + CardName + "','" + CardCode + "','"+ phone +"');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -756,7 +756,7 @@ namespace Gate.Components.DL
                 try
                 {
 
-                    string Query = "insert into ClientAddress(Id, ShipToCode,Street,Colony,ZipCode,City,Id_Clients)\r\nvalue('" + IdClientAddress + "', '" + ShipToCode + "', '" + Street + "', '" + Colony + "','" + ZipCode + "','" + City + "','" + Id_clients + "')";
+                    string Query = "insert into ClientAddress(Id, ShipToCode,Street,Colony,ZipCode,City,Id_Clients,Reference)\r\nvalue('" + IdClientAddress + "', '" + ShipToCode + "', '" + Street + "', '" + Colony + "','" + ZipCode + "','" + City + "','" + Id_clients + "','')";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -1448,7 +1448,7 @@ namespace Gate.Components.DL
         }
 
         //Revisar
-        public static async Task<string> Choferes()
+        public static async Task<string> Drivers()
         {
             string respuesta;
 
@@ -1542,6 +1542,40 @@ namespace Gate.Components.DL
 
             //return Json(respuesta.ToString());
             return respuesta;
+        }
+
+        public static void Addsynchronizationlog()
+        {
+
+            int Idsynchronizationlog = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    DateTime date = DateTime.Now;
+                    string fecha = date.ToString("yyyy-MM-dd");
+                    string fechaDia = date.ToString("dddd");
+
+                    Idsynchronizationlog = DL.LastIdSynchronizationlog() + 1;
+                    string Query = "insert into synchronizationlog(Id, CreateDate, Day)\r\nvalue('" + Idsynchronizationlog + "', '" + fecha + "', '" + fechaDia + "')";
+
+                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
         }
 
         public static bool DisableDriver(int Id)
@@ -1676,6 +1710,36 @@ namespace Gate.Components.DL
             return lastId;
         }
 
+        public static int LastIdSynchronizationlog()
+        {
+            int lastId = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    // Obtiene el último ID de la tabla 'caca'
+                    string Query = "SELECT MAX(id) as LastID FROM synchronizationlog";
+                    MySqlCommand lastIdCommand = new MySqlCommand(Query, conexion);
+                    //if (lastIdCommand.LastInsertedId == 0)
+                    //{
+                    //    lastId = 1;
+                    //}
+                    //else
+                    //{
+                    lastId = Convert.ToInt32(lastIdCommand.ExecuteScalar());
+                    //}
+
+                }
+                catch (Exception x)
+                {
+                    lastId = 0;
+                }
+                conexion.Close();
+            }
+            return lastId;
+        }
+
         public static void AddDriver(string name, int idsimpleroute)
         {
 
@@ -1737,6 +1801,8 @@ namespace Gate.Components.DL
             }
             return val;
         }
+
+
 
     }
 }
