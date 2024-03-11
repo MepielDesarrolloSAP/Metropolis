@@ -588,7 +588,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_Driver,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','" + true + "','','" + Id_typeofroute + "');";
+                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','" + true + "','" + Id_typeofroute + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -837,7 +837,7 @@ namespace Gate.Components.DL
                     //string a = "72193, 72194, 72196";
                     string[] registros = docnums.Split(new string[] { ", " }, StringSplitOptions.None);
 
-                    if(registros.Length > 2)
+                    if(registros.Length > 1)
                     {
                         foreach (string Order in registros)
                         {
@@ -853,7 +853,7 @@ namespace Gate.Components.DL
                                 v = CodeInDocNumExist(code);
                             }
 
-                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"')";
+                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -1544,6 +1544,123 @@ namespace Gate.Components.DL
             return respuesta;
         }
 
+        //Revisar
+        public static async Task<string> Visits()
+        {
+            Code C= new Code();
+            C.Codigo = "";
+            string code = "";
+
+            string VarU = "";
+            string respuesta;
+
+            bool Val = false;
+
+            DateTime date = DateTime.Now;
+            date = date.AddDays(-1); // Restar un día
+            string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://api.simpliroute.com/v1/routes/visits?planned_date="+ fechaFormateada);
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Token 8834f564ed5abed860e13f3a6e72ab05150dc557");
+                    var response = client.GetAsync("").Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        respuesta = await response.Content.ReadAsStringAsync();
+
+                        // Deserializar el JSON
+                        dynamic jsonObject = JsonConvert.DeserializeObject(respuesta);
+
+                        foreach (var details in jsonObject)
+                        {
+                            //Referencia
+                            VarU = details.reference;
+
+                            //Con referencia
+                            if (VarU != "")
+                            {
+                                string[] registros = VarU.Split(new string[] { ", " }, StringSplitOptions.None);
+
+                                foreach (string Order in registros)
+                                {
+                                    Docnums d = DocNumExist(Order);
+
+                                    code = d.Code;
+
+                                    if(code != "")
+                                    {
+                                        d.VisitStatus = details.status;
+                                        d.Comments = details.notes;
+                                        d.SimpleRoute_Status = true;
+                                        d.Id_VisitsimpleRoute = details.id;
+                                        d.Id_Driver = details.driver;
+
+                                        Val = EditDocNum(d);
+
+
+                                    }
+                                    else
+                                    {
+                                        d.VisitStatus = details.status;
+                                        d.Comments = details.notes;
+                                        d.SimpleRoute_Status = true;
+                                        d.Id_VisitsimpleRoute = details.id;
+                                        d.Id_Driver = details.driver;
+
+                                        Val = EditDocNum(d);
+                                    }
+
+                                    #region comentado
+                                    //if (d.Id != 0)
+                                    //{
+                                    //    d.VisitStatus = details.status;
+                                    //    d.Comments = details.notes;
+                                    //    d.SimpleRoute_Status = true;
+                                    //    d.Id_VisitsimpleRoute = details.id;
+                                    //    d.Id_Driver = details.driver;
+
+                                    //    Val = EditDocNum(d);
+
+                                    //}
+                                    //else
+                                    //{
+                                    //    //Nada
+                                    //}
+                                    #endregion
+
+                                }
+
+
+
+                            }
+                            //Sin referencia
+                            else
+                            {
+                                //Nada
+                            }
+
+
+                        }
+                    }
+                    else
+                    {
+                        respuesta = "Error";
+                    }
+                }
+            }
+            catch (Exception t)
+            {
+                respuesta = "Error";
+            }
+
+            //return Json(respuesta.ToString());
+            return respuesta;
+        }
+
         public static void Addsynchronizationlog()
         {
 
@@ -1802,7 +1919,141 @@ namespace Gate.Components.DL
             return val;
         }
 
+        public static Docnums DocNumExist(string Docnum)
+        {
+            Docnums doc = new Docnums();
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM Docnums T0  where T0.DocNum = '" + Docnum + "'"; 
 
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        doc.Id = Convert.ToInt32(row["Id"]);
+                        doc.DocNum = Convert.ToString(row["DocNum"]);
+                        doc.DocDate = Convert.ToString(row["DocDate"]);
+                        doc.VisitStatus = Convert.ToString(row["visitStatus"]);
+                        doc.Comments = Convert.ToString(row["comments"]);
+                        doc.Enable = Convert.ToBoolean(row["Enable"]);
+                        doc.Id_ClientAddress = Convert.ToInt32(row["Id_ClientAddress"]);
+                        doc.SimpleRoute_Status = Convert.ToBoolean(row["SimpleRoute_Status"]);
+                        doc.Id_VisitsimpleRoute = Convert.ToInt32(row["Id_VisitsimpleRoute"]);
+                        doc.Code = Convert.ToString(row["Code"]);
+                        doc.Id_Driver = Convert.ToInt32(row["Id_Driver"]);
+
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return doc;
+        }
+
+        public static bool EditDocNum(Docnums doc)
+        {
+
+            bool validation = false;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = @"
+                                        UPDATE Docnums
+                                        SET visitStatus = @visitStatus,
+                                        comments = @comments,
+                                        SimpleRoute_Status = @SimpleRoute_Status,
+                                        Id_VisitsimpleRoute = @Id_VisitsimpleRoute,
+                                        Id_Driver = @Id_Driver
+                                        WHERE Id = @Id";
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+                        // Asignar valores a los parámetros
+                        command.Parameters.AddWithValue("@Id", doc.Id);
+                        command.Parameters.AddWithValue("@visitStatus", doc.VisitStatus);
+                        command.Parameters.AddWithValue("@comments", doc.Comments);
+                        command.Parameters.AddWithValue("@SimpleRoute_Status", doc.SimpleRoute_Status);
+                        command.Parameters.AddWithValue("@Id_VisitsimpleRoute", doc.Id_VisitsimpleRoute);
+                        command.Parameters.AddWithValue("@Id_Driver", doc.Id_Driver);
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            validation = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return validation;
+
+        }
+
+        public static bool EditDocNumByCode(Docnums doc)
+        {
+
+            bool validation = false;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = @"
+                                        UPDATE Docnums
+                                        SET visitStatus = @visitStatus,
+                                        comments = @comments,
+                                        SimpleRoute_Status = @SimpleRoute_Status,
+                                        Id_VisitsimpleRoute = @Id_VisitsimpleRoute,
+                                        Id_Driver = @Id_Driver
+                                        WHERE Code = @Code";
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+                        // Asignar valores a los parámetros
+                        command.Parameters.AddWithValue("@Id", doc.Id);
+                        command.Parameters.AddWithValue("@visitStatus", doc.VisitStatus);
+                        command.Parameters.AddWithValue("@comments", doc.Comments);
+                        command.Parameters.AddWithValue("@SimpleRoute_Status", doc.SimpleRoute_Status);
+                        command.Parameters.AddWithValue("@Id_VisitsimpleRoute", doc.Id_VisitsimpleRoute);
+                        command.Parameters.AddWithValue("@Id_Driver", doc.Id_Driver);
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            validation = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return validation;
+
+        }
 
     }
 }
