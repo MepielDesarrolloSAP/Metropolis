@@ -839,19 +839,22 @@ namespace Gate.Components.DL
 
                     if(registros.Length > 1)
                     {
+
+                        string code = "";
+
+                        bool v = true;
+
+                        while (v)
+                        {
+                            code = generateCode();
+                            v = CodeInDocNumExist(code);
+                        }
+
                         foreach (string Order in registros)
                         {
                             IdDocNums = DL.LastIdDocNums() + 1;
 
-                            string code = "";
-
-                            bool v = true;
-
-                            while (v)
-                            {
-                                code = generateCode();
-                                v = CodeInDocNumExist(code);
-                            }
+                            
 
                             string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','')";
 
@@ -867,12 +870,13 @@ namespace Gate.Components.DL
 
                         }
                     }
+
                     else
                     {
                         foreach (string Order in registros)
                         {
                             IdDocNums = DL.LastIdDocNums() + 1;
-                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','')";
+                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code,Id_Driver)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','','')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -959,7 +963,7 @@ namespace Gate.Components.DL
                     if(Docnum == null)
                     {
                         int IdPendingPackages = LastIdPendingPackages() + 1;
-                        string QueryTwo = "insert into PendingPackages(Id, Docnum,Enable,Id_Docnum)\r\nvalue('" + IdPendingPackages + "', '" + Order + "', '" + true + "','" + IdDocNums + "')";
+                        string QueryTwo = "insert into pendingpackages(Id, Docnum,Enable,Id_Docnums)\r\nvalue('" + IdPendingPackages + "', '" + Order + "', '" + true + "','" + IdDocNums + "')";
 
                         MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
                         //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -2015,7 +2019,7 @@ namespace Gate.Components.DL
             {
                 try
                 {
-                    string Query = @"
+                    string Query = @"   
                                         UPDATE Docnums
                                         SET visitStatus = @visitStatus,
                                         comments = @comments,
