@@ -2059,5 +2059,156 @@ namespace Gate.Components.DL
 
         }
 
+        public static List<Pendingpackages> pendingpackages()
+        {
+            Pendingpackages pendingpackages= new Pendingpackages();
+            List<Pendingpackages> List = new List<Pendingpackages>();
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM pendingpackages T0  where T0.Enable = '1'";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        pendingpackages.Id = Convert.ToInt32(row["Id"]);
+                        pendingpackages.DocNum = Convert.ToString(row["Docnum"]);
+                        pendingpackages.Enable = Convert.ToBoolean(row["Enable"]);
+                        pendingpackages.Id_DocNums = Convert.ToInt32(row["Id_Docnums"]);
+
+                        List.Add(pendingpackages);
+                        pendingpackages = new Pendingpackages();
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return List;
+        }
+
+        public static bool Disablependingpackages(int id)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string Query = " UPDATE pendingpackages SET Enable = 0 WHERE (Id = '" + id + "')";
+
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            val = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return val;
+        }
+
+        public static void Dopendingpackages()
+        {
+            bool val = false;
+            try
+            {
+                List<Pendingpackages> List = DL.pendingpackages();
+
+                if (List.Count > 0)
+                {
+                    using (MySqlConnection conexion = DL.OpenConnectionMysql())
+                    {
+                        foreach (var L in List)
+                        {
+                            dynamic jsonObject = DL.PackingList(L.DocNum);
+
+                            jsonObject = JsonConvert.DeserializeObject<JObject>(jsonObject);
+
+                            //si paking esta vacio  agregar a PendingPackages y regresar true.
+                            string Docnum = jsonObject["message"]["DocNum"];
+
+                            if (Docnum == null)
+                            {
+                                //Nada
+                            }
+                            else
+                            {
+                                // Acceder a los valores
+                                var details = jsonObject["message"]["Details"];
+
+                                foreach (var detail in details)
+                                {
+                                    int LastIdPackage = DL.LastIdPackages() + 1;
+
+                                    string Query = "insert into Packages(Id, NamePackage,Lenght,Width,Height,Volumetric,Weight,quantityItems,Id_Docnums)\r\nvalue('" + LastIdPackage + "', '" + detail["selectPackage"]["Name"] + "','" + detail["selectPackage"]["Lenght"] + "','" + detail["selectPackage"]["Width"] + "','" + detail["selectPackage"]["Height"] + "','" + detail["selectPackage"]["Volumetric"] + "','" + detail["selectPackage"]["Weight"] + "','" + detail["quantityItems"] + "','" + L.Id_DocNums + "');";
+
+                                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                                    if (rowsAffected > 0)
+                                    {
+                                        var items = detail["items"];
+                                        foreach (var item in items)
+                                        {
+                                            int Packagedetails = DL.LastIdPackagedetails() + 1;
+                                            string QueryTwo = "insert into Packagedetails(Id, ItemCode,Sku,Weight,Quantity,ItemName,Id_Packages)\r\nvalue('" + Packagedetails + "', '" + item["ItemCode"] + "', '" + item["Sku"] + "','" + item["Weight"] + "','" + item["Quantity"] + "','" + item["ItemName"] + "','" + LastIdPackage + "')";
+
+                                            MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
+                                            //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                                            int rowsAffectedTwo = mySqlDataTwo.ExecuteNonQuery();
+
+                                            if (rowsAffectedTwo > 0)
+                                            {
+                                                val = true;
+                                            }
+
+                                        }
+                                    }
+
+                                    if (val)
+                                    {
+                                        _ = DL.Disablependingpackages(L.Id);
+                                    }
+
+                                }
+                            }
+
+                        }
+                        conexion.Close();
+                    }
+                }
+
+            }
+            catch (Exception d)
+            {
+
+            }
+
+        }
     }
 }

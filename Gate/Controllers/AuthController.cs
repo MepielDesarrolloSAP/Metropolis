@@ -8,6 +8,10 @@ using System.Web.Security;
 using Gate.Clases;
 using Gate.Components.BL;
 using Gate.Components.DL;
+using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Gate.Controllers
 {
@@ -82,42 +86,54 @@ namespace Gate.Controllers
 
         public RedirectToRouteResult ValidaRol()
         {
-            Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
-            bool val = false;
-
-            switch (User.Id_Role)
+            try 
             {
-                case 1:
+                Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
+                bool val = false;
 
-                    #region SINCRONIZACION
+                switch (User.Id_Role)
+                {
+                    case 1:
 
-                    Task.Run(() =>
-                    {
-                        //Validar si existe una sincronizacion con fecha del dia de hoy
-                        val = DL.synchronizationlogExist();
+                        #region SINCRONIZACION
 
-                        if (val)
+                        Task.Run(() =>
                         {
-                            //nada
-                        }
-                        else
-                        {
-                            _ = DL.Drivers();
-                            _= DL.Visits();
+                            DL.Dopendingpackages();
 
-                            //Crear log
-                            DL.Addsynchronizationlog();
-                        }
-                    });
+                            //Validar si existe una sincronizacion con fecha del dia de hoy
+                            val = DL.synchronizationlogExist();
 
-                    #endregion
+                            if (val)
+                            {
+                                //nada
+                            }
 
-                    return RedirectToAction("Index", "Home"/*, new { User = User.UserName }*/);
+                            else
+                            {
+                                _ = DL.Drivers();
+                                _ = DL.Visits();
 
-                case 2:
-                    return RedirectToAction("Index", "Home"/*, new { User = User.UserName }*/);
-                case 10:
-                    return RedirectToAction("Index", "Home"/*, new { User = User.UserName }*/);
+                                //Crear log
+                                DL.Addsynchronizationlog();
+                            }
+
+                        });
+
+                        #endregion
+
+                        return RedirectToAction("Index", "Home"/*, new { User = User.UserName }*/);
+
+                    case 2:
+                        return RedirectToAction("Index", "Home"/*, new { User = User.UserName }*/);
+                    case 10:
+                        return RedirectToAction("Index", "Home"/*, new { User = User.UserName }*/);
+                }
+
+            }
+            catch(Exception c)
+            {
+                return RedirectToAction("Signin", "Auth");
             }
             return RedirectToAction("Signin", "Auth");
         }
