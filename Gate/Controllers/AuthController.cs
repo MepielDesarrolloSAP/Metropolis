@@ -103,6 +103,7 @@ namespace Gate.Controllers
                         else
                         {
                             _ = DL.Drivers();
+                            _= DL.Visits();
 
                             //Crear log
                             DL.Addsynchronizationlog();

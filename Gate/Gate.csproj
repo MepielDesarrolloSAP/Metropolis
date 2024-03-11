@@ -224,8 +224,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Clases\Address.cs" />
+    <Compile Include="Clases\Code.cs" />
     <Compile Include="Clases\Details.cs" />
     <Compile Include="Clases\Direction.cs" />
+    <Compile Include="Clases\Docnums.cs" />
     <Compile Include="Clases\Globals.cs" />
     <Compile Include="Clases\Id.cs" />
     <Compile Include="Clases\InfoRoute.cs" />
