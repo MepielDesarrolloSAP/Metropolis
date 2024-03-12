@@ -548,33 +548,41 @@ namespace Gate.Components.DL
             return Id;
         }
 
-        public static int AddFolioRoute(int Id_typeofroute, List<Gate.Clases.Route> Route)
+        public static int AddFolioRoute(int Id_typeofroute)
         {
 
             int folio = 0;
 
-            bool val = false;
+            int RutaGuardada;
 
-            int idclient = 0;
+            #region comentado
+            //foreach (var v in Route)
+            //{
 
-            foreach (var v in Route)
-            {
+            //    idclient = DL.ClientExist(v.CardCode);
 
-                idclient = DL.ClientExist(v.CardCode);
+            //    //Existe cliente//
+            //    if (idclient != 0)
+            //    {
 
-                //Existe cliente//
-                if (idclient != 0)
-                {
+            //        //falta validar si ya se guardo anteriormente la ruta.
+            //        val = DL.DocNumsExist(v.DocNums);
 
-                    //falta validar si ya se guardo anteriormente la ruta.
-                    val = DL.DocNumsExist(v.DocNums);
+            //    }
 
-                }
+            //    break;
+            //}
 
-                break;
-            }
+            //if (val == true)
+            //{
+            //    return folio;
+            //}
+            #endregion
 
-            if (val == true)
+            RutaGuardada = DL.RutaExist(Id_typeofroute);
+
+            //Existe cliente//
+            if (RutaGuardada != 0)
             {
                 return folio;
             }
@@ -622,6 +630,39 @@ namespace Gate.Components.DL
                 try
                 {
                     string Query = "SELECT T0.Id FROM Clients T0 where  T0.CardCode = '"+ CardCode +"'"; // where users.Enable = 0";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        idClient = Convert.ToInt32(row["Id"]);
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return idClient;
+
+        }
+
+        public static int RutaExist(int id_Ruta)
+        {
+            int idClient = 0;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    DateTime date = DateTime.Now;
+                    string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+                    string Query = "SELECT T0.Id FROM folioroute T0 where  T0.Id_typeofroute = '" + id_Ruta + "' and T0.CreateDate = '"+ fechaFormateada + "'"; // where users.Enable = 0";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -745,7 +786,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static bool AddClientAddress(string ShipToCode, string Street, string Colony, string ZipCode, string City, int Id_clients,string docnums)
+        public static bool AddClientAddress(string ShipToCode, string Street, string Colony, string ZipCode, string City, int Id_clients,string docnums,int folio)
         {
             bool val = false;
 
@@ -765,7 +806,7 @@ namespace Gate.Components.DL
 
                     if (rowsAffected > 0)
                     {
-                        val = AddDocNums(docnums, IdClientAddress);
+                        val = AddDocNums(docnums, IdClientAddress,folio);
                     }
                     else
                     {
@@ -821,7 +862,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static bool AddDocNums(string docnums, int IdClientAddress)
+        public static bool AddDocNums(string docnums, int IdClientAddress,int folio)
         {
             bool val = false;
 
@@ -856,7 +897,7 @@ namespace Gate.Components.DL
 
                             
 
-                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','')";
+                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','','"+ folio +"')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -876,7 +917,7 @@ namespace Gate.Components.DL
                         foreach (string Order in registros)
                         {
                             IdDocNums = DL.LastIdDocNums() + 1;
-                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code,Id_Driver)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','','')";
+                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','','','"+folio+"')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();

@@ -1123,7 +1123,7 @@ namespace Gate.Controllers
                 {
                     try
                     {
-                        int folio = DL.AddFolioRoute(Id_typeofroute,Route);
+                        int folio = DL.AddFolioRoute(Id_typeofroute);
 
                         if (folio > 0)
                         {
@@ -1140,34 +1140,37 @@ namespace Gate.Controllers
                                     val = DL.DocNumsExist(v.DocNums);
                                     if (val == true)
                                     {
-                                        return Json("RutaG");
-                                    }
-
-
-                                    //Guardar ruta
-                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone,v.ShipToCode, true, User.Id, folio, idclient);
-                                    if (val == false)
-                                    {
-                                        return Json(val);
-                                    }
-
-                                    AddressExist = DL.ClientAddressExist(idclient, v.ShipToCode);
-
-                                    if (AddressExist != 0)
-                                    {
-                                        val = val = DL.AddDocNums(v.DocNums, AddressExist);
+                                        //nada
                                     }
                                     else
                                     {
-                                        //Guardar direccion de cliente
-                                        val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums);
+                                        //Guardar ruta
+                                        val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, v.ShipToCode, true, User.Id, folio, idclient);
                                         if (val == false)
                                         {
                                             return Json(val);
                                         }
+
+                                        AddressExist = DL.ClientAddressExist(idclient, v.ShipToCode);
+
+                                        if (AddressExist != 0)
+                                        {
+                                            val = val = DL.AddDocNums(v.DocNums, AddressExist, folio);
+                                            if (val == false)
+                                            {
+                                                return Json(val);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //Guardar direccion de cliente
+                                            val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums, folio);
+                                            if (val == false)
+                                            {
+                                                return Json(val);
+                                            }
+                                        }
                                     }
-
-
                                 }
                                 //No existe cliente//
                                 else
@@ -1182,9 +1185,8 @@ namespace Gate.Controllers
                                         return Json(val);
                                     }
 
-
                                     //Guardar direccion de cliente
-                                    val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums);
+                                    val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums,folio);
                                     if (val == false)
                                     {
                                         return Json(val);
