@@ -14,7 +14,7 @@ namespace Gate.Clases
         public string CP { get; set; }
         public string Colony { get; set; }
         public string City { get; set; }
-        public string Country { get; set; }
+        public string State { get; set; }
         public bool Enable { get; set; }
 
     }

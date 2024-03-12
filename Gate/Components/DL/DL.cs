@@ -596,6 +596,9 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
+                    //Eliminar
+                    fechaFormateada = "2024-03-08";
+
                     string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','" + true + "','" + Id_typeofroute + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
@@ -661,6 +664,8 @@ namespace Gate.Components.DL
                 {
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+                    fechaFormateada = "2024-03-08";
 
                     string Query = "SELECT T0.Id FROM folioroute T0 where  T0.Id_typeofroute = '" + id_Ruta + "' and T0.CreateDate = '"+ fechaFormateada + "'"; // where users.Enable = 0";
 
@@ -874,6 +879,9 @@ namespace Gate.Components.DL
                 {
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+                    fechaFormateada = "2024-03-08";
+
 
                     //string a = "72193, 72194, 72196";
                     string[] registros = docnums.Split(new string[] { ", " }, StringSplitOptions.None);
@@ -1605,6 +1613,9 @@ namespace Gate.Components.DL
             date = date.AddDays(-1); // Restar un día
             string fechaFormateada = date.ToString("yyyy-MM-dd");
 
+            //fechaFormateada = "2024-03-08";
+
+
             try
             {
                 using (var client = new HttpClient())
@@ -1716,11 +1727,14 @@ namespace Gate.Components.DL
                 try
                 {
                     DateTime date = DateTime.Now;
-                    string fecha = date.ToString("yyyy-MM-dd");
+                    string fechaFormateada = date.ToString("yyyy-MM-dd");
                     string fechaDia = date.ToString("dddd");
 
+                    fechaFormateada = "2024-03-08";
+
+
                     Idsynchronizationlog = DL.LastIdSynchronizationlog() + 1;
-                    string Query = "insert into synchronizationlog(Id, CreateDate, Day)\r\nvalue('" + Idsynchronizationlog + "', '" + fecha + "', '" + fechaDia + "')";
+                    string Query = "insert into synchronizationlog(Id, CreateDate, Day)\r\nvalue('" + Idsynchronizationlog + "', '" + fechaFormateada + "', '" + fechaDia + "')";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -1942,6 +1956,9 @@ namespace Gate.Components.DL
                 {
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+                    fechaFormateada = "2024-03-08";
+
 
                     string Query = "SELECT * FROM synchronizationlog T0  where T0.CreateDate = '" + fechaFormateada + "'";
 
