@@ -548,33 +548,41 @@ namespace Gate.Components.DL
             return Id;
         }
 
-        public static int AddFolioRoute(int Id_typeofroute, List<Gate.Clases.Route> Route)
+        public static int AddFolioRoute(int Id_typeofroute)
         {
 
             int folio = 0;
 
-            bool val = false;
+            int RutaGuardada;
 
-            int idclient = 0;
+            #region comentado
+            //foreach (var v in Route)
+            //{
 
-            foreach (var v in Route)
-            {
+            //    idclient = DL.ClientExist(v.CardCode);
 
-                idclient = DL.ClientExist(v.CardCode);
+            //    //Existe cliente//
+            //    if (idclient != 0)
+            //    {
 
-                //Existe cliente//
-                if (idclient != 0)
-                {
+            //        //falta validar si ya se guardo anteriormente la ruta.
+            //        val = DL.DocNumsExist(v.DocNums);
 
-                    //falta validar si ya se guardo anteriormente la ruta.
-                    val = DL.DocNumsExist(v.DocNums);
+            //    }
 
-                }
+            //    break;
+            //}
 
-                break;
-            }
+            //if (val == true)
+            //{
+            //    return folio;
+            //}
+            #endregion
 
-            if (val == true)
+            RutaGuardada = DL.RutaExist(Id_typeofroute);
+
+            //Existe cliente//
+            if (RutaGuardada != 0)
             {
                 return folio;
             }
@@ -588,7 +596,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_Driver,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','','" + true + "','','" + Id_typeofroute + "');";
+                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','" + true + "','" + Id_typeofroute + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -643,6 +651,39 @@ namespace Gate.Components.DL
 
         }
 
+        public static int RutaExist(int id_Ruta)
+        {
+            int idClient = 0;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    DateTime date = DateTime.Now;
+                    string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+                    string Query = "SELECT T0.Id FROM folioroute T0 where  T0.Id_typeofroute = '" + id_Ruta + "' and T0.CreateDate = '"+ fechaFormateada + "'"; // where users.Enable = 0";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        idClient = Convert.ToInt32(row["Id"]);
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return idClient;
+
+        }
+
         public static int ClientAddressExist(int idClient, string ClientAddress)
         {
             int AddressExist = 0;
@@ -673,7 +714,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static int AddClient(string CardName, string CardCode)
+        public static int AddClient(string CardName, string CardCode, string phone)
         {
             int folio = 0;
 
@@ -684,7 +725,7 @@ namespace Gate.Components.DL
                 try
                 {
 
-                    string Query = "insert into Clients(Id, CardName,CardCode)\r\nvalue('" + FolioClient + "', '" + CardName + "','" + CardCode + "');";
+                    string Query = "insert into Clients(Id, CardName,CardCode,Phone)\r\nvalue('" + FolioClient + "', '" + CardName + "','" + CardCode + "','"+ phone +"');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -745,7 +786,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static bool AddClientAddress(string ShipToCode, string Street, string Colony, string ZipCode, string City, int Id_clients,string docnums)
+        public static bool AddClientAddress(string ShipToCode, string Street, string Colony, string ZipCode, string City, int Id_clients,string docnums,int folio)
         {
             bool val = false;
 
@@ -756,7 +797,7 @@ namespace Gate.Components.DL
                 try
                 {
 
-                    string Query = "insert into ClientAddress(Id, ShipToCode,Street,Colony,ZipCode,City,Id_Clients)\r\nvalue('" + IdClientAddress + "', '" + ShipToCode + "', '" + Street + "', '" + Colony + "','" + ZipCode + "','" + City + "','" + Id_clients + "')";
+                    string Query = "insert into ClientAddress(Id, ShipToCode,Street,Colony,ZipCode,City,Id_Clients,Reference)\r\nvalue('" + IdClientAddress + "', '" + ShipToCode + "', '" + Street + "', '" + Colony + "','" + ZipCode + "','" + City + "','" + Id_clients + "','')";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -765,7 +806,7 @@ namespace Gate.Components.DL
 
                     if (rowsAffected > 0)
                     {
-                        val = AddDocNums(docnums, IdClientAddress);
+                        val = AddDocNums(docnums, IdClientAddress,folio);
                     }
                     else
                     {
@@ -821,7 +862,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static bool AddDocNums(string docnums, int IdClientAddress)
+        public static bool AddDocNums(string docnums, int IdClientAddress,int folio)
         {
             bool val = false;
 
@@ -837,23 +878,26 @@ namespace Gate.Components.DL
                     //string a = "72193, 72194, 72196";
                     string[] registros = docnums.Split(new string[] { ", " }, StringSplitOptions.None);
 
-                    if(registros.Length > 2)
+                    if(registros.Length > 1)
                     {
+
+                        string code = "";
+
+                        bool v = true;
+
+                        while (v)
+                        {
+                            code = generateCode();
+                            v = CodeInDocNumExist(code);
+                        }
+
                         foreach (string Order in registros)
                         {
                             IdDocNums = DL.LastIdDocNums() + 1;
 
-                            string code = "";
+                            
 
-                            bool v = true;
-
-                            while (v)
-                            {
-                                code = generateCode();
-                                v = CodeInDocNumExist(code);
-                            }
-
-                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"')";
+                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','','"+ folio +"')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -867,12 +911,13 @@ namespace Gate.Components.DL
 
                         }
                     }
+
                     else
                     {
                         foreach (string Order in registros)
                         {
                             IdDocNums = DL.LastIdDocNums() + 1;
-                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','')";
+                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','','','"+folio+"')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -959,7 +1004,7 @@ namespace Gate.Components.DL
                     if(Docnum == null)
                     {
                         int IdPendingPackages = LastIdPendingPackages() + 1;
-                        string QueryTwo = "insert into PendingPackages(Id, Docnum,Enable,Id_Docnum)\r\nvalue('" + IdPendingPackages + "', '" + Order + "', '" + true + "','" + IdDocNums + "')";
+                        string QueryTwo = "insert into pendingpackages(Id, Docnum,Enable,Id_Docnums)\r\nvalue('" + IdPendingPackages + "', '" + Order + "', '" + true + "','" + IdDocNums + "')";
 
                         MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
                         //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -1448,7 +1493,7 @@ namespace Gate.Components.DL
         }
 
         //Revisar
-        public static async Task<string> Choferes()
+        public static async Task<string> Drivers()
         {
             string respuesta;
 
@@ -1542,6 +1587,157 @@ namespace Gate.Components.DL
 
             //return Json(respuesta.ToString());
             return respuesta;
+        }
+
+        //Revisar
+        public static async Task<string> Visits()
+        {
+            Code C= new Code();
+            C.Codigo = "";
+            string code = "";
+
+            string VarU = "";
+            string respuesta;
+
+            bool Val = false;
+
+            DateTime date = DateTime.Now;
+            date = date.AddDays(-1); // Restar un día
+            string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://api.simpliroute.com/v1/routes/visits?planned_date="+ fechaFormateada);
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Token 8834f564ed5abed860e13f3a6e72ab05150dc557");
+                    var response = client.GetAsync("").Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        respuesta = await response.Content.ReadAsStringAsync();
+
+                        // Deserializar el JSON
+                        dynamic jsonObject = JsonConvert.DeserializeObject(respuesta);
+
+                        foreach (var details in jsonObject)
+                        {
+                            //Referencia
+                            VarU = details.reference;
+
+                            //Con referencia
+                            if (VarU != "")
+                            {
+                                string[] registros = VarU.Split(new string[] { ", " }, StringSplitOptions.None);
+
+                                foreach (string Order in registros)
+                                {
+                                    Docnums d = DocNumExist(Order);
+
+                                    code = d.Code;
+
+                                    if(code != "")
+                                    {
+                                        d.VisitStatus = details.status;
+                                        d.Comments = details.notes;
+                                        d.SimpleRoute_Status = true;
+                                        d.Id_VisitsimpleRoute = details.id;
+                                        d.Id_Driver = details.driver;
+
+                                        Val = EditDocNum(d);
+
+
+                                    }
+                                    else
+                                    {
+                                        d.VisitStatus = details.status;
+                                        d.Comments = details.notes;
+                                        d.SimpleRoute_Status = true;
+                                        d.Id_VisitsimpleRoute = details.id;
+                                        d.Id_Driver = details.driver;
+
+                                        Val = EditDocNum(d);
+                                    }
+
+                                    #region comentado
+                                    //if (d.Id != 0)
+                                    //{
+                                    //    d.VisitStatus = details.status;
+                                    //    d.Comments = details.notes;
+                                    //    d.SimpleRoute_Status = true;
+                                    //    d.Id_VisitsimpleRoute = details.id;
+                                    //    d.Id_Driver = details.driver;
+
+                                    //    Val = EditDocNum(d);
+
+                                    //}
+                                    //else
+                                    //{
+                                    //    //Nada
+                                    //}
+                                    #endregion
+
+                                }
+
+
+
+                            }
+                            //Sin referencia
+                            else
+                            {
+                                //Nada
+                            }
+
+
+                        }
+                    }
+                    else
+                    {
+                        respuesta = "Error";
+                    }
+                }
+            }
+            catch (Exception t)
+            {
+                respuesta = "Error";
+            }
+
+            //return Json(respuesta.ToString());
+            return respuesta;
+        }
+
+        public static void Addsynchronizationlog()
+        {
+
+            int Idsynchronizationlog = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    DateTime date = DateTime.Now;
+                    string fecha = date.ToString("yyyy-MM-dd");
+                    string fechaDia = date.ToString("dddd");
+
+                    Idsynchronizationlog = DL.LastIdSynchronizationlog() + 1;
+                    string Query = "insert into synchronizationlog(Id, CreateDate, Day)\r\nvalue('" + Idsynchronizationlog + "', '" + fecha + "', '" + fechaDia + "')";
+
+                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
         }
 
         public static bool DisableDriver(int Id)
@@ -1676,6 +1872,36 @@ namespace Gate.Components.DL
             return lastId;
         }
 
+        public static int LastIdSynchronizationlog()
+        {
+            int lastId = 0;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    // Obtiene el último ID de la tabla 'caca'
+                    string Query = "SELECT MAX(id) as LastID FROM synchronizationlog";
+                    MySqlCommand lastIdCommand = new MySqlCommand(Query, conexion);
+                    //if (lastIdCommand.LastInsertedId == 0)
+                    //{
+                    //    lastId = 1;
+                    //}
+                    //else
+                    //{
+                    lastId = Convert.ToInt32(lastIdCommand.ExecuteScalar());
+                    //}
+
+                }
+                catch (Exception x)
+                {
+                    lastId = 0;
+                }
+                conexion.Close();
+            }
+            return lastId;
+        }
+
         public static void AddDriver(string name, int idsimpleroute)
         {
 
@@ -1738,5 +1964,292 @@ namespace Gate.Components.DL
             return val;
         }
 
+        public static Docnums DocNumExist(string Docnum)
+        {
+            Docnums doc = new Docnums();
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM Docnums T0  where T0.DocNum = '" + Docnum + "'"; 
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        doc.Id = Convert.ToInt32(row["Id"]);
+                        doc.DocNum = Convert.ToString(row["DocNum"]);
+                        doc.DocDate = Convert.ToString(row["DocDate"]);
+                        doc.VisitStatus = Convert.ToString(row["visitStatus"]);
+                        doc.Comments = Convert.ToString(row["comments"]);
+                        doc.Enable = Convert.ToBoolean(row["Enable"]);
+                        doc.Id_ClientAddress = Convert.ToInt32(row["Id_ClientAddress"]);
+                        doc.SimpleRoute_Status = Convert.ToBoolean(row["SimpleRoute_Status"]);
+                        doc.Id_VisitsimpleRoute = Convert.ToInt32(row["Id_VisitsimpleRoute"]);
+                        doc.Code = Convert.ToString(row["Code"]);
+                        doc.Id_Driver = Convert.ToInt32(row["Id_Driver"]);
+
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return doc;
+        }
+
+        public static bool EditDocNum(Docnums doc)
+        {
+
+            bool validation = false;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = @"
+                                        UPDATE Docnums
+                                        SET visitStatus = @visitStatus,
+                                        comments = @comments,
+                                        SimpleRoute_Status = @SimpleRoute_Status,
+                                        Id_VisitsimpleRoute = @Id_VisitsimpleRoute,
+                                        Id_Driver = @Id_Driver
+                                        WHERE Id = @Id";
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+                        // Asignar valores a los parámetros
+                        command.Parameters.AddWithValue("@Id", doc.Id);
+                        command.Parameters.AddWithValue("@visitStatus", doc.VisitStatus);
+                        command.Parameters.AddWithValue("@comments", doc.Comments);
+                        command.Parameters.AddWithValue("@SimpleRoute_Status", doc.SimpleRoute_Status);
+                        command.Parameters.AddWithValue("@Id_VisitsimpleRoute", doc.Id_VisitsimpleRoute);
+                        command.Parameters.AddWithValue("@Id_Driver", doc.Id_Driver);
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            validation = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return validation;
+
+        }
+
+        public static bool EditDocNumByCode(Docnums doc)
+        {
+
+            bool validation = false;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = @"   
+                                        UPDATE Docnums
+                                        SET visitStatus = @visitStatus,
+                                        comments = @comments,
+                                        SimpleRoute_Status = @SimpleRoute_Status,
+                                        Id_VisitsimpleRoute = @Id_VisitsimpleRoute,
+                                        Id_Driver = @Id_Driver
+                                        WHERE Code = @Code";
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+                        // Asignar valores a los parámetros
+                        command.Parameters.AddWithValue("@Id", doc.Id);
+                        command.Parameters.AddWithValue("@visitStatus", doc.VisitStatus);
+                        command.Parameters.AddWithValue("@comments", doc.Comments);
+                        command.Parameters.AddWithValue("@SimpleRoute_Status", doc.SimpleRoute_Status);
+                        command.Parameters.AddWithValue("@Id_VisitsimpleRoute", doc.Id_VisitsimpleRoute);
+                        command.Parameters.AddWithValue("@Id_Driver", doc.Id_Driver);
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            validation = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return validation;
+
+        }
+
+        public static List<Pendingpackages> pendingpackages()
+        {
+            Pendingpackages pendingpackages= new Pendingpackages();
+            List<Pendingpackages> List = new List<Pendingpackages>();
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM pendingpackages T0  where T0.Enable = '1'";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        pendingpackages.Id = Convert.ToInt32(row["Id"]);
+                        pendingpackages.DocNum = Convert.ToString(row["Docnum"]);
+                        pendingpackages.Enable = Convert.ToBoolean(row["Enable"]);
+                        pendingpackages.Id_DocNums = Convert.ToInt32(row["Id_Docnums"]);
+
+                        List.Add(pendingpackages);
+                        pendingpackages = new Pendingpackages();
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return List;
+        }
+
+        public static bool Disablependingpackages(int id)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string Query = " UPDATE pendingpackages SET Enable = 0 WHERE (Id = '" + id + "')";
+
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            val = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return val;
+        }
+
+        public static void Dopendingpackages()
+        {
+            bool val = false;
+            try
+            {
+                List<Pendingpackages> List = DL.pendingpackages();
+
+                if (List.Count > 0)
+                {
+                    using (MySqlConnection conexion = DL.OpenConnectionMysql())
+                    {
+                        foreach (var L in List)
+                        {
+                            dynamic jsonObject = DL.PackingList(L.DocNum);
+
+                            jsonObject = JsonConvert.DeserializeObject<JObject>(jsonObject);
+
+                            //si paking esta vacio  agregar a PendingPackages y regresar true.
+                            string Docnum = jsonObject["message"]["DocNum"];
+
+                            if (Docnum == null)
+                            {
+                                //Nada
+                            }
+                            else
+                            {
+                                // Acceder a los valores
+                                var details = jsonObject["message"]["Details"];
+
+                                foreach (var detail in details)
+                                {
+                                    int LastIdPackage = DL.LastIdPackages() + 1;
+
+                                    string Query = "insert into Packages(Id, NamePackage,Lenght,Width,Height,Volumetric,Weight,quantityItems,Id_Docnums)\r\nvalue('" + LastIdPackage + "', '" + detail["selectPackage"]["Name"] + "','" + detail["selectPackage"]["Lenght"] + "','" + detail["selectPackage"]["Width"] + "','" + detail["selectPackage"]["Height"] + "','" + detail["selectPackage"]["Volumetric"] + "','" + detail["selectPackage"]["Weight"] + "','" + detail["quantityItems"] + "','" + L.Id_DocNums + "');";
+
+                                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                                    if (rowsAffected > 0)
+                                    {
+                                        var items = detail["items"];
+                                        foreach (var item in items)
+                                        {
+                                            int Packagedetails = DL.LastIdPackagedetails() + 1;
+                                            string QueryTwo = "insert into Packagedetails(Id, ItemCode,Sku,Weight,Quantity,ItemName,Id_Packages)\r\nvalue('" + Packagedetails + "', '" + item["ItemCode"] + "', '" + item["Sku"] + "','" + item["Weight"] + "','" + item["Quantity"] + "','" + item["ItemName"] + "','" + LastIdPackage + "')";
+
+                                            MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
+                                            //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                                            int rowsAffectedTwo = mySqlDataTwo.ExecuteNonQuery();
+
+                                            if (rowsAffectedTwo > 0)
+                                            {
+                                                val = true;
+                                            }
+
+                                        }
+                                    }
+
+                                    if (val)
+                                    {
+                                        _ = DL.Disablependingpackages(L.Id);
+                                    }
+
+                                }
+                            }
+
+                        }
+                        conexion.Close();
+                    }
+                }
+
+            }
+            catch (Exception d)
+            {
+
+            }
+
+        }
     }
 }

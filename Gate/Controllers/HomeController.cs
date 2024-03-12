@@ -471,6 +471,7 @@ namespace Gate.Controllers
 
         }
 
+        //Ultimo cambio en telefono
         public JsonResult RouteMCDMX()
         {
             Route route = new  Route();
@@ -488,7 +489,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base +".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '"+ fechaFormateada +"'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n "+ Settings.Default.Base +".ORDR T0\r\nINNER JOIN "+ Settings.Default.Base +".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base +".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base +".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '"+ fechaFormateada +"'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base +".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '"+ fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\",\r\n ifnull(T1.\"Phone1\",'') as \"Telefono registrado en SAP\"  \r\nFROM\r\n " + Settings.Default.Base +".ORDR T0\r\nINNER JOIN "+ Settings.Default.Base +".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base +".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN "+ Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -512,6 +513,7 @@ namespace Gate.Controllers
                         route.Condition = Globals.reader.GetString(8);
                         route.ConditionsType= Globals.reader.GetString(9);
                         route.DocNums = Globals.reader.GetString(10);
+                        route.Phone= Globals.reader.GetString(11);
 
                         lista.Add(route);
 
@@ -527,6 +529,7 @@ namespace Gate.Controllers
             return Json(lista.ToList());
         }
 
+        //Ultimo cambio en telefono
         public JsonResult RouteTCDMX()
         {
             Route route = new Route();
@@ -544,7 +547,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\",  \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '02'\r\n\r\n) as \"CANTIDAD DE OV\",\r\n ifnull(T1.\"Phone1\",'') as \"Telefono registrado en SAP\"   \r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '02'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -568,6 +571,8 @@ namespace Gate.Controllers
                         route.Condition = Globals.reader.GetString(8);
                         route.ConditionsType = Globals.reader.GetString(9);
                         route.DocNums = Globals.reader.GetString(10);
+                        route.Phone = Globals.reader.GetString(11);
+
 
                         lista.Add(route);
 
@@ -583,6 +588,7 @@ namespace Gate.Controllers
             return Json(lista.ToList());
         }
 
+        //Ultimo cambio en telefono
         public JsonResult RouteMGDL()
         {
             Route route = new Route();
@@ -600,7 +606,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R1' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\", \r\n  ifnull(T1.\"Phone1\",'') as \"Telefono registrado en SAP\"    \r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R1' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -624,6 +630,8 @@ namespace Gate.Controllers
                         route.Condition = Globals.reader.GetString(8);
                         route.ConditionsType = Globals.reader.GetString(9);
                         route.DocNums = Globals.reader.GetString(10);
+                        route.Phone = Globals.reader.GetString(11);
+
 
                         lista.Add(route);
 
@@ -639,6 +647,7 @@ namespace Gate.Controllers
             return Json(lista.ToList());
         }
 
+        //Ultimo cambio en telefono
         public JsonResult RouteTGDL()
         {
             Route route = new Route();
@@ -656,7 +665,7 @@ namespace Gate.Controllers
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\"\r\n\r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
+                string StrSql = "SELECT distinct\r\nT0.\"ShipToCode\" as \"CODIGO DE DESTINO\",\r\nT0.\"CardCode\" as \"CODIGO SAP\",\r\nT0.\"CardName\" as \"NOMBRE DEL CLIENTE\",\r\nT2.\"Street\" as \"DIRECCION\",\r\nT2.\"Block\" as \"COLONIA\",\r\nT2.\"ZipCode\" as \"C.P.\",\r\nT2.\"City\" as \"CIUDAD\",\r\nT3.\"U_NAME\" as \"EJECUTIVA(O)\",\r\n\r\nCASE \r\nWHEN T0.\"GroupNum\" = '2'\r\nTHEN 'CONTADO'\r\nElSE 'CREDITO'\r\nend as \"CONDICION DE PAGO\",\r\n  CASE \r\nWHEN T0.\"PeyMethod\" = '01'\r\nTHEN 'Efectivo'\r\nWHEN T0.\"PeyMethod\" = '02'\r\nTHEN 'Cheque'\r\nWHEN T0.\"PeyMethod\" = '03'\r\nTHEN 'Transferencia electronica de fondos'\r\nWHEN T0.\"PeyMethod\" = '04'\r\nTHEN 'Tarjeta de credito'\r\nWHEN T0.\"PeyMethod\" = '15'\r\nTHEN 'Condonacion'\r\nWHEN T0.\"PeyMethod\" = '17'\r\nTHEN 'Compensacion'\r\nWHEN T0.\"PeyMethod\" = '28'\r\nTHEN 'Tarjeta de debito'\r\nWHEN T0.\"PeyMethod\" = '31'\r\nTHEN 'Intermediarios bancarios'\r\nWHEN T0.\"PeyMethod\" = '99'\r\nTHEN 'Por definir'\r\nElSE 'N/A'\r\nend as \"CONDICION DE PAGO\", \r\n (\r\nSELECT  \r\nSTRING_AGG( T12.\"DocNum\", ', ')\r\n\r\nFROM\r\n " + Properties.Settings.Default.Base + ".ORDR T12\r\n\r\nWHERE\r\nT12.\"U_Ruta\" = 'R2' \r\nand  T12.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T12.\"ShipToCode\" = T0.\"ShipToCode\"\r\nand T12.\"U_Sucursal\" = '01'\r\n\r\n) as \"CANTIDAD DE OV\",\r\n  ifnull(T1.\"Phone1\",'') as \"Telefono registrado en SAP\"   \r\nFROM\r\n " + Settings.Default.Base + ".ORDR T0\r\nINNER JOIN " + Settings.Default.Base + ".OCRD\tT1 ON T0.\"CardCode\" = T1.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".CRD1 T2 ON T1.\"CardCode\" = T2.\"CardCode\"\r\nINNER JOIN " + Settings.Default.Base + ".OUSR T3 ON T0.\"UserSign\" = T3.\"USERID\"\r\n\r\nWHERE\r\nT0.\"U_Ruta\" = 'R2' \r\nand  T0.\"DocDate\" = '" + fechaFormateada + "'  \r\nand T0.\"ShipToCode\" = T2.\"Address\"\r\nand T0.\"U_Sucursal\" = '01'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
@@ -853,7 +862,7 @@ namespace Gate.Controllers
             {
                 try
                 {
-                    string Query = "SELECT\r\n  T0.Id\r\n, T3.ShipToCode\r\n, T2.CardName\r\n, T3.Street\r\n, T3.Colony\r\n, T3.ZipCode\r\n, T3.City\r\n, T0.U_NAME\r\n, T0.Conditions\r\n, T0.ConditionsType\r\n, T0.docnums\r\n, T0.Comments\r\n, T0.Phone\r\n\r\nFROM \r\nroute T0\r\ninner join folioroute T1 on T0.Id_FolioRoute = T1.Folio\r\ninner join clients T2 on T0.Id_clients = T2.Id\r\ninner join clientaddress T3 on T2.Id = T3.Id_clients and T0.ShipToCode = T3.ShipToCode\r\n\r\nwhere T1.Id = 1 \r\n\r\norder by T0.Id asc";
+                    string Query = "SELECT\r\n  T0.Id\r\n, T3.ShipToCode\r\n, T2.CardName\r\n, T3.Street\r\n, T3.Colony\r\n, T3.ZipCode\r\n, T3.City\r\n, T0.U_NAME\r\n, T0.Conditions\r\n, T0.ConditionsType\r\n, T0.docnums\r\n, T0.Comments\r\n, T0.Phone\r\n\r\nFROM \r\nroute T0\r\ninner join folioroute T1 on T0.Id_FolioRoute = T1.Folio\r\ninner join clients T2 on T0.Id_clients = T2.Id\r\ninner join clientaddress T3 on T2.Id = T3.Id_clients and T0.ShipToCode = T3.ShipToCode\r\n\r\nwhere T1.Id = "+Id+" \r\n\r\norder by T0.Id asc";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -1114,7 +1123,7 @@ namespace Gate.Controllers
                 {
                     try
                     {
-                        int folio = DL.AddFolioRoute(Id_typeofroute,Route);
+                        int folio = DL.AddFolioRoute(Id_typeofroute);
 
                         if (folio > 0)
                         {
@@ -1127,44 +1136,47 @@ namespace Gate.Controllers
                                 if (idclient != 0)
                                 {
 
-                                    ////falta validar si ya se guardo anteriormente la ruta.
-                                    //val = DL.DocNumsExist(v.DocNums);
-                                    //if (val == true)
-                                    //{
-                                    //    return Json("RutaG");
-                                    //}
-
-
-                                    //Guardar ruta
-                                    val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone,v.ShipToCode, true, User.Id, folio, idclient);
-                                    if (val == false)
+                                    //falta validar si ya se guardo anteriormente la ruta.
+                                    val = DL.DocNumsExist(v.DocNums);
+                                    if (val == true)
                                     {
-                                        return Json(val);
-                                    }
-
-                                    AddressExist = DL.ClientAddressExist(idclient, v.ShipToCode);
-
-                                    if (AddressExist != 0)
-                                    {
-                                        val = val = DL.AddDocNums(v.DocNums, AddressExist);
+                                        //nada
                                     }
                                     else
                                     {
-                                        //Guardar direccion de cliente
-                                        val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums);
+                                        //Guardar ruta
+                                        val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone, v.ShipToCode, true, User.Id, folio, idclient);
                                         if (val == false)
                                         {
                                             return Json(val);
                                         }
+
+                                        AddressExist = DL.ClientAddressExist(idclient, v.ShipToCode);
+
+                                        if (AddressExist != 0)
+                                        {
+                                            val = val = DL.AddDocNums(v.DocNums, AddressExist, folio);
+                                            if (val == false)
+                                            {
+                                                return Json(val);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //Guardar direccion de cliente
+                                            val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums, folio);
+                                            if (val == false)
+                                            {
+                                                return Json(val);
+                                            }
+                                        }
                                     }
-
-
                                 }
                                 //No existe cliente//
                                 else
                                 {
                                     //Guardamos cliente
-                                    idclient = DL.AddClient(v.CardName, v.CardCode);
+                                    idclient = DL.AddClient(v.CardName, v.CardCode, v.Phone);
 
                                     //Guardar ruta
                                     val = DL.AddRoute(v.U_NAME, v.Condition, v.ConditionsType, v.DocNums, v.Comments, v.Phone,v.ShipToCode ,true, User.Id, folio, idclient);
@@ -1173,9 +1185,8 @@ namespace Gate.Controllers
                                         return Json(val);
                                     }
 
-
                                     //Guardar direccion de cliente
-                                    val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums);
+                                    val = DL.AddClientAddress(v.ShipToCode, v.Street, v.Block, v.ZipCode, v.City, idclient, v.DocNums,folio);
                                     if (val == false)
                                     {
                                         return Json(val);
