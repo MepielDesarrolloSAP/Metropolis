@@ -318,7 +318,7 @@ namespace Gate.Controllers
                         Address.CP = Convert.ToString(row["CP"]);
                         Address.Colony = Convert.ToString(row["Colony"]);
                         Address.City = Convert.ToString(row["City"]);
-                        Address.Country = Convert.ToString(row["Country"]);
+                        Address.State = Convert.ToString(row["State"]);
                         Address.Enable = Convert.ToBoolean(row["Enable"]);
                         Addresses.Add(Address);
                         Address = new Address();
@@ -332,7 +332,7 @@ namespace Gate.Controllers
             return Json(Addresses.ToList());
         }
 
-        public JsonResult AddAddress(string NameAddress, string Street, string Ext, string CP, string Colony, string City, string Country)
+        public JsonResult AddAddress(string NameAddress, string Street, string Ext, string CP, string Colony, string City, string State)
         {
             bool validation = false;
 
@@ -345,7 +345,7 @@ namespace Gate.Controllers
                 try
                 {
 
-                    string Query = "insert into Address(Id, Name, Street, Ext, CP, Colony, City, Country, Enable)\r\nvalue('" + Id + "', '" + NameAddress + "', '" + Street + "', '" + Ext + "', '" + CP + "', '" + Colony + "', '" + City + "', '" + Country + "', " + Enable + " )";
+                    string Query = "insert into Address(Id, Name, Street, Ext, CP, Colony, City, State, Enable)\r\nvalue('" + Id + "', '" + NameAddress + "', '" + Street + "', '" + Ext + "', '" + CP + "', '" + Colony + "', '" + City + "', '" + State + "', " + Enable + " )";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -371,7 +371,7 @@ namespace Gate.Controllers
             return Json(validation);
         }
 
-        public JsonResult EditAddress(int IDAddresEdit, string NameAddressEdit, string StreetEdit, string ExtEdit, string CPEdit, string ColonyEdit, string CityEdit, string CountryEdit, bool EnableEdit)
+        public JsonResult EditAddress(int IDAddresEdit, string NameAddressEdit, string StreetEdit, string ExtEdit, string CPEdit, string ColonyEdit, string CityEdit, string StateEdit, bool EnableEdit)
         {
 
             bool validation = false;
@@ -389,7 +389,7 @@ namespace Gate.Controllers
                                         CP = @CP,
                                         Colony = @Colony,
                                         City = @City,
-                                        Country = @Country,
+                                        State = @State,
                                         Enable = @Enable
                                         WHERE Id = @Id";
 
@@ -404,7 +404,7 @@ namespace Gate.Controllers
                         command.Parameters.AddWithValue("@CP", CPEdit);
                         command.Parameters.AddWithValue("@Colony", ColonyEdit);
                         command.Parameters.AddWithValue("@City", CityEdit);
-                        command.Parameters.AddWithValue("@Country", CountryEdit);
+                        command.Parameters.AddWithValue("@State", StateEdit);
                         command.Parameters.AddWithValue("@Enable", EnableEdit);
 
                         // Ejecutar la consulta
@@ -483,7 +483,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                //fechaFormateada = "2024-02-12";
+                fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
@@ -541,7 +541,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                //fechaFormateada = "2024-02-12";
+                fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
@@ -600,7 +600,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                //fechaFormateada = "2024-02-12";
+                fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
@@ -659,7 +659,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                //fechaFormateada = "2024-02-12";
+                fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
