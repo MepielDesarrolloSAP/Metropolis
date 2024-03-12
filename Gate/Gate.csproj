@@ -234,6 +234,7 @@
     <Compile Include="Clases\items.cs" />
     <Compile Include="Clases\Message.cs" />
     <Compile Include="Clases\OV.cs" />
+    <Compile Include="Clases\pendingpackages.cs" />
     <Compile Include="Clases\Problems.cs" />
     <Compile Include="Clases\Response.cs" />
     <Compile Include="Clases\Route.cs" />

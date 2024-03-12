@@ -548,33 +548,41 @@ namespace Gate.Components.DL
             return Id;
         }
 
-        public static int AddFolioRoute(int Id_typeofroute, List<Gate.Clases.Route> Route)
+        public static int AddFolioRoute(int Id_typeofroute)
         {
 
             int folio = 0;
 
-            bool val = false;
+            int RutaGuardada;
 
-            int idclient = 0;
+            #region comentado
+            //foreach (var v in Route)
+            //{
 
-            foreach (var v in Route)
-            {
+            //    idclient = DL.ClientExist(v.CardCode);
 
-                idclient = DL.ClientExist(v.CardCode);
+            //    //Existe cliente//
+            //    if (idclient != 0)
+            //    {
 
-                //Existe cliente//
-                if (idclient != 0)
-                {
+            //        //falta validar si ya se guardo anteriormente la ruta.
+            //        val = DL.DocNumsExist(v.DocNums);
 
-                    //falta validar si ya se guardo anteriormente la ruta.
-                    val = DL.DocNumsExist(v.DocNums);
+            //    }
 
-                }
+            //    break;
+            //}
 
-                break;
-            }
+            //if (val == true)
+            //{
+            //    return folio;
+            //}
+            #endregion
 
-            if (val == true)
+            RutaGuardada = DL.RutaExist(Id_typeofroute);
+
+            //Existe cliente//
+            if (RutaGuardada != 0)
             {
                 return folio;
             }
@@ -622,6 +630,39 @@ namespace Gate.Components.DL
                 try
                 {
                     string Query = "SELECT T0.Id FROM Clients T0 where  T0.CardCode = '"+ CardCode +"'"; // where users.Enable = 0";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        idClient = Convert.ToInt32(row["Id"]);
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return idClient;
+
+        }
+
+        public static int RutaExist(int id_Ruta)
+        {
+            int idClient = 0;
+
+            using (MySqlConnection conexion = DL.OpenConnectionMysql())
+            {
+                try
+                {
+                    DateTime date = DateTime.Now;
+                    string fechaFormateada = date.ToString("yyyy-MM-dd");
+
+                    string Query = "SELECT T0.Id FROM folioroute T0 where  T0.Id_typeofroute = '" + id_Ruta + "' and T0.CreateDate = '"+ fechaFormateada + "'"; // where users.Enable = 0";
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -745,7 +786,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static bool AddClientAddress(string ShipToCode, string Street, string Colony, string ZipCode, string City, int Id_clients,string docnums)
+        public static bool AddClientAddress(string ShipToCode, string Street, string Colony, string ZipCode, string City, int Id_clients,string docnums,int folio)
         {
             bool val = false;
 
@@ -765,7 +806,7 @@ namespace Gate.Components.DL
 
                     if (rowsAffected > 0)
                     {
-                        val = AddDocNums(docnums, IdClientAddress);
+                        val = AddDocNums(docnums, IdClientAddress,folio);
                     }
                     else
                     {
@@ -821,7 +862,7 @@ namespace Gate.Components.DL
 
         }
 
-        public static bool AddDocNums(string docnums, int IdClientAddress)
+        public static bool AddDocNums(string docnums, int IdClientAddress,int folio)
         {
             bool val = false;
 
@@ -856,7 +897,7 @@ namespace Gate.Components.DL
 
                             
 
-                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','')";
+                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','','"+ folio +"')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -876,7 +917,7 @@ namespace Gate.Components.DL
                         foreach (string Order in registros)
                         {
                             IdDocNums = DL.LastIdDocNums() + 1;
-                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code,Id_Driver)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','','')";
+                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','','','"+folio+"')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -2059,5 +2100,156 @@ namespace Gate.Components.DL
 
         }
 
+        public static List<Pendingpackages> pendingpackages()
+        {
+            Pendingpackages pendingpackages= new Pendingpackages();
+            List<Pendingpackages> List = new List<Pendingpackages>();
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+                    string Query = "SELECT * FROM pendingpackages T0  where T0.Enable = '1'";
+
+                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
+
+                    DataTable data = new DataTable();
+                    mySqlData.Fill(data);
+
+                    foreach (DataRow row in data.Rows)
+                    {
+                        pendingpackages.Id = Convert.ToInt32(row["Id"]);
+                        pendingpackages.DocNum = Convert.ToString(row["Docnum"]);
+                        pendingpackages.Enable = Convert.ToBoolean(row["Enable"]);
+                        pendingpackages.Id_DocNums = Convert.ToInt32(row["Id_Docnums"]);
+
+                        List.Add(pendingpackages);
+                        pendingpackages = new Pendingpackages();
+                    }
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+            return List;
+        }
+
+        public static bool Disablependingpackages(int id)
+        {
+            bool val = false;
+
+            using (MySqlConnection conexion = OpenConnectionMysql())
+            {
+                try
+                {
+
+                    string Query = " UPDATE pendingpackages SET Enable = 0 WHERE (Id = '" + id + "')";
+
+
+                    using (MySqlCommand command = new MySqlCommand(Query, conexion))
+                    {
+
+                        // Ejecutar la consulta
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Comprobar si la actualización fue exitosa
+                        if (rowsAffected > 0)
+                        {
+                            val = true;
+                        }
+                    }
+
+                }
+                catch (Exception x)
+                {
+                }
+                conexion.Close();
+            }
+
+            return val;
+        }
+
+        public static void Dopendingpackages()
+        {
+            bool val = false;
+            try
+            {
+                List<Pendingpackages> List = DL.pendingpackages();
+
+                if (List.Count > 0)
+                {
+                    using (MySqlConnection conexion = DL.OpenConnectionMysql())
+                    {
+                        foreach (var L in List)
+                        {
+                            dynamic jsonObject = DL.PackingList(L.DocNum);
+
+                            jsonObject = JsonConvert.DeserializeObject<JObject>(jsonObject);
+
+                            //si paking esta vacio  agregar a PendingPackages y regresar true.
+                            string Docnum = jsonObject["message"]["DocNum"];
+
+                            if (Docnum == null)
+                            {
+                                //Nada
+                            }
+                            else
+                            {
+                                // Acceder a los valores
+                                var details = jsonObject["message"]["Details"];
+
+                                foreach (var detail in details)
+                                {
+                                    int LastIdPackage = DL.LastIdPackages() + 1;
+
+                                    string Query = "insert into Packages(Id, NamePackage,Lenght,Width,Height,Volumetric,Weight,quantityItems,Id_Docnums)\r\nvalue('" + LastIdPackage + "', '" + detail["selectPackage"]["Name"] + "','" + detail["selectPackage"]["Lenght"] + "','" + detail["selectPackage"]["Width"] + "','" + detail["selectPackage"]["Height"] + "','" + detail["selectPackage"]["Volumetric"] + "','" + detail["selectPackage"]["Weight"] + "','" + detail["quantityItems"] + "','" + L.Id_DocNums + "');";
+
+                                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
+                                    //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                                    int rowsAffected = mySqlData.ExecuteNonQuery();
+
+                                    if (rowsAffected > 0)
+                                    {
+                                        var items = detail["items"];
+                                        foreach (var item in items)
+                                        {
+                                            int Packagedetails = DL.LastIdPackagedetails() + 1;
+                                            string QueryTwo = "insert into Packagedetails(Id, ItemCode,Sku,Weight,Quantity,ItemName,Id_Packages)\r\nvalue('" + Packagedetails + "', '" + item["ItemCode"] + "', '" + item["Sku"] + "','" + item["Weight"] + "','" + item["Quantity"] + "','" + item["ItemName"] + "','" + LastIdPackage + "')";
+
+                                            MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
+                                            //MySqlDataReader reader = mySqlData.ExecuteReader();
+
+                                            int rowsAffectedTwo = mySqlDataTwo.ExecuteNonQuery();
+
+                                            if (rowsAffectedTwo > 0)
+                                            {
+                                                val = true;
+                                            }
+
+                                        }
+                                    }
+
+                                    if (val)
+                                    {
+                                        _ = DL.Disablependingpackages(L.Id);
+                                    }
+
+                                }
+                            }
+
+                        }
+                        conexion.Close();
+                    }
+                }
+
+            }
+            catch (Exception d)
+            {
+
+            }
+
+        }
     }
 }
