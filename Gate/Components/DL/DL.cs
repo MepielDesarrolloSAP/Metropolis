@@ -1616,7 +1616,7 @@ namespace Gate.Components.DL
             date = date.AddDays(-1); // Restar un día
             string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-            fechaFormateada = "2024-03-08";
+            //fechaFormateada = "2024-03-08";
 
 
             try
