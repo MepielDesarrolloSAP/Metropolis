@@ -1653,7 +1653,7 @@ namespace Gate.Components.DL
                                     if (Orden != null)
                                     {
                                         d = new Docnums();
-                                        d = DocNumExist(Factura);
+                                        d = DocNumExist(Orden);
 
                                         code = d.Code;
                                         VarU = d.DocNum;
@@ -2400,7 +2400,7 @@ namespace Gate.Components.DL
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
                 Globals.Con.Open();
 
-                string StrSql = "SELECT  DISTINCT \r\nT1.\"BaseRef\"\r\n\r\nfrom \r\nOINV T0\r\nInner join inv1 T1 on T0.\"DocEntry\"  = T1.\"DocEntry\"\r\n\r\nwhere T0.\"DocNum\" = '"+ Factura +"'";
+                string StrSql = "SELECT  DISTINCT \r\nT1.\"BaseRef\"\r\n\r\nfrom \r\n"+Settings.Default.Base+".OINV T0\r\nInner join "+Settings.Default.Base+".inv1 T1 on T0.\"DocEntry\"  = T1.\"DocEntry\"\r\n\r\nwhere T0.\"DocNum\" = '"+ Factura +"'";
                 Globals.cmd = new HanaCommand(StrSql, Globals.Con);
                 Globals.reader = Globals.cmd.ExecuteReader();
 
