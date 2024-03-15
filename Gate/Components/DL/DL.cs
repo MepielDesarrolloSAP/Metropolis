@@ -597,9 +597,9 @@ namespace Gate.Components.DL
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
                     //Eliminar
-                    //fechaFormateada = "2024-03-08";
+                    fechaFormateada = "2024-03-08";
 
-                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "',true,'" + Id_typeofroute + "');";
+                    string Query = "insert into FolioRoute(Id, Folio,CreateDate,Enable,Id_typeofroute)\r\nvalue('" + FolioRoute + "', '" + FolioRoute + "','" + fechaFormateada + "','" + true + "','" + Id_typeofroute + "');";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -665,7 +665,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    //fechaFormateada = "2024-03-08";
+                    fechaFormateada = "2024-03-08";
 
                     string Query = "SELECT T0.Id FROM folioroute T0 where  T0.Id_typeofroute = '" + id_Ruta + "' and T0.CreateDate = '"+ fechaFormateada + "'"; // where users.Enable = 0";
 
@@ -766,7 +766,7 @@ namespace Gate.Components.DL
                 try
                 {
 
-                    string Query = "insert into Route(Id, U_NAME,Conditions,ConditionsType,DocNums,Comments,Phone,ShipToCode,Enable,Id_Users,Id_FolioRoute,Id_Clients)\r\nvalue('" + idroute + "', '" + U_NAME + "', '" + Conditions + "', '" + ConditionsType + "','" + DocNums + "','" + Comments + "','" + Phone + "', '" + ShipToCode + "', " + enable + ", '" + Id_Users + "', '" + Id_FolioRoute + "', '" + Id_clients + "')";
+                    string Query = "insert into Route(Id, U_NAME,Conditions,ConditionsType,DocNums,Comments,Phone,ShipToCode,Enable,Id_Users,Id_FolioRoute,Id_Clients)\r\nvalue('" + idroute + "', '" + U_NAME + "', '" + Conditions + "', '" + ConditionsType + "','" + DocNums + "','" + Comments + "','" + Phone + "', '" + ShipToCode + "', '" + enable + "', '" + Id_Users + "', '" + Id_FolioRoute + "', '" + Id_clients + "')";
 
                     MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                     //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -880,7 +880,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    //fechaFormateada = "2024-03-08";
+                    fechaFormateada = "2024-03-08";
 
 
                     //string a = "72193, 72194, 72196";
@@ -905,7 +905,7 @@ namespace Gate.Components.DL
 
                             
 
-                            string Query = "insert into Docnums(Id,DocNum,DocDate,Enable,Id_ClientAddress,SimpleRoute_Status,Code,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "', true ,'" + IdClientAddress + "',false,'"+ code +"','"+ folio +"')";
+                            string Query = "insert into Docnums(Id,DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status,Id_VisitsimpleRoute,Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','"+ false + "','','"+ code +"','','"+ folio +"')";
 
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -925,7 +925,8 @@ namespace Gate.Components.DL
                         foreach (string Order in registros)
                         {
                             IdDocNums = DL.LastIdDocNums() + 1;
-                            string Query = "insert into Docnums(Id,DocNum,DocDate,Enable,Id_ClientAddress,SimpleRoute_Status,Code,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "', true ,'" + IdClientAddress + "',false,'','" + folio + "')";
+                            string Query = "insert into Docnums(Id, DocNum,DocDate,visitStatus,comments,Enable,Id_ClientAddress,SimpleRoute_Status, Id_VisitsimpleRoute, Code,Id_Driver,Id_folioroute)\r\nvalue('" + IdDocNums + "', '" + Order + "', '" + fechaFormateada + "','','','" + true + "','" + IdClientAddress + "','" + false + "','','','','"+folio+"')";
+
                             MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
                             //MySqlDataReader reader = mySqlData.ExecuteReader();
 
@@ -1011,7 +1012,7 @@ namespace Gate.Components.DL
                     if(Docnum == null)
                     {
                         int IdPendingPackages = LastIdPendingPackages() + 1;
-                        string QueryTwo = "insert into pendingpackages(Id, Docnum,Enable,Id_Docnums)\r\nvalue('" + IdPendingPackages + "', '" + Order + "', true ,'" + IdDocNums + "')";
+                        string QueryTwo = "insert into pendingpackages(Id, Docnum,Enable,Id_Docnums)\r\nvalue('" + IdPendingPackages + "', '" + Order + "', '" + true + "','" + IdDocNums + "')";
 
                         MySqlCommand mySqlDataTwo = new MySqlCommand(QueryTwo, conexion);
                         //MySqlDataReader reader = mySqlData.ExecuteReader();
@@ -1499,6 +1500,7 @@ namespace Gate.Components.DL
             return val;
         }
 
+        //Revisar
         public static async Task<string> Drivers()
         {
             string respuesta;
@@ -1598,13 +1600,8 @@ namespace Gate.Components.DL
         //Revisar
         public static async Task<string> Visits()
         {
-            string Orden = "";
-
-            Code C = new Code();
+            Code C= new Code();
             C.Codigo = "";
-
-            VisitsimpleRoutePart visitsimpleRoutePart = new VisitsimpleRoutePart();
-
             string code = "";
 
             string VarU = "";
@@ -1623,9 +1620,9 @@ namespace Gate.Components.DL
             {
                 using (var client = new HttpClient())
                 {
-                    string url = $"https://api.simpliroute.com/v1/routes/visits/?planned_date={fechaFormateada}";
+                    client.BaseAddress = new Uri("https://api.simpliroute.com/v1/routes/visits?planned_date="+ fechaFormateada);
                     client.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Token 8834f564ed5abed860e13f3a6e72ab05150dc557");
-                    var response = client.GetAsync(url).Result;
+                    var response = client.GetAsync("").Result;
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -1638,83 +1635,39 @@ namespace Gate.Components.DL
                         {
                             //Referencia
                             VarU = details.reference;
-                            //VarU = details.reference;
 
                             //Con referencia
                             if (VarU != "")
                             {
                                 string[] registros = VarU.Split(new string[] { ", " }, StringSplitOptions.None);
 
-                                foreach (string order in registros)
+                                foreach (string Order in registros)
                                 {
+                                    Docnums d = DocNumExist(Order);
 
-                                    Orden = FindOrder(order);
+                                    code = d.Code;
 
-                                    if(Orden!= "")
+                                    if(code != "")
                                     {
-                                        Docnums d = DocNumExist(Orden);
+                                        d.VisitStatus = details.status;
+                                        d.Comments = details.notes;
+                                        d.SimpleRoute_Status = true;
+                                        d.Id_VisitsimpleRoute = details.id;
+                                        d.Id_Driver = details.driver;
 
-                                        code = d.Code;
-                                        VarU = d.DocNum;
+                                        Val = EditDocNum(d);
 
-                                        if(VarU != null)
-                                        {
-                                            if (code != "")
-                                            {
 
-                                                if(code == C.Codigo)
-                                                {
-                                                    //Nada
-                                                }
-                                                else
-                                                {
-                                                    d.VisitStatus = details.status;
-                                                    d.Comments = details.notes;
-                                                    d.SimpleRoute_Status = true;
-                                                    d.Id_VisitsimpleRoute = details.id;
-                                                    d.Id_Driver = details.driver;
+                                    }
+                                    else
+                                    {
+                                        d.VisitStatus = details.status;
+                                        d.Comments = details.notes;
+                                        d.SimpleRoute_Status = true;
+                                        d.Id_VisitsimpleRoute = details.id;
+                                        d.Id_Driver = details.driver;
 
-                                                    //Editamos docnum
-                                                    Val = EditDocNum(d);
-
-                                                    C.Codigo = code;
-                                                    code = "";
-
-                                                    //agregamos registro a tabla VisitsimpleRoute
-                                                    visitsimpleRoutePart = new VisitsimpleRoutePart();
-                                                    visitsimpleRoutePart.Id_SimpleRoutevisit = details.id;
-                                                    visitsimpleRoutePart.Id_SimpleRouteRoute = details.route;
-                                                    visitsimpleRoutePart.Id_DriverSimpleRoute = details.driver;
-                                                    visitsimpleRoutePart.Pictures = details.pictures[0];
-                                                    visitsimpleRoutePart.ETime_arrival = details.estimated_time_arrival;
-                                                    visitsimpleRoutePart.ReferenceDocNums = details.reference;
-                                                    AddVisitsimpleRoute(visitsimpleRoutePart);
-                                                }
-
-                                            }
-                                            else
-                                            {
-                                                d.VisitStatus = details.status;
-                                                d.Comments = details.notes;
-                                                d.SimpleRoute_Status = true;
-                                                d.Id_VisitsimpleRoute = details.id;
-                                                d.Id_Driver = details.driver;
-
-                                                //Editamos docnum
-                                                Val = EditDocNum(d);
-
-                                                //agregamos registro a tabla VisitsimpleRoute
-                                                visitsimpleRoutePart = new VisitsimpleRoutePart();
-                                                visitsimpleRoutePart.Id_SimpleRoutevisit = details.id;
-                                                visitsimpleRoutePart.Id_SimpleRouteRoute = details.route;
-                                                visitsimpleRoutePart.Id_DriverSimpleRoute = details.driver;
-                                                visitsimpleRoutePart.Pictures = details.pictures[0];
-                                                visitsimpleRoutePart.ETime_arrival = details.estimated_time_arrival;
-                                                visitsimpleRoutePart.ReferenceDocNums = details.reference;
-                                                AddVisitsimpleRoute(visitsimpleRoutePart);
-                                            }
-                                        }
-
+                                        Val = EditDocNum(d);
                                     }
 
                                     #region comentado
@@ -1736,6 +1689,8 @@ namespace Gate.Components.DL
                                     #endregion
 
                                 }
+
+
 
                             }
                             //Sin referencia
@@ -1775,7 +1730,7 @@ namespace Gate.Components.DL
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
                     string fechaDia = date.ToString("dddd");
 
-                    //fechaFormateada = "2024-03-08";
+                    fechaFormateada = "2024-03-08";
 
 
                     Idsynchronizationlog = DL.LastIdSynchronizationlog() + 1;
@@ -1961,36 +1916,6 @@ namespace Gate.Components.DL
             return lastId;
         }
 
-        public static int LastIdVisitsimpleRoute()
-        {
-            int lastId = 0;
-
-            using (MySqlConnection conexion = OpenConnectionMysql())
-            {
-                try
-                {
-                    // Obtiene el último ID de la tabla 'caca'
-                    string Query = "SELECT MAX(id) as LastID FROM VisitsimpleRoute";
-                    MySqlCommand lastIdCommand = new MySqlCommand(Query, conexion);
-                    //if (lastIdCommand.LastInsertedId == 0)
-                    //{
-                    //    lastId = 1;
-                    //}
-                    //else
-                    //{
-                    lastId = Convert.ToInt32(lastIdCommand.ExecuteScalar());
-                    //}
-
-                }
-                catch (Exception x)
-                {
-                    lastId = 0;
-                }
-                conexion.Close();
-            }
-            return lastId;
-        }
-
         public static void AddDriver(string name, int idsimpleroute)
         {
 
@@ -2032,7 +1957,7 @@ namespace Gate.Components.DL
                     DateTime date = DateTime.Now;
                     string fechaFormateada = date.ToString("yyyy-MM-dd");
 
-                    //fechaFormateada = "2024-03-08";
+                    fechaFormateada = "2024-03-08";
 
 
                     string Query = "SELECT * FROM synchronizationlog T0  where T0.CreateDate = '" + fechaFormateada + "'";
@@ -2063,7 +1988,7 @@ namespace Gate.Components.DL
             {
                 try
                 {
-                    string Query = "SELECT * FROM Docnums T0  where T0.DocNum = '" + Docnum + "' and T0.Enable= '1' and T0.SimpleRoute_Status ='0'"; 
+                    string Query = "SELECT * FROM Docnums T0  where T0.DocNum = '" + Docnum + "'"; 
 
                     MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
 
@@ -2075,15 +2000,14 @@ namespace Gate.Components.DL
                         doc.Id = Convert.ToInt32(row["Id"]);
                         doc.DocNum = Convert.ToString(row["DocNum"]);
                         doc.DocDate = Convert.ToString(row["DocDate"]);
-                        //doc.VisitStatus = Convert.ToString(row["visitStatus"]);
-                        //doc.Comments = Convert.ToString(row["comments"]);
+                        doc.VisitStatus = Convert.ToString(row["visitStatus"]);
+                        doc.Comments = Convert.ToString(row["comments"]);
                         doc.Enable = Convert.ToBoolean(row["Enable"]);
                         doc.Id_ClientAddress = Convert.ToInt32(row["Id_ClientAddress"]);
                         doc.SimpleRoute_Status = Convert.ToBoolean(row["SimpleRoute_Status"]);
-                        //doc.Id_VisitsimpleRoute = Convert.ToInt32(row["Id_VisitsimpleRoute"]);
+                        doc.Id_VisitsimpleRoute = Convert.ToInt32(row["Id_VisitsimpleRoute"]);
                         doc.Code = Convert.ToString(row["Code"]);
-                        //doc.Id_Driver = Convert.ToInt32(row["Id_Driver"]);
-                        doc.Id_folioroute = Convert.ToInt32(row["Id_folioroute"]);
+                        doc.Id_Driver = Convert.ToInt32(row["Id_Driver"]);
 
                     }
                 }
@@ -2111,12 +2035,12 @@ namespace Gate.Components.DL
                                         SimpleRoute_Status = @SimpleRoute_Status,
                                         Id_VisitsimpleRoute = @Id_VisitsimpleRoute,
                                         Id_Driver = @Id_Driver
-                                        WHERE Code = @Code";
+                                        WHERE Id = @Id";
 
                     using (MySqlCommand command = new MySqlCommand(Query, conexion))
                     {
                         // Asignar valores a los parámetros
-                        command.Parameters.AddWithValue("@Code", doc.Code);
+                        command.Parameters.AddWithValue("@Id", doc.Id);
                         command.Parameters.AddWithValue("@visitStatus", doc.VisitStatus);
                         command.Parameters.AddWithValue("@comments", doc.Comments);
                         command.Parameters.AddWithValue("@SimpleRoute_Status", doc.SimpleRoute_Status);
@@ -2343,104 +2267,6 @@ namespace Gate.Components.DL
 
             }
 
-        }
-
-        public static string FindOrder(string Factura)
-        {
-            string Invoice = "";
-            try
-            {
-
-                //Conexion a SAP
-                Globals.Con = new HanaConnection(Settings.Default.HanaConec);
-                Globals.Con.Open();
-
-                string StrSql = "SELECT DISTINCT \r\nT1.\"BaseRef\"\r\n\r\nfrom \r\n "+Settings.Default.Base+".OINV T0\r\nInner join "+Settings.Default.Base+".inv1 T1 on T0.\"DocEntry\"  = T1.\"DocEntry\"\r\n\r\nwhere T0.\"DocNum\" ='" + Factura + "'";
-                Globals.cmd = new HanaCommand(StrSql, Globals.Con);
-                Globals.reader = Globals.cmd.ExecuteReader();
-
-                if (Globals.reader.HasRows)
-                {
-                    while (Globals.reader.Read())
-                    {
-                        Invoice= Globals.reader.GetString(0);
-                    }
-                }
-                Globals.reader.Close();
-                Globals.Con.Close();
-            }
-            catch (Exception t)
-            {
-                string caca = t.ToString();
-            }
-            return Invoice;
-        }
-
-        public static void AddVisitsimpleRoute(VisitsimpleRoutePart part)
-        {
-
-            int IdVisitsimpleRoute;
-
-            using (MySqlConnection conexion = OpenConnectionMysql())
-            {
-                try
-                {
-                    DateTime date = DateTime.Now;
-                    string fechaFormateada = date.ToString("yyyy-MM-dd");
-                    string fechaDia = date.ToString("dddd");
-
-                    //fechaFormateada = "2024-03-08";
-
-                    int Id_driver = GetIdDriver(part.Id_DriverSimpleRoute);
-
-
-                    IdVisitsimpleRoute = DL.LastIdVisitsimpleRoute() + 1;
-                    string Query = "insert into visitsimpleroute(Id, Id_SimpleRoutevisit, Id_SimpleRouteRoute, Id_drivers, Id_DriverSimpleRoute, Pictures, Date, ETime_arrival, ReferenceDocNums)\r\nvalue('" + IdVisitsimpleRoute + "', '" + part.Id_SimpleRoutevisit + "', '" + part.Id_SimpleRouteRoute + "','"+ Id_driver + "', '" + part.Id_DriverSimpleRoute + "', '"+ part.Pictures +"','"+ fechaFormateada +"', '"+ part.ETime_arrival + "','"+ part.ReferenceDocNums + "')";
-
-                    MySqlCommand mySqlData = new MySqlCommand(Query, conexion);
-                    //MySqlDataReader reader = mySqlData.ExecuteReader();
-
-                    int rowsAffected = mySqlData.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-                    }
-
-                }
-                catch (Exception x)
-                {
-                }
-                conexion.Close();
-            }
-
-        }
-
-        public static int GetIdDriver(decimal IdDriverSimpleRoute)
-        {
-            int val = 0;
-
-            using (MySqlConnection conexion = OpenConnectionMysql())
-            {
-                try
-                {
-                    string Query = "SELECT T0.Id FROM drivers T0  where T0.Id_SimpleRoute = '" + IdDriverSimpleRoute + "'";
-
-                    MySqlDataAdapter mySqlData = new MySqlDataAdapter(Query, conexion);
-
-                    DataTable data = new DataTable();
-                    mySqlData.Fill(data);
-
-                    foreach (DataRow row in data.Rows)
-                    {
-                        val = Convert.ToInt32(row["Id"]);
-                    }
-                }
-                catch (Exception x)
-                {
-                }
-                conexion.Close();
-            }
-            return val;
         }
     }
 }

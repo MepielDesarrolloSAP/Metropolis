@@ -18,7 +18,7 @@ namespace Gate.Clases
         public int Id_VisitsimpleRoute { get; set; }
         public string Code { get; set; }
         public int Id_Driver { get; set; }
-        public int Id_folioroute { get; set; }
+
 
     }
 }
