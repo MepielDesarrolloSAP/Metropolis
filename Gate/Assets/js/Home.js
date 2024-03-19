@@ -4,7 +4,7 @@ var UsersMenu = document.getElementById('UsersMenu');
 
 var AddressMenu = document.getElementById('AddressMenu');
 
-var SRMenu = document.getElementById('SRMenu');
+// var SRMenu = document.getElementById('SRMenu');
 
 var route = "sin ruta";
 
@@ -28,10 +28,10 @@ const LogOut = () => {
 
 const Users = () => {
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#3a57e8";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#6c757d";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#3a57e8";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#6c757d";
 
 
     //console.log("Usuarios");
@@ -70,10 +70,10 @@ const Users = () => {
 
 const Address = () => {
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#3a57e8";
-    SRMenu.style.color = "#6c757d";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#3a57e8";
+    // SRMenu.style.color = "#6c757d";
 
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
@@ -113,10 +113,10 @@ const RouteMCDMX = () => {
 
     route = "R3";
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -167,10 +167,10 @@ const RouteTCDMX = () => {
 
     route = "R4";
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -220,10 +220,10 @@ const RouteMGDL = () => {
 
     route = "R1";
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -273,10 +273,10 @@ const RouteTGDL = () => {
 
     route = "R2";
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -324,10 +324,10 @@ const RouteTGDL = () => {
 
 const generatedRouteMCDMX = () => {
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -385,10 +385,10 @@ const generatedRouteMCDMX = () => {
 
 const generatedRouteTCDMX = () => {
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -446,10 +446,10 @@ const generatedRouteTCDMX = () => {
 
 const generatedRouteMGDL = () => {
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -507,10 +507,10 @@ const generatedRouteMGDL = () => {
 
 const generatedRouteTGDL = () => {
 
-    StartMenu.style.color = "#6c757d";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#3a57e8";
+    // StartMenu.style.color = "#6c757d";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#3a57e8";
 
     document.getElementById('CuerpoGeneral').style.display = 'none';
     document.getElementById('btonUseradd').style.display = 'none';
@@ -567,10 +567,10 @@ const generatedRouteTGDL = () => {
 
 const Start = () => {
 
-    StartMenu.style.color = "#3a57e8";
-    UsersMenu.style.color = "#6c757d";
-    AddressMenu.style.color = "#6c757d";
-    SRMenu.style.color = "#6c757d";
+    // StartMenu.style.color = "#3a57e8";
+    // UsersMenu.style.color = "#6c757d";
+    // AddressMenu.style.color = "#6c757d";
+    // SRMenu.style.color = "#6c757d";
 
     /*console.log("Inicio");*/
 
@@ -661,7 +661,7 @@ window.operateEventsOne = {
 window.operateEventsTwo = {
 
     'click .Edit': function (e, value, row, index) {
-
+        console.log("editState", row);
         $('#ModaEditAddres').modal('show')
 
         document.getElementById("IDAddresEdit").value = row.Id;
@@ -671,7 +671,15 @@ window.operateEventsTwo = {
         document.getElementById("CPEdit").value = row.CP;
         document.getElementById("ColonyEdit").value = row.Colony;
         document.getElementById("CityEdit").value = row.City;
-        document.getElementById("CountryEdit").value = row.Country;
+        document.getElementById("StateEdit").value = row.State;
+
+        //Dar valor al Select
+        // let selectStateEdit = document.getElementById("StateEdit");
+        // var option = document.createElement('StateEdit');
+        // option.text = row.State;
+        // option.value = row.State;
+        // selectStateEdit.add(option);
+       
 
         if (row.Enable == true) {
             document.getElementById("EnableEditAddres").value = "True";
@@ -686,8 +694,10 @@ window.operateEventsTwo = {
     },
 
     'click .Disable': function (e, value, row, index) {
-
-        DisableAddress(row.Id);
+        console.log(row.Id);
+        // DisableAddress(row.Id);
+        document.getElementById('DeleteAddressId').value = row.Id;
+        ShowModalDeleteAddress();
 
     }
 
@@ -758,6 +768,9 @@ function optionsUserAddress(value, row, index) {
 window.operateEventUserAddress = { 
 };
 
+window.operateEventsAddressEnable = { 
+};
+
 function Opciones(value, row, index) {
     console.log('valor',row.Enable == true);
     return [
@@ -768,7 +781,7 @@ function Opciones(value, row, index) {
                 </a>`,
         `<a class="Borrar" href="javascript:void(0)" ${row.Enable ? "" : "hidden"} title="Desactivar Usuario" >
                     `,
-        `<i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#236ddb;"></i>`,
+        `<i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#C70039;"></i>`,
         `
                 </a>`,
 
@@ -783,9 +796,9 @@ function Options(value, row, index) {
         `<i class='fa fa-edit' style="font-size: 20px; margin:5px; color:#236ddb;"></i>`,
         `
                 </a>`,
-        `<a class="Disable" href="javascript:void(0)"  title="desabilitar direccion" >
+        `<a class="Disable" href="javascript:void(0)" ${row.Enable ? "" : "hidden"} title="Deshabilitar direccion" >
                     `,
-        `<i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#236ddb;"></i>`,
+        `<i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#C70039;"></i>`,
         `
                 </a>`,
 
@@ -796,11 +809,11 @@ function Options(value, row, index) {
 function OptionsOne(value, row, index) {
     return [
         
-        `<a class="Edit" href="javascript:void(0)" title="editar línea" data-index="${index}">
+        `<a class="Edit" href="javascript:void(0)" title="Editar OV" data-index="${index}">
             <i class='fa fa-edit' style="font-size: 20px; margin:5px; color:#236ddb;"></i>
         </a>`,
-        `<a class="Disable" href="javascript:void(0)" title="eliminar línea" data-index="${index}">
-            <i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#236ddb;"></i>
+        `<a class="Disable" href="javascript:void(0)" title="Eliminar OV" data-index="${index}">
+            <i class='fa fa-remove' style="font-size: 20px; margin:5px; color:#C70039;"></i>
         </a>`,
     ].join('');
 }
@@ -817,6 +830,19 @@ function OptionsTwo(value, row, index) {
 
     ].join('')
 
+}
+
+function AddressEnableOptions(value, row, index) {
+
+    if(value){
+        return [
+            ` <h5> <span class="badge rounded-pill text-bg-success">Habilitado</span> </h5>`,  
+        ].join('') 
+    }else{
+        return [
+            ` <h5> <span class="badge rounded-pill text-bg-danger">Deshabilitado</span> </h5>`,  
+        ].join('') 
+    }
 }
 
 const ShowRoute = (row) => {
@@ -914,14 +940,16 @@ function CloseModalAddUser() {
 function ShowModalAddAddress() {
 
     $('#ModalAddAddress').modal('show')
+    //Resetear el formulario para agregar una dirección
+    resetFormAddAddress();
+
     document.getElementById("NameAddress").value = "";
     document.getElementById("Street").value = "";
     document.getElementById("Ext").value = "";
     document.getElementById("CP").value = "";
     document.getElementById("Colony").value = "";
     document.getElementById("City").value = "";
-    document.getElementById("Country").value = "";
-
+     
 }
 
 function CloseModalAddAddress() {
@@ -929,9 +957,17 @@ function CloseModalAddAddress() {
     $('#ModalAddAddress').modal('hide')
 
 }
+ 
+function closeModalDeleteAddress(){
+    $('#ModalDeleteAddress').modal('hide')
+}
 
 function ShowModalDeleteRoute() {
     $('#ModalDeleteRoute').modal('show')
+}
+
+function ShowModalDeleteAddress() {
+    $('#ModalDeleteAddress').modal('show');
 }
 
 function CloseModalDeleteRoute() {
@@ -1258,31 +1294,33 @@ const DeleteUser = (Id) => {
     });
 }
 
-const DisableAddress = (Id) => {
-
+const DisableAddress = () => {
+    let Id = document.getElementById('DeleteAddressId').value;
     $.ajax({
-
         url: '/Home/DisableAddress',
         data: JSON.stringify({ Id: Id }),
         dataType: "json",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
-
-            if (data1 == true) {
-
+            if (data1 == true) {  
                 $.ajax({
-
-                    url: '/Home/Adress',
+                    url: '/Home/Address',
                     //data: JSON.stringify({ UsuarioPar: usr, PswPar: pwd }),
                     dataType: "json",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (data1) {
+                        
+                        // Esconder el modal
+                        closeModalDeleteAddress();
+                        // Mandar alerta de e fue exitoso
+                        myMessage('success', 'Se ha desactivo correctamente la dirección');
 
-                        //$('#Data-Usuarios').bootstrapTable({ data: data1 })
+                        // Refrescar la tabla con los nuevos valores
                         $('#Data-Adress').bootstrapTable('refreshOptions', { data: data1 })
-
+                        // Mandar alerta de que la direccion se desactivo
+                        myMessage("success", "Se ha desactivado correctamente la direccion");
                     }
 
                 });
@@ -1290,24 +1328,7 @@ const DisableAddress = (Id) => {
             }
 
             else {
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'error',
-                    title: 'No se pudo Eliminar el usuario',
-                    text: ""
-                })
-
+                myMessage("error", "Ocurrio un error al momento de desactivar una dirección");
             }
 
         }
@@ -1316,29 +1337,37 @@ const DisableAddress = (Id) => {
 
 const AddAddress = () => {
 
-    const NameAddress = document.getElementById('NameAddress').value;
-    const Street = document.getElementById('Street').value;
-    const Ext = document.getElementById('Ext').value;
-    const CP = document.getElementById('CP').value;
-    const Colony = document.getElementById('Colony').value;
-    const City = document.getElementById('City').value;
-    const Country = document.getElementById('Country').value;
+    const NameAddress = document.getElementById('NameAddress').value.trim();
+    const Street = document.getElementById('Street').value.trim();
+    const Ext = document.getElementById('Ext').value.trim();
+    const CP = document.getElementById('CP').value.trim();
+    const Colony = document.getElementById('Colony').value.trim();
+    const City = document.getElementById('City').value.trim();
+    const State = document.getElementById('State').value.trim();
+   
+    // Restablecer formulario 
+    resetFormAddAddress();
+ 
+    if (NameAddress == "" || Street == "" || Ext == "" || CP == "" || Colony == "" || City == "" || State == "") {
 
-    if (NameAddress == "" || Street == "" || Ext == "" || CP == "" || Colony == "" || City == "" || Country == "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Es nesesario llenar todos los campos',
-            text: '',
-
-        })
+        //Verificar que los campos no esten vacios y que sea un correo valido 
+        myMessage('info', 'Favor de completar el formulario')
+        // debugger
+        if(NameAddress == null || NameAddress == "") invalidFeedbackForm('NameAddress', 'invalidFeedback-Form-AddAddress-NameAddress', 'Por favor, ingresar un nombre para la dirección.'); 
+        if(Street == null || Street == "") invalidFeedbackForm('Street', 'invalidFeedback-Form-AddAddress-Street', 'Por favor, ingresar la calle.'); 
+        if(Ext == null || Ext == "") invalidFeedbackForm('Ext', 'invalidFeedback-Form-AddAddress-Ext', 'Por favor, ingresar un nombre el numero exterior.');   
+        if(CP == null || CP == '') invalidFeedbackForm('CP', 'invalidFeedback-Form-AddAddress-CP', 'Por favor, ingresar el código postal.');
+        if(Colony == null || Colony == '') invalidFeedbackForm('Colony', 'invalidFeedback-Form-AddAddress-Colony', 'Por favor, ingresar la colonia.'); 
+        if(City == null || City == '') invalidFeedbackForm('City', 'invalidFeedback-Form-AddAddress-City', 'Por favor, ingresar la ciudad.');  
+        
         return
-    }
+    } 
 
     $.ajax({
 
         url: '/Home/AddAddress',
         data: JSON.stringify({
-            NameAddress: NameAddress, Street: Street, Ext: Ext, CP: CP, Colony: Colony, City: City, Country: Country
+            NameAddress: NameAddress, Street: Street, Ext: Ext, CP: CP, Colony: Colony, City: City, State: State
         }),
         dataType: "json",
         type: "POST",
@@ -1357,56 +1386,19 @@ const AddAddress = () => {
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (data1) {
-
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registro guardado',
-                            text: ""
-                        })
+  
+                        myMessage('success','Se ha creado correctamente la dirección')
 
                         //$('#Data-Usuarios').bootstrapTable({ data: data1 })
                         $('#Data-Adress').bootstrapTable('refreshOptions', { data: data1 })
                         CloseModalAddAddress();
                     }
 
-                });
-
-                //$('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 })
+                }); 
 
             }
             else {
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'error',
-                    title: 'No se pudo agregar el usuario',
-                    text: ""
-                })
-
-                //$('#Data-Usuarios').bootstrapTable('refreshOptions', { data: data1 })
-                //CerrarModales();
-
+                myMessage('error', "Ocurrio un error al tratar de crear la dirección");
             }
 
 
@@ -1416,43 +1408,41 @@ const AddAddress = () => {
 
 const EditAddress = () => {
 
-    const IDAddresEdit = document.getElementById('IDAddresEdit').value;
-    const NameAddressEdit = document.getElementById('NameAddressEdit').value;
-    const StreetEdit = document.getElementById('StreetEdit').value;
-    const ExtEdit = document.getElementById('ExtEdit').value;
-    const CPEdit = document.getElementById('CPEdit').value;
-    const ColonyEdit = document.getElementById('ColonyEdit').value;
-    const CityEdit = document.getElementById('CityEdit').value;
-    const CountryEdit = document.getElementById('CountryEdit').value;
-    const EnableEdit = document.getElementById('EnableEdit').value;
+    const IDAddresEdit = document.getElementById('IDAddresEdit').value.trim();
+    const NameAddressEdit = document.getElementById('NameAddressEdit').value.trim();
+    const StreetEdit = document.getElementById('StreetEdit').value.trim();
+    const ExtEdit = document.getElementById('ExtEdit').value.trim();
+    const CPEdit = document.getElementById('CPEdit').value.trim();
+    const ColonyEdit = document.getElementById('ColonyEdit').value.trim();
+    const CityEdit = document.getElementById('CityEdit').value.trim();
+    const StateEdit = document.getElementById('StateEdit').value.trim();
+    const EnableEditAddres = document.getElementById('EnableEditAddres').value.trim();
+   
 
-    if (NameAddressEdit == "" || StreetEdit == "" || ExtEdit == "" || CPEdit == "" || ColonyEdit == "" || CityEdit == "" || CountryEdit == "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Es nesesario llenar todos los campos',
-            text: '',
+    // Restablecer formulario 
+    resetFormEditAddress();
+ 
+    if (NameAddressEdit == "" || StreetEdit == "" || ExtEdit == "" || CP == "" || ColonyEdit == "" || CityEdit == "" || StateEdit == "") {
 
-        })
+        //Verificar que los campos no esten vacios y que sea un correo valido 
+        myMessage('info', 'Favor de completar el formulario')
+        // debugger
+        if(NameAddressEdit == null || NameAddressEdit == "") invalidFeedbackForm('NameAddressEdit', 'invalidFeedback-Form-EditAddress-NameAddressEdit', 'Por favor, ingresar un nombre para la dirección.'); 
+        if(StreetEdit == null || StreetEdit == "") invalidFeedbackForm('StreetEdit', 'invalidFeedback-Form-EditAddress-StreetEdit', 'Por favor, ingresar la calle.'); 
+        if(ExtEdit == null || ExtEdit == "") invalidFeedbackForm('ExtEdit', 'invalidFeedback-Form-EditAddress-ExtEdit', 'Por favor, ingresar un nombre el numero exterior.');   
+        if(CPEdit == null || CPEdit == '') invalidFeedbackForm('CPEdit', 'invalidFeedback-Form-EditAddress-CPEdit', 'Por favor, ingresar el código postal.');
+        if(ColonyEdit == null || ColonyEdit == '') invalidFeedbackForm('ColonyEdit', 'invalidFeedback-Form-EditAddress-ColonyEdit', 'Por favor, ingresar la colonia.'); 
+        if(CityEdit == null || CityEdit == '') invalidFeedbackForm('CityEdit', 'invalidFeedback-Form-EditAddress-CityEdit', 'Por favor, ingresar la ciudad.');  
+        
         return
-    }
-
-    //console.log(IdEdit)
-    //console.log(NameEdit)
-    //console.log(LastnameEdit)
-    //console.log(UsernameEdit)
-    //console.log(PasswordEdit)
-    //console.log(EmailEdit)
-    //console.log(PhoneEdit)
-    //console.log(EnableEdit)
-    //console.log(Id_RoleEdit)
-    //console.log(ChooseAddresEdit)
-    //return  
-
+    } 
+ 
+ 
     $.ajax({
 
         url: '/Home/EditAddress',
         data: JSON.stringify({
-            IDAddresEdit: IDAddresEdit, NameAddressEdit: NameAddressEdit, StreetEdit: StreetEdit, ExtEdit: ExtEdit, CPEdit: CPEdit, ColonyEdit: ColonyEdit, CityEdit: CityEdit, CountryEdit: CountryEdit, EnableEdit: EnableEdit
+            IDAddresEdit: IDAddresEdit, NameAddressEdit: NameAddressEdit, StreetEdit: StreetEdit, ExtEdit: ExtEdit, CPEdit: CPEdit, ColonyEdit: ColonyEdit, CityEdit: CityEdit, StateEdit: StateEdit, EnableEdit: EnableEditAddres
         }),
         dataType: "json",
         type: "POST",
@@ -1470,7 +1460,8 @@ const EditAddress = () => {
                     contentType: "application/json; charset=utf-8",
                     success: function (data1) {
 
-
+                        //Mensaje de que se actualizo correctamente la direccion
+                        myMessage('success','Se ha editado correctamente la dirección')
                         //$('#Data-Usuarios').bootstrapTable({ data: data1 })
                         $('#Data-Adress').bootstrapTable('refreshOptions', { data: data1 })
                         CloseModalEditAddress();
@@ -1506,18 +1497,18 @@ const EditAddress = () => {
 
 const EditRoute = () => {
 
-    const IDRouteEdit = document.getElementById('IDRouteEdit').value;
-    const ShipToCodeRouteEdit = document.getElementById('ShipToCodeRouteEdit').value;
-    const CardNameRouteEdit = document.getElementById('CardNameRouteEdit').value;
-    const StreetRouteEdit = document.getElementById('StreetRouteEdit').value;
-    const BlockRouteEdit = document.getElementById('BlockRouteEdit').value;
-    const ZipCodeRouteEdit = document.getElementById('ZipCodeRouteEdit').value;
-    const CityRouteEdit = document.getElementById('CityRouteEdit').value;
-    const U_NAMERouteEdit = document.getElementById('U_NAMERouteEdit').value;
-    const ConditionRouteEdit = document.getElementById('ConditionRouteEdit').value;
-    const DocNumsRouteEdit = document.getElementById('DocNumsRouteEdit').value;
-    const CommentsRouteEdit = document.getElementById('CommentsRouteEdit').value;
-    const PhoneRouteEdit = document.getElementById('PhoneRouteEdit').value;
+    const IDRouteEdit = document.getElementById('IDRouteEdit').value.trim();
+    const ShipToCodeRouteEdit = document.getElementById('ShipToCodeRouteEdit').value.trim();
+    const CardNameRouteEdit = document.getElementById('CardNameRouteEdit').value.trim();
+    const StreetRouteEdit = document.getElementById('StreetRouteEdit').value.trim();
+    const BlockRouteEdit = document.getElementById('BlockRouteEdit').value.trim();
+    const ZipCodeRouteEdit = document.getElementById('ZipCodeRouteEdit').value.trim();
+    const CityRouteEdit = document.getElementById('CityRouteEdit').value.trim();
+    const U_NAMERouteEdit = document.getElementById('U_NAMERouteEdit').value.trim();
+    const ConditionRouteEdit = document.getElementById('ConditionRouteEdit').value.trim();
+    const DocNumsRouteEdit = document.getElementById('DocNumsRouteEdit').value.trim();
+    const CommentsRouteEdit = document.getElementById('CommentsRouteEdit').value.trim();
+    const PhoneRouteEdit = document.getElementById('PhoneRouteEdit').value.trim();
 
     // Buscar si ya existe una fila con el mismo ID
     var table = document.getElementById('Data-Route');
@@ -1851,18 +1842,18 @@ const SaveRoute = () => {
 
 }
 
-document.getElementById('toggle-multiple-collapse').addEventListener('click', function () {
-    var sidebarAuth1 = document.getElementById('sidebar-auth');
-    var sidebarAuth2 = document.getElementById('sidebar-auth2');
+// document.getElementById('toggle-multiple-collapse').addEventListener('click', function () {
+//     var sidebarAuth1 = document.getElementById('sidebar-auth');
+//     var sidebarAuth2 = document.getElementById('sidebar-auth2');
 
-    if (sidebarAuth1.classList.contains('show') || sidebarAuth2.classList.contains('show')) {
-        sidebarAuth1.classList.remove('show');
-        sidebarAuth2.classList.remove('show');
-    } else {
-        sidebarAuth1.classList.add('show');
-        sidebarAuth2.classList.add('show');
-    }
-});
+//     if (sidebarAuth1.classList.contains('show') || sidebarAuth2.classList.contains('show')) {
+//         sidebarAuth1.classList.remove('show');
+//         sidebarAuth2.classList.remove('show');
+//     } else {
+//         sidebarAuth1.classList.add('show');
+//         sidebarAuth2.classList.add('show');
+//     }
+// });
 
 const CleanSelect = (select_id) => { 
 
@@ -1912,9 +1903,7 @@ const myMessage = (icon, title) => {
 }
 
 const invalidFeedbackForm = (id, feedback_id, feedbackText) => {
-
-    console.log(id);
-    console.log(feedback_id);
+ 
     var input = document.getElementById(id);
     var invalidFeedback = document.getElementById(feedback_id);
  
@@ -1985,6 +1974,32 @@ const resetFormAddOv = () => {
     document.getElementById("DocNumsAddOv").classList.remove('is-invalid');
     document.getElementById("CommentsAddOv").classList.remove('is-invalid');
     document.getElementById("PhoneAddOv").classList.remove('is-invalid');
+
+}
+
+const resetFormAddAddress = () => {
+
+    document.getElementById("NameAddress").classList.remove('is-invalid');
+    document.getElementById("Street").classList.remove('is-invalid');
+    document.getElementById("Ext").classList.remove('is-invalid');
+    document.getElementById("CP").classList.remove('is-invalid');
+    document.getElementById("Colony").classList.remove('is-invalid');
+    document.getElementById("City").classList.remove('is-invalid');
+    document.getElementById("State").classList.remove('is-invalid');
+     
+}
+
+const resetFormEditAddress = () => {
+
+    document.getElementById('IDAddresEdit').classList.remove('is-invalid');
+    document.getElementById('NameAddressEdit').classList.remove('is-invalid');
+    document.getElementById('StreetEdit').classList.remove('is-invalid');
+    document.getElementById('ExtEdit').classList.remove('is-invalid');
+    document.getElementById('CPEdit').classList.remove('is-invalid');
+    document.getElementById('ColonyEdit').classList.remove('is-invalid');
+    document.getElementById('CityEdit').classList.remove('is-invalid');
+    document.getElementById('StateEdit').classList.remove('is-invalid');
+    document.getElementById('EnableEdit').classList.remove('is-invalid');
 
 }
 

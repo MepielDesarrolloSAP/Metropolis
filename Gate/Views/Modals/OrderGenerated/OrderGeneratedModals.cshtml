@@ -1,0 +1,91 @@
+﻿  <!-- Large modal mostrar ruta-->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="ModalshowRoute" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="card mb-4" id="Route">
+
+                    <div class="card-body " style=" width:100%;" id="DivShowRoute">
+
+                        <div @*class="table-responsive"*@>
+
+                            <table class="table "
+                                   id="Data-ShowRoute"
+                                   data-locale="es-MX"
+                                   data-search="true"
+                                   data-show-fullscreen="true"
+                                   data-show-columns="true"
+                                   @*data-toolbar="#buttonsRoute"*@
+                                   data-show-export="true"
+                                   data-show-pagination-switch="true"
+                                   @*data-show-refresh="true"*@
+                                   data-show-toggle="true"
+                                   data-show-columns-toggle-all="true"
+                                   @*data-detail-view="true"*@
+                                   @*data-id-field="id"*@
+                                   @*data-click-to-select="true"*@
+                                   @*data-detail-formatter="detailFormatter"*@
+                                   @*data-minimum-count-columns="3"*@
+                                   data-pagination="true"
+                                   data-page-list="[10, 25, 50, 100, all]"
+                                   @*data-show-footer="true"*@
+                                   @*data-side-pagination="server"*@
+                                   @*data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"*@
+                                   @*data-response-handler="responseHandler"*@>
+
+                                <thead>
+                                    <tr>
+                                        <th data-field="Id" class="text-center" style="width:150px;">
+                                            ID
+                                        </th>
+                                        <th data-field="ShipToCode" class="text-center" style="width:150px;">
+                                            CODIGO DE DESTINO
+                                        </th>
+                                        <th data-field="CardName" class="text-center" style="width:150px;">
+                                            NOMBRE DEL CLIENTE
+                                        </th>
+                                        <th data-field="Street" class="text-center" style="width:150px;">
+                                            DIRECCION
+                                        </th>
+                                        <th data-field="Block" class="text-center" style="width: 150px" ; scope="col">
+                                            COLONIA
+                                        </th>
+                                        <th data-field="ZipCode" class="text-center" style="width: 150px; ">
+                                            C.P.
+                                        </th>
+                                        <th data-field="City" class="text-center" style="width: 150px; ">
+                                            CIUDAD
+                                        </th>
+                                        <th data-field="U_NAME" class="text-center" style="width: 150px; ">
+                                            EJECUTIVA(O)
+                                        </th>
+                                        <th data-field="Condition" class="text-center" style="width: 150px; ">
+                                            CONDICION DE PAGO
+                                        </th>
+                                        <th data-field="DocNums" class="text-center" style="width: 150px; ">
+                                            CANTIDAD DE OV
+                                        </th>
+                                        <th data-field="Comments" class="text-center" style="width: 150px; ">
+                                            COMENTARIOS
+                                        </th>
+                                        <th data-field="Phone" class="text-center" style="width: 150px; ">
+                                            TELEFONO DE CONTACTO
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalShowRoute()" id="CloseMSR">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
