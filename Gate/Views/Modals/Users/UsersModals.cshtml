@@ -1,0 +1,249 @@
+﻿@*Modal crear Usuario*@
+<div class="modal fade" id="ModalAddUser" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: center; align-items: center; display: flex; ">
+                <h5 class="modal-title" style=" font-size: 20px; color: #236ddb; ">Informacion del usuario </h5>
+            </div>
+            <div class="modal-body" id="DivAddUser">
+                <form>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Name">Nombre(s)</label>
+                                <input type="text" class="form-control" id="Name" placeholder="Ingrese nombre" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Name" class="invalid-feedback">
+                                    Por favor, ingresar un nombre(s).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Lastname">Apellido(s)</label>
+                                <input type="text" class="form-control" id="Lastname" placeholder="Ingrese apellido" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Lastname" class="invalid-feedback">
+                                    Por favor, ingresar el apellido(s).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Username">Nombre del Usuario</label>
+                                <input type="text" class="form-control" id="Username" placeholder="Ingrese nombre del usuario" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Username" class="invalid-feedback">
+                                    Por favor, ingresar un nombre de usuario.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Password">Contraseña</label>
+                                <input type="password" class="form-control" id="Password" placeholder="Ingrese contraseña" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Password" class="invalid-feedback">
+                                    Por favor, ingresar una contraseña.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Check para mostrar Contraseña *@
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="checkshowpasswordAdduser" onchange="CheckShowPassword()">
+                        <label class="form-check-label" for="checkshowpasswordAdduser">Mostrar contraseña</label>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Email">Correo</label>
+                                <input type="email" class="form-control" id="Email" placeholder="Ingrese correo" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Email" class="invalid-feedback">
+                                    Por favor, ingresar un correo.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Phone">Celular</label>
+                                <input type="number" class="form-control" id="Phone" placeholder="Ingrese numero de telefono" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddUser-Phone" class="invalid-feedback">
+                                    Por favor, ingresar un numero de telefono.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Role">Rol</label>
+                                <select id="Id_Role" class="form-control" style="margin-bottom: 10px;">
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Almacén</option>
+                                    <option value="2">Ventas</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ChooseAddres">Dirección</label>
+                                <select id="ChooseAddres" class="form-control" style="margin-bottom: 10px;">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalAddUser()" id="CloseMA">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="AddUser()" id="AddUser">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal Editar Usuario*@
+<div class="modal fade" id="ModaEditUser" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: center; align-items: center; display: flex; ">
+                <h5 class="modal-title" style=" font-size: 20px; color: #236ddb; ">Editar usuario </h5>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <label for="IdEdit" hidden>Id</label>
+                        <input type="text" class="form-control" id="IdEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" hidden>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="NameEdit">Nombre(s)</label>
+                                <input type="text" class="form-control" id="NameEdit" placeholder="Ingrese nombre" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-NameEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="LastnameEdit">Apellidos(s)</label>
+                                <input type="text" class="form-control" id="LastnameEdit" placeholder="Ingrese apellido" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-LastnameEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="UsernameEdit">Nombre de usuario</label>
+                                <input type="text" class="form-control" id="UsernameEdit" placeholder="Ingrese nombre de usuario" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-UsernameEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="PasswordEdit">Contraseña</label>
+                                <input type="password" class="form-control" id="PasswordEdit" placeholder="Ingrese contraseña" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-PasswordEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="EmailEdit">Correo</label>
+                                <input type="email" class="form-control" id="EmailEdit" placeholder="Ingrese correo" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-EmailEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="PhoneEdit">Celular</label>
+                                <input type="number" class="form-control" id="PhoneEdit" placeholder="Ingrese celular" style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditUser-PhoneEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="EnableEdit">Estado</label>
+                                <select id="EnableEdit" class="form-control" style="margin-bottom: 10px;">
+                                    <option value="True"> Activo</option>
+                                    <option value="False"> Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_RoleEdit">Rol</label>
+                                <select id="Id_RoleEdit" class="form-control" style="margin-bottom: 10px;">
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Almacén</option>
+                                    <option value="2">Ventas</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ChooseAddresEdit">Dirección</label>
+                        <select id="ChooseAddresEdit" class="form-control" style="margin-bottom: 10px;">
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalEditUser()" id="CloseME">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="EditUser()" id="EditU">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal Eliminar Usuario *@
+<div class="modal fade" id="ModalDeleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input id="DeleteUserId" type="text" hidden>
+                <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas desactivar el usuario seleccionado?</h5>
+                @* <button class="close" type="button" data-dismiss="modal" aria-label="Close" onclick="closeModalDeleteUser()">
+                        <span aria-hidden="true">×</span>
+                    </button> *@
+            </div>
+            <div class="modal-body">Seleccione "Sí, desactivar" a continuación si desea dar de baja el usuario</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="closeModalDeleteUser()">Cerrar</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="DisableUser()">Sí, desactivar</button>
+            </div>
+        </div>
+    </div>
+</div>

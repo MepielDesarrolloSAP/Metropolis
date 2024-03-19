@@ -1,0 +1,275 @@
+﻿ 
+@*Modal crear Direccion*@
+<div class="modal fade" id="ModalAddAddress" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: center; align-items: center; display: flex; ">
+                <h5 class="modal-title" style=" font-size: 20px; color: #236ddb; "> Informacion de la direccion </h5>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="NameAddress">Nombre de la dirección</label>
+                                <input type="text" class="form-control" id="NameAddress" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddAddress-NameAddress" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Street">Calle</label>
+                                <input type="text" class="form-control" id="Street" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddAddress-Street" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Ext">N° Exterior</label>
+                                <input type="text" class="form-control" id="Ext" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddAddress-Ext" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="CP">Código postal</label>
+                                <input type="text" class="form-control" id="CP" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddAddress-CP" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Colony">Colonia</label>
+                                <input type="text" class="form-control" id="Colony" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddAddress-Colony" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='col'>
+                            <div class="form-group">
+                                <label for="City">Ciudad</label>
+                                <input type="text" class="form-control" id="City" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-AddAddress-City" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="State">Estado</label>
+                        <select id="State" class="form-control" style="margin-bottom: 10px;">
+                            <option value="Aguascalientes"> Aguascalientes</option>
+                            <option value="Baja California"> Baja California</option>
+                            <option value="Baja California Sur"> Baja California Sur</option>
+                            <option value="Campeche"> Campeche</option>
+                            <option value="Chiapas"> Chiapas</option>
+                            <option value="Chihuahua"> Chihuahua</option>
+                            <option value="Ciudad de México"> Ciudad de México</option>
+                            <option value="Coahuila"> Coahuila</option>
+                            <option value="Colima"> Colima</option>
+                            <option value="Durango"> Durango</option>
+                            <option value="Estado de México"> Estado de México</option>
+                            <option value="Guanajuato"> Guanajuato</option>
+                            <option value="Guerrero"> Guerrero</option>
+                            <option value="Hidalgo"> Hidalgo</option>
+                            <option value="Jalisco"> Jalisco</option>
+                            <option value="Michoacán"> Michoacán</option>
+                            <option value="Morelos"> Morelos</option>
+                            <option value="Nayarit"> Nayarit</option>
+                            <option value="Nuevo León"> Nuevo León</option>
+                            <option value="Oaxaca"> Oaxaca</option>
+                            <option value="Puebla"> Puebla</option>
+                            <option value="Querétaro"> Querétaro</option>
+                            <option value="Quintana Roo"> Quintana Roo</option>
+                            <option value="San Luis Potosí"> San Luis Potosí</option>
+                            <option value="Sinaloa"> Sinaloa</option>
+                            <option value="Sonora"> Sonora</option>
+                            <option value="Tabasco"> Tabasco</option>
+                            <option value="Tamaulipas"> Tamaulipas</option>
+                            <option value="Tlaxcala"> Tlaxcala</option>
+                            <option value="Veracruz"> Veracruz</option>
+                            <option value="Yucatán"> Yucatán</option>
+                            <option value="Zacatecas"> Zacatecas</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalAddAddress()" id="CloseMAA">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="AddAddress()" id="AddAddress">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ @* Modal Deshabilitar Dirección *@
+<div class="modal fade" id="ModalDeleteAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input id="DeleteAddressId" type="text" hidden>
+                <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas desactivar la direccion seleccionada?</h5>
+            </div>
+            <div class="modal-body">Seleccione "Sí, desactivar" a continuación si desea dar de baja la dirección</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="closeModalDeleteAddress()">Cerrar</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="DisableAddress()">Sí, desactivar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal editar Direccion*@
+<div class="modal fade" id="ModaEditAddres" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: center; align-items: center; display: flex; ">
+                <h5 class="modal-title" style=" font-size: 20px; color: #236ddb; ">Informacion de la direccion </h5>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <label for="IDAddresEdit" hidden>ID</label>
+                        <input type="text" class="form-control" id="IDAddresEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly hidden>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="NameAddressEdit">Nombre de la dirección</label>
+                                <input type="text" class="form-control" id="NameAddressEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditAddress-NameAddressEdit" class="invalid-feedback"> </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="StreetEdit">Calle</label>
+                                <input type="text" class="form-control" id="StreetEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditAddress-StreetEdit" class="invalid-feedback"> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ExtEdit">N° Ext</label>
+                                <input type="text" class="form-control" id="ExtEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditAddress-ExtEdit" class="invalid-feedback"> </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="CPEdit">Código Postal</label>
+                                <input type="text" class="form-control" id="CPEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditAddress-CPEdit" class="invalid-feedback"> </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="ColonyEdit">Colonia</label>
+                                    <input type="text" class="form-control" id="ColonyEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                    <div id="invalidFeedback-Form-EditAddress-ColonyEdit" class="invalid-feedback"> </div>
+                                </div>
+                            </div>
+
+                            <div class='col'>
+                                <div class="form-group">
+                                    <label for="CityEdit">Ciudad</label>
+                                    <input type="text" class="form-control" id="CityEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                    <div id="invalidFeedback-Form-EditAddress-CityEdit" class="invalid-feedback"> </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="StateEdit">Estado</label>
+                                    <select id="StateEdit" class="form-control" id="StateEdit" style="margin-bottom: 10px;">
+                                        <option value="Aguascalientes"> Aguascalientes</option>
+                                        <option value="Baja California"> Baja California</option>
+                                        <option value="Baja California Sur"> Baja California Sur</option>
+                                        <option value="Campeche"> Campeche</option>
+                                        <option value="Chiapas"> Chiapas</option>
+                                        <option value="Chihuahua"> Chihuahua</option>
+                                        <option value="Ciudad de México"> Ciudad de México</option>
+                                        <option value="Coahuila"> Coahuila</option>
+                                        <option value="Colima"> Colima</option>
+                                        <option value="Durango"> Durango</option>
+                                        <option value="Estado de México"> Estado de México</option>
+                                        <option value="Guanajuato"> Guanajuato</option>
+                                        <option value="Guerrero"> Guerrero</option>
+                                        <option value="Hidalgo"> Hidalgo</option>
+                                        <option value="Jalisco"> Jalisco</option>
+                                        <option value="Michoacán"> Michoacán</option>
+                                        <option value="Morelos"> Morelos</option>
+                                        <option value="Nayarit"> Nayarit</option>
+                                        <option value="Nuevo León"> Nuevo León</option>
+                                        <option value="Oaxaca"> Oaxaca</option>
+                                        <option value="Puebla"> Puebla</option>
+                                        <option value="Querétaro"> Querétaro</option>
+                                        <option value="Quintana Roo"> Quintana Roo</option>
+                                        <option value="San Luis Potosí"> San Luis Potosí</option>
+                                        <option value="Sinaloa"> Sinaloa</option>
+                                        <option value="Sonora"> Sonora</option>
+                                        <option value="Tabasco"> Tabasco</option>
+                                        <option value="Tamaulipas"> Tamaulipas</option>
+                                        <option value="Tlaxcala"> Tlaxcala</option>
+                                        <option value="Veracruz"> Veracruz</option>
+                                        <option value="Yucatán"> Yucatán</option>
+                                        <option value="Zacatecas"> Zacatecas</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="EnableEditAddres">Estado de la dirección</label>
+                                    <select id="EnableEditAddres" class="form-control" style="margin-bottom: 10px;">
+
+                                        <option value="True"> Activo</option>
+                                        <option value="False"> Inactivo</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalEditAddress()" id="CloseMEA">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="EditAddress()" id="EditAddress">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
