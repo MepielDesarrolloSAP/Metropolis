@@ -1759,6 +1759,9 @@ const AddOvToROute = () => {
 
 const SaveRoute = () => {
 
+    //Mensaje de cargando
+    loading('warning', 'Guardando...');
+
     var r = route
     //return
 
@@ -1781,49 +1784,19 @@ const SaveRoute = () => {
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
 
+            //Cerrar Modal de cargando 
+            Swal.close();
+
             console.log(data1)
 
             if (data1 == false) {
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Hubo un error interno en el guardado',
-                    text: ""
-                })
-
+                myMessage('error', 'Hubo un error al momento de guardar');
                 return
-
             }
             else if (data1 == true) {
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Ruta guardada',
-                    text: ""
-                })
-
+                // Mandar Mensaje Exitoso
+                myMessage('success', 'Se ha guardado correctamente la ruta');
+                //Recargar tabla
                 $('#Data-Route').bootstrapTable('removeAll');
                 return
 
@@ -1900,6 +1873,22 @@ const myMessage = (icon, title) => {
         text: ""
     })
 
+}
+
+const loading = (icon, title) => {  
+        Swal.fire({
+            title: title,
+            text: 'Espere por favor...',
+            icon: icon,
+            timerProgressBar: true,
+            backdrop: false,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading()
+
+            },
+        }) 
 }
 
 const invalidFeedbackForm = (id, feedback_id, feedbackText) => {
