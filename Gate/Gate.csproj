@@ -439,6 +439,12 @@
     <Content Include="Views\Auth\Signin.cshtml" />
     <Content Include="Views\Auth\Signup.cshtml" />
     <Content Include="Views\Auth\Recoverpw.cshtml" />
+    <Content Include="Views\Modals\HomeModals.cshtml" />
+    <Content Include="Views\Modals\Users\UsersModals.cshtml" />
+    <Content Include="Views\Modals\Address\AddressModals.cshtml" />
+    <Content Include="Views\Modals\SaleOrder\SaleOrderModals.cshtml" />
+    <Content Include="Views\Modals\OrderGenerated\OrderGeneratedModals.cshtml" />
+    <Content Include="Views\Layouts\Home\OptionsAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

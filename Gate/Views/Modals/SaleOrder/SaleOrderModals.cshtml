@@ -1,0 +1,324 @@
+﻿
+@*Modal Buscar OV*@
+<div class="modal fade bd-example-modal-sm" id="ModalFindOV" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header" style="justify-content: center; align-items: center; display: flex; ">
+                <h5 class="modal-title" style=" font-size: 20px; color: #236ddb; ">Informacion de la orden</h5>
+            </div>
+
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <label for="OVText">Orden</label>
+                        <input type="number" class="form-control" id="OVText" placeholder="Ingrese el N° de OV" style="margin-bottom: 10px;">
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalFindOV()" id="CloseMFOV">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="FindRouteOV()" id="FindOV">Buscar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*Modal agregar OV*@
+<div class="modal fade" id="ModalAddOV" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: center; align-items: center; display: flex; ">
+                <h5 class="modal-title" style=" font-size: 20px; color: #236ddb; ">Informacion de la orden de venta </h5>
+            </div>
+            <div class="modal-body" id="DivAddOV">
+                <form>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="ShipToCodeAddOv">Código destino</label>
+                        <input type="text" class="form-control" id="ShipToCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-ShipToCodeAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label for="CardNameAddOv">Nombre del cliente</label>
+                        <input type="text" class="form-control" id="CardNameAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-CardNameAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="StreetAddOv">Dirección</label>
+                        <input type="text" class="form-control" id="StreetAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-StreetAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col"> 
+                    <div class="form-group">
+                        <label for="BlockAddOv">Colonia</label>
+                        <input type="text" class="form-control" id="BlockAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-BlockAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="ZipCodeAddOv">C.P.</label>
+                        <input type="text" class="form-control" id="ZipCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-ZipCodeAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col"> 
+                    <div class="form-group">
+                        <label for="CityAddOv">Ciudad</label>
+                        <input type="text" class="form-control" id="CityAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-CityAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="U_NAMEAddOv">Ejecutivo(a)</label>
+                        <input type="text" class="form-control" id="U_NAMEAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-U_NAMEAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col"> 
+                    <div class="form-group">
+                        <label for="ConditionAddOv">Condición de pago</label>
+                        <input type="text" class="form-control" id="ConditionAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-ConditionAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="DocNumsAddOv">N° OV</label>
+                        <input type="text" class="form-control" id="DocNumsAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
+                        <div id="invalidFeedback-Form-AddOv-DocNumsAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col"> 
+                    <div class="form-group">
+                        <label for="DocDateAddOv">Fecha OV</label>
+                        <input type="text" class="form-control" id="DocDateAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
+                        <div id="invalidFeedback-Form-AddOv-DocDateAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="RouteAddOv">Ruta</label>
+                        <input type="text" class="form-control" id="RouteAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <div id="invalidFeedback-Form-AddOv-RouteAddOv" class="invalid-feedback"> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col"> 
+                    <div class="form-group">
+                        <label for="PhoneAddOv">Telefono de contacto</label>
+                        <input type="text" class="form-control" id="PhoneAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                    </div>
+                </div>
+            </div>
+
+                    <div class="form-group">
+                        <label for="CommentsAddOv">Comentarios</label>
+                        <textarea type="text" class="form-control" id="CommentsAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50" > </textarea>
+                    </div>
+                    
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalAddOV()" id="CloseMAOV">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="AddOvToROute()" id="AddOVR">Agregar orden</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal editar editar ruta*@
+<div class="modal fade" id="ModaEditRoute" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: center; align-items: center; display: flex; ">
+                <h5 class="modal-title" style=" font-size: 20px; color: #236ddb; ">Informacion de la ruta </h5>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <label for="IDAddresEdit" hidden>ID</label>
+                        <input type="text" class="form-control" id="IDRouteEdit" hidden @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ShipToCodeRouteEdit">Código destino</label>
+                                <input type="text" class="form-control" id="ShipToCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-ShipToCodeRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="CardNameRouteEdit">Nombre del cliente</label>
+                                <input type="text" class="form-control" id="CardNameRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-CardNameRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="StreetRouteEdit">Dirección</label>
+                                <input type="text" class="form-control" id="StreetRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-StreetRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="BlockRouteEdit">Colonia</label>
+                                <input type="text" class="form-control" id="BlockRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-BlockRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ZipCodeRouteEdit">C.P.</label>
+                                <input type="text" class="form-control" id="ZipCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-ZipCodeRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="CityRouteEdit">Ciudad</label>
+                                <input type="text" class="form-control" id="CityRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-CityRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="U_NAMERouteEdit">Ejecutivo(a)</label>
+                                <input type="text" class="form-control" id="U_NAMERouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-U_NAMERouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ConditionRouteEdit">Condición de pago</label>
+                                <input type="text" class="form-control" id="ConditionRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <div id="invalidFeedback-Form-EditOv-ConditionRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="DocNumsRouteEdit">Cantidad de OV</label>
+                                <textarea type="text" class="form-control" id="DocNumsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50"> </textarea>
+                                <div id="invalidFeedback-Form-EditOv-DocNumsRouteEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="CommentsRouteEdit">Comentarios</label>
+                                <textarea type="text" class="form-control" id="CommentsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50"> </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PhoneRouteEdit">Telefono de contacto</label>
+                        <input type="text" class="form-control" id="PhoneRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalEditRoute()" id="CloseMER">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="EditRoute()" id="EditRoute">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal Eliminar OV  *@
+<div class="modal fade" id="ModalDeleteRoute" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input id="DeleteRouteId" type="number" hidden>
+                <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas quitar la ruta seleccionado?</h5> 
+            </div>
+            <div class="modal-body">Seleccione "Sí, quitar" a continuación si desea remover la ruta seleccionada</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="CloseModalDeleteRoute()">Cerrar</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="DeleteRoute()">Sí, quitar</button>
+            </div>
+        </div>
+    </div>
+</div>
