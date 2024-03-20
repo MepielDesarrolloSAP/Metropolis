@@ -2060,14 +2060,14 @@ window.addEventListener('beforeunload',function(event) {
 
     $.ajax({
 
-        url: '/Home/DisableUser',
+        url: '/Home/Disable',
         dataType: "json",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
             console.log(data1);
 
-            myMessage('info', 'Intento de cierre de sesion');
+            // myMessage('info', 'Intento de cierre de sesion');
         }
 
     });
