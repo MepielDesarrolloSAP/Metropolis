@@ -1245,10 +1245,10 @@ namespace Gate.Controllers
         }
 
 
-        public JsonResult DisableUser()
+        public JsonResult Disable()
         {
             Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
-            Users objeto = (Users)Session["Usuario"];
+            //Users objeto = (Users)Session["Usuario"];
             DL.DisableUser(User.Username);
 
             return Json("");
