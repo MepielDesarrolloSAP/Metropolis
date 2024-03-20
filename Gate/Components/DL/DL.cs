@@ -1600,6 +1600,50 @@ namespace Gate.Components.DL
         //Revisar
         public static async Task<string> Visits()
         {
+            string respuesta ="";
+
+            DateTime date = DateTime.Now;
+            string Day = date.ToString("dddd");
+
+            if(Day== "lunes")
+            {
+                //Sabado
+                date = date.AddDays(-2);
+                string fechaFormateada = date.ToString("yyyy-MM-dd");
+                _ = synchronizationVisits(fechaFormateada);
+
+                //Viernes
+                date = date.AddDays(-3);
+                fechaFormateada = date.ToString("yyyy-MM-dd");
+                _ = synchronizationVisits(fechaFormateada);
+            }
+            else if (Day == "martes")
+            {
+                //Lunes
+                date = date.AddDays(-1);
+                string fechaFormateada = date.ToString("yyyy-MM-dd");
+                _ = synchronizationVisits(fechaFormateada);
+
+            }
+            else
+            {
+                //Miercoles,Jueves,Viernes,Sabado
+                date = date.AddDays(-1);
+                string fechaFormateada = date.ToString("yyyy-MM-dd");
+                _ = synchronizationVisits(fechaFormateada);
+
+                date = date.AddDays(-2);
+                fechaFormateada = date.ToString("yyyy-MM-dd");
+                _ = synchronizationVisits(fechaFormateada);
+            }
+
+
+
+            return respuesta;
+        }
+
+        public static async Task<string> synchronizationVisits(string fechaFormateada)
+        {
             Docnums d = new Docnums();
             VisitsimpleRoute visitsimple = new VisitsimpleRoute();
             Code C = new Code();
@@ -1611,13 +1655,6 @@ namespace Gate.Components.DL
             string respuesta;
 
             bool Val = false;
-
-            DateTime date = DateTime.Now;
-            date = date.AddDays(-1); // Restar un día
-            string fechaFormateada = date.ToString("yyyy-MM-dd");
-
-            //fechaFormateada = "2024-03-08";
-
 
             try
             {
@@ -1648,44 +1685,23 @@ namespace Gate.Components.DL
 
                                 foreach (string Factura in registros)
                                 {
-                                    Orden = GetOrder(Factura);
+                                    //Orden = GetOrder(Factura);
 
-                                    if (Orden != null)
+                                    //if (Orden != null)
+                                    //{
+                                    d = new Docnums();
+                                    d = DocNumExist(Factura);
+
+                                    code = d.Code;
+                                    VarU = d.DocNum;
+
+                                    if (VarU != null)
                                     {
-                                        d = new Docnums();
-                                        d = DocNumExist(Orden);
-
-                                        code = d.Code;
-                                        VarU = d.DocNum;
-
-                                        if (VarU != null)
+                                        if (code != "")
                                         {
-                                            if (code != "")
+                                            if (C.Codigo == code)
                                             {
-                                                if (C.Codigo == code)
-                                                {
-                                                    //Nada
-                                                }
-                                                else
-                                                {
-                                                    d.VisitStatus = details.status;
-                                                    d.Comments = details.notes;
-                                                    d.SimpleRoute_Status = true;
-                                                    d.Id_VisitsimpleRoute = details.id;
-                                                    d.Id_Driver = details.driver;
-
-                                                    Val = EditDocNumCode(d);
-                                                    C.Codigo = d.Code;
-
-                                                    visitsimple = new VisitsimpleRoute();
-                                                    visitsimple.Id_SimpleRoutevisit = details.id;
-                                                    visitsimple.Id_SimpleRouteRoute = details.route;
-                                                    visitsimple.Id_DriverSimpleRoute = details.driver;
-                                                    visitsimple.Pictures = details.pictures[0];
-                                                    visitsimple.ETime_arrival = details.estimated_time_arrival;
-                                                    visitsimple.ReferenceDocNums = details.reference;
-                                                    AddVisitsimpleRoute(visitsimple);
-                                                }
+                                                //Nada
                                             }
                                             else
                                             {
@@ -1695,7 +1711,8 @@ namespace Gate.Components.DL
                                                 d.Id_VisitsimpleRoute = details.id;
                                                 d.Id_Driver = details.driver;
 
-                                                Val = EditDocNum(d);
+                                                Val = EditDocNumCode(d);
+                                                C.Codigo = d.Code;
 
                                                 visitsimple = new VisitsimpleRoute();
                                                 visitsimple.Id_SimpleRoutevisit = details.id;
@@ -1705,12 +1722,32 @@ namespace Gate.Components.DL
                                                 visitsimple.ETime_arrival = details.estimated_time_arrival;
                                                 visitsimple.ReferenceDocNums = details.reference;
                                                 AddVisitsimpleRoute(visitsimple);
-
                                             }
+                                        }
+                                        else
+                                        {
+                                            d.VisitStatus = details.status;
+                                            d.Comments = details.notes;
+                                            d.SimpleRoute_Status = true;
+                                            d.Id_VisitsimpleRoute = details.id;
+                                            d.Id_Driver = details.driver;
+
+                                            Val = EditDocNum(d);
+
+                                            visitsimple = new VisitsimpleRoute();
+                                            visitsimple.Id_SimpleRoutevisit = details.id;
+                                            visitsimple.Id_SimpleRouteRoute = details.route;
+                                            visitsimple.Id_DriverSimpleRoute = details.driver;
+                                            visitsimple.Pictures = details.pictures[0];
+                                            visitsimple.ETime_arrival = details.estimated_time_arrival;
+                                            visitsimple.ReferenceDocNums = details.reference;
+                                            AddVisitsimpleRoute(visitsimple);
 
                                         }
 
                                     }
+
+                                    //}
 
                                     #region comentado
                                     //if (d.Id != 0)
