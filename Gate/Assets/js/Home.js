@@ -6,6 +6,8 @@ var AddressMenu = document.getElementById('AddressMenu');
 
 // var SRMenu = document.getElementById('SRMenu');
 
+let arrayDocnums = [];
+
 var route = "sin ruta";
 
 const LogOut = () => {
@@ -143,6 +145,21 @@ const RouteMCDMX = () => {
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
 
+            console.log('Mi data', data1);
+ 
+            // data1.forEach(element => {
+            //     // split(element).forEach(
+            //     //Separar docnums 
+            //     const words = element.DocNums.split(',').
+            //     console.log(words);
+
+
+            //     arrayDocnums.push(element.DocNums);
+
+            //     console.log(arrayDocnums);
+            // });
+ 
+
             if ($('#Data-Route').data('bootstrap.table')) {
                 // La tabla está inicializada, puedes realizar operaciones en ella
                 console.log("La tabla está inicializada");
@@ -196,6 +213,29 @@ const RouteTCDMX = () => {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
+
+            arrayDocnums = [];
+
+            data1.forEach(element => {
+                // split(element).forEach(
+                //Separar docnums 
+
+                console.log(element.DocNums);
+
+                // const words = element.DocNums.split(',').
+                // console.log(words);
+
+
+                arrayDocnums.push(element.DocNums);
+
+                console.log(arrayDocnums);
+            });
+
+            var array1 = JSON.parse(arrayDocnums);
+            console.log('array1', array1);
+
+            const words = arrayDocnums.split(',');
+            console.log(words);
 
             if ($('#Data-Route').data('bootstrap.table')) {
                 // La tabla está inicializada, puedes realizar operaciones en ella
@@ -1630,26 +1670,9 @@ const FindRouteOV = () => {
             console.log(data1)
 
             if (data1.Id == 0) {
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'error',
-                    title: 'No se encontraron resultados',
-                    text: ""
-                })
-
+                //Error en caso que no se encuentre resultados
+                myMessage('error', 'No se han encontrado resultados');
                 return
-
             }
 
             CloseModalFindOV();
@@ -2018,17 +2041,43 @@ window.operateEventUsersEnable = {
 };
 
 function OpcionesUserEnable(value, row, index) {
-    if(value == true){
-    return [
-        ` <h5> <span class="badge rounded-pill text-bg-primary">Activo</span> </h5>`,  
-    ].join('')
-}else{
-    return [
-        ` <h5> <span class="badge rounded-pill text-bg-danger">Desactivado</span> </h5>`,  
-    ].join('')
+        if(value == true){
+        return [
+            ` <h5> <span class="badge rounded-pill text-bg-primary">Activo</span> </h5>`,  
+        ].join('')
+    }else{
+        return [
+            ` <h5> <span class="badge rounded-pill text-bg-danger">Desactivado</span> </h5>`,  
+        ].join('')
 }
 
 }
 
+//Funcion para dectectar cuando se cierre el navegador
+
+window.addEventListener('beforeunload',function(event) {    
+    console.log('Cerrar sesion');
+
+    $.ajax({
+
+        url: '/Home/DisableUser',
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function (data1) {
+            console.log(data1);
+
+            myMessage('info', 'Intento de cierre de sesion');
+        }
+
+    });
+
+    // Cancela el evento de salida (no recomendado, ver nota más abajo)// event.preventDefault();// Muestra un mensaje de confirmación personalizado
+    var confirmationMessage = '¿Estás seguro de que quieres abandonar la página?';
+        (event || window.event).returnValue = confirmationMessage;    
+        console.log((event || window.event).returnValue);
+
+    return confirmationMessage;  
+});
 
 
