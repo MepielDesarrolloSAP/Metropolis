@@ -241,6 +241,7 @@
     <Compile Include="Clases\routedisabled.cs" />
     <Compile Include="Clases\selectPackage.cs" />
     <Compile Include="Clases\Users.cs" />
+    <Compile Include="Clases\VisitsimpleRoute.cs" />
     <Compile Include="Components\BL\BL.cs" />
     <Compile Include="Components\DL\DL.cs" />
     <Compile Include="Controllers\AccountController.cs" />
