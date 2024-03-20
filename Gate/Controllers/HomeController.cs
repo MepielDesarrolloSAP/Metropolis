@@ -483,7 +483,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                fechaFormateada = "2024-03-08";
+                //fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
@@ -541,7 +541,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                fechaFormateada = "2024-03-08";
+                //fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
@@ -600,7 +600,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                fechaFormateada = "2024-03-08";
+                //fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
@@ -659,7 +659,7 @@ namespace Gate.Controllers
                 int Id = 0;
 
                 //Borrar esta linea
-                fechaFormateada = "2024-03-08";
+                //fechaFormateada = "2024-03-08";
 
                 //Conexion a SAP
                 Globals.Con = new HanaConnection(Settings.Default.HanaConec);
@@ -1245,5 +1245,13 @@ namespace Gate.Controllers
         }
 
 
+        public JsonResult DisableUser()
+        {
+            Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
+            Users objeto = (Users)Session["Usuario"];
+            DL.DisableUser(User.Username);
+
+            return Json("");
+        }
     }
 }
