@@ -59,7 +59,7 @@ namespace Gate.Controllers
                         Task.Run(() =>
                         {
                             //Inicia
-                            Task.Delay(60000).Wait();
+                            Task.Delay(120000).Wait();
 
                             DL.EnableUser(objeto.Username);
                             //Finaliza
