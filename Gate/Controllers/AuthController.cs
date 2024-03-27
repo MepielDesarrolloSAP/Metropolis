@@ -149,6 +149,7 @@ namespace Gate.Controllers
                 {
                     if (User.Id_Role == 1)
                     {
+                        FormsAuthentication.SignOut();
                         return RedirectToAction("Signin", "Auth");
                     }
 
