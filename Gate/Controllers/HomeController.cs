@@ -20,6 +20,7 @@ namespace Gate.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
             try
@@ -1244,11 +1245,20 @@ namespace Gate.Controllers
             return Json(val);
         }
 
-
+        //Aqui realmente habilitamos el usuarios, por cierre de ventana.
         public JsonResult Disable()
         {
             Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
             //Users objeto = (Users)Session["Usuario"];
+            DL.EnableUser(User.Username);
+
+            return Json("");
+        }
+
+        public JsonResult DisableUser()
+        {
+            Users User = System.Web.HttpContext.Current.Session["Usuario"] as Users;
+            Users objeto = (Users)Session["Usuario"];
             DL.DisableUser(User.Username);
 
             return Json("");
