@@ -17,14 +17,14 @@
 }
 
 #Route {
-    margin-top: 80px;
+    /* margin-top: 80px; */
     display: Flex;
     justify-content: center; /* Centrar horizontalmente */
     align-items: center; /* Centrar verticalmente */
     /*border: 1px solid;*/
     padding: 1px;
     /*    box-shadow: 1px 10px #236ddb;*/
-    box-shadow: 0 0 15px 5px rgba(31, 73, 125, 0.8);
+    /* box-shadow: 0 0 15px 5px rgba(31, 73, 125, 0.8); */
     border-style: solid;
     border-color: #236ddb;
     width: 100%; /* El div interno ocupará todo el ancho del contenedor */
@@ -87,6 +87,7 @@ label {
     /*height: 100%;*/ /* La tabla ocupará todo el alto del div interno */
     /*border-collapse: collapse;
     border: 1px solid white;*/
+    color: black;
     font-size:12px;
 }
 
@@ -95,13 +96,15 @@ label {
     }
 
 #Data-Route {
-    font-size: 10px;
+    color: black; 
+    font-size: 12px;
     table-layout: fixed;
 }
 
 #Data-Route td {
         /*border: 1px solid #dddddd;
         text-align: left;*/
+        color: black;
         padding: 8px;
         white-space: nowrap; /* Evita que el contenido se envuelva dentro de las celdas */
         overflow: hidden; /* Oculta cualquier contenido que no quepa dentro de la celda */
@@ -109,13 +112,15 @@ label {
     }
 
 #Data-Routes {
-    font-size: 10px;
+    font-size: 12px;
     table-layout: fixed;
+    color: black; 
 }
 
 #Data-Routes td {
         /*border: 1px solid #dddddd;
         text-align: left;*/
+        color: black;  
         padding: 8px;
         white-space: nowrap; /* Evita que el contenido se envuelva dentro de las celdas */
         overflow: hidden; /* Oculta cualquier contenido que no quepa dentro de la celda */
@@ -123,26 +128,30 @@ label {
     }
 
 #Data-Adress {
+    color: black;
     font-size: 12px;
 }
 
 #Data-Adress td {
+        color: black; 
         padding: 8px;
     }
 
 #Data-ShowRoute {
-    font-size: 10px;
-    table-layout: fixed;
+    color: black; 
+    font-size: 12px;
+    /* table-layout: fixed; */
 }
 
 #Data-ShowRoute td {
         /*border: 1px solid #dddddd;
         text-align: left;*/
+        color: black; 
         padding: 6px;
         white-space: nowrap; /* Evita que el contenido se envuelva dentro de las celdas */
         overflow: hidden; /* Oculta cualquier contenido que no quepa dentro de la celda */
         text-overflow: ellipsis; /* Muestra puntos suspensivos (...) si el contenido se desborda */
-    }
+}
 
 #page_layout {
     padding: 10px;
@@ -183,7 +192,7 @@ label {
 
 #DivShowRoute {
     overflow-y: scroll;
-    height: 38rem;
+    /* height: 38rem; */
 }
 
 /*////////////////*/
@@ -209,3 +218,13 @@ label {
     ::-webkit-scrollbar-thumb:hover {
         background: var(--bs-primary);
     }
+
+
+.wrap-text{
+    width: 100px !important;
+    white-space: pre-wrap !important; 
+    white-space: -moz-pre-wrap !important;
+    white-space: -pre-wrap !important;
+    white-space: -o-pre-wrap !important;
+    word-wrap: break-word !important;
+}

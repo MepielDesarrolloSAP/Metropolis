@@ -741,6 +741,7 @@
                                @*data-minimum-count-columns="3"*@
                                data-pagination="true"
                                data-page-list="[10, 25, 50, 100, all]"
+                               data-locale="es-MX"  
                                @*data-show-footer="true"*@
                                @*data-side-pagination="server"*@
                                @*data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"*@
@@ -778,7 +779,7 @@
                                     <th data-field="Id_Address" class="text-center" data-Formatter="optionsUserAddress" data-events="window.operateEventUserAddress"@*style="width: 150px; "*@>
                                         Direccion
                                     </th>
-                                    <th data-Formatter="Opciones" data-events="window.operateEventsOne" class="text-center" @*style="width:150px"*@>
+                                    <th data-Formatter="Opciones" data-events="window.operateEventsOne" class="text-center" data-switchable="false" @*style="width:150px"*@>
 
                                     </th>
                                 </tr>
@@ -857,7 +858,7 @@
                                     <th data-Formatter="AddressEnableOptions" data-events="window.operateEventsAddressEnable" data-field="Enable" class="text-center" style="width: 150px; ">
                                         Estado
                                     </th>
-                                    <th data-Formatter="Options" data-events="window.operateEventsTwo" class="text-center" style="width:150px">
+                                    <th data-Formatter="Options" data-events="window.operateEventsTwo" class="text-center" style="width:150px" data-switchable="false">
 
                                     </th>
                                 </tr>
@@ -916,9 +917,8 @@
 
                             <thead>
                                 <tr>
-                                    <th data-field="Id" class="text-center" style="width:150px;">
-                                        ID
-                                    </th>
+                                    @* <th data-field="index" class="text-center" style="width:150px;">Index</th> *@
+                                    @* <th data-field="Id" class="text-center" style="width:150px;"> ID </th> *@
                                     <th data-field="ShipToCode" class="text-center" style="width:150px;">
                                         CODIGO DE DESTINO
                                     </th>
@@ -955,7 +955,7 @@
                                     <th data-field="Phone" class="text-center" style="width: 150px; ">
                                         TELEFONO DE CONTACTO
                                     </th>
-                                    <th data-Formatter="OptionsOne" data-events="window.operateEventsThree" class="text-center" style="width:150px">
+                                    <th data-Formatter="OptionsOne" data-events="window.operateEventsThree" class="text-center" style="width:150px" data-switchable="false">
 
                                     </th>
                                 </tr>
@@ -1028,7 +1028,7 @@
                                         DESCRIPCION DE RUTA
                                     </th>
 
-                                    <th data-Formatter="OptionsTwo" data-field="ver" data-events="" class="text-center" style="width:150px">
+                                    <th data-Formatter="OptionsTwo" data-field="ver" data-events="" class="text-center" style="width:150px" data-switchable="false">
                                         VER
                                     </th>
 
@@ -2022,13 +2022,13 @@
     </div>
  
 
-    //Modales Rutas generadas
+    @* //Modales Rutas generadas *@
     @Html.Partial("~/Views/Modals/OrderGenerated/OrderGeneratedModals.cshtml")
-    // Modales de Generar Ruta
+    @* // Modales de Generar Ruta *@
     @Html.Partial("~/Views/Modals/SaleOrder/SaleOrderModals.cshtml")
-    // Modales de Usuarios
+    @* // Modales de Usuarios *@
     @Html.Partial("~/Views/Modals/Users/UsersModals.cshtml")
-    // Modales de direcciones
+    @* // Modales de direcciones *@
     @Html.Partial("~/Views/Modals/Address/AddressModals.cshtml")
     
     <!-- Library Bundle Script -->
@@ -2059,6 +2059,8 @@
     <script src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/bootstrap-table-locale-all.min.js"></script>
+
     @*Iconos de bootstrap*@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 

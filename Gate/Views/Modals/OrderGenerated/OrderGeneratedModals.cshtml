@@ -1,16 +1,17 @@
 ﻿  <!-- Large modal mostrar ruta-->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="ModalshowRoute" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" id="ModalshowRoute" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
 
-                <div class="card mb-4" id="Route">
-
-                    <div class="card-body " style=" width:100%;" id="DivShowRoute">
-
-                        <div @*class="table-responsive"*@>
-
-                            <table class="table "
-                                   id="Data-ShowRoute"
+                <div class="modal-body">
+                    <div id="toolbar_RouteDisabled">
+                        <button id="remove_order" class="btn btn-outline-secondary" title="Retirar Orden de venta"> 
+                            <i class="fa-solid fa-hand-holding-droplet"></i>
+                        </button>
+                    </div> 
+                    <table class="table "
+                                   id="Data-ShowRoute" 
+                                   data-toolbar="#toolbar_RouteDisabled" 
                                    data-locale="es-MX"
                                    data-search="true"
                                    data-show-fullscreen="true"
@@ -31,57 +32,56 @@
                                    @*data-show-footer="true"*@
                                    @*data-side-pagination="server"*@
                                    @*data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"*@
-                                   @*data-response-handler="responseHandler"*@>
+                                   @*data-response-handler="responseHandler"*@
+                                   @* data-height="560"  *@
+ 
+                                   >
 
                                 <thead>
                                     <tr>
-                                        <th data-field="Id" class="text-center" style="width:150px;">
+                                        <th data-field="state" data-checkbox="true"></th>
+                                        <th data-field="Id" data-visible="false" class="text-center wrap-text">
                                             ID
                                         </th>
-                                        <th data-field="ShipToCode" class="text-center" style="width:150px;">
+                                        <th data-field="ShipToCode" class="text-center wrap-text" >
                                             CODIGO DE DESTINO
                                         </th>
-                                        <th data-field="CardName" class="text-center" style="width:150px;">
+                                        <th data-field="CardName" class="text-center wrap-text" >
                                             NOMBRE DEL CLIENTE
                                         </th>
-                                        <th data-field="Street" class="text-center" style="width:150px;">
+                                        <th data-field="Street" class="text-center wrap-text" >
                                             DIRECCION
                                         </th>
-                                        <th data-field="Block" class="text-center" style="width: 150px" ; scope="col">
+                                        <th data-field="Block" class="text-center wrap-text">
                                             COLONIA
                                         </th>
-                                        <th data-field="ZipCode" class="text-center" style="width: 150px; ">
+                                        <th data-field="ZipCode" class="text-center wrap-text" >
                                             C.P.
                                         </th>
-                                        <th data-field="City" class="text-center" style="width: 150px; ">
+                                        <th data-field="City" class="text-center wrap-text" >
                                             CIUDAD
                                         </th>
-                                        <th data-field="U_NAME" class="text-center" style="width: 150px; ">
+                                        <th data-field="U_NAME" class="text-center wrap-text" >
                                             EJECUTIVA(O)
                                         </th>
-                                        <th data-field="Condition" class="text-center" style="width: 150px; ">
+                                        <th data-field="Condition" class="text-center wrap-text" >
                                             CONDICION DE PAGO
                                         </th>
-                                        <th data-field="DocNums" class="text-center" style="width: 150px; ">
+                                        <th data-field="DocNums" class="text-center wrap-text" >
                                             CANTIDAD DE OV
                                         </th>
-                                        <th data-field="Comments" class="text-center" style="width: 150px; ">
+                                        <th data-field="Comments" data-visible="false" class="text-center wrap-text" >
                                             COMENTARIOS
                                         </th>
-                                        <th data-field="Phone" class="text-center" style="width: 150px; ">
+                                        <th data-field="Phone" class="text-center wrap-text"  >
                                             TELEFONO DE CONTACTO
-                                        </th>
+                                        </th> 
                                     </tr>
                                 </thead>
                             </table>
 
-                        </div>
-
-                    </div>
-
-
                 </div>
-
+             
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseModalShowRoute()" id="CloseMSR">Cerrar</button>
                 </div>
@@ -89,3 +89,23 @@
             </div>
         </div>
     </div>
+
+
+@* Modal Retirar Ov *@
+<div class="modal fade" id="ModalRemoveOV" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input id="RemoveOVId" type="text" hidden>
+                <h5 class="modal-title" id="exampleModalLabel">¿Estas seguro que deseas retirar las OV seleccionadas?</h5>
+            </div>
+            <div class="modal-body">Seleccione "Sí, retirar" a continuación si desea quitar las Ov</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="closeModalRemoveOV()">Cerrar</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="RemoveOV()">Sí, retirar</button>
+            </div>
+        </div>
+    </div>
+</div>
+ 
