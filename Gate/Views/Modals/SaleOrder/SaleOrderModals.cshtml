@@ -42,7 +42,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="ShipToCodeAddOv">Código destino</label>
-                        <input type="text" class="form-control" id="ShipToCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="ShipToCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-ShipToCodeAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="CardNameAddOv">Nombre del cliente</label>
-                        <input type="text" class="form-control" id="CardNameAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="CardNameAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-CardNameAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="StreetAddOv">Dirección</label>
-                        <input type="text" class="form-control" id="StreetAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="StreetAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-StreetAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                 <div class="col"> 
                     <div class="form-group">
                         <label for="BlockAddOv">Colonia</label>
-                        <input type="text" class="form-control" id="BlockAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="BlockAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-BlockAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="ZipCodeAddOv">C.P.</label>
-                        <input type="text" class="form-control" id="ZipCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="ZipCodeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-ZipCodeAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                 <div class="col"> 
                     <div class="form-group">
                         <label for="CityAddOv">Ciudad</label>
-                        <input type="text" class="form-control" id="CityAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="CityAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-CityAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="U_NAMEAddOv">Ejecutivo(a)</label>
-                        <input type="text" class="form-control" id="U_NAMEAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="U_NAMEAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-U_NAMEAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                 <div class="col"> 
                     <div class="form-group">
                         <label for="ConditionAddOv">Condición de pago</label>
-                        <input type="text" class="form-control" id="ConditionAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="ConditionAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-ConditionAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="RouteAddOv">Ruta</label>
-                        <input type="text" class="form-control" id="RouteAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                        <input type="text" class="form-control" id="RouteAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                         <div id="invalidFeedback-Form-AddOv-RouteAddOv" class="invalid-feedback"> 
                         </div>
                     </div>
@@ -156,13 +156,19 @@
                     </div>
                 </div>
             </div>
-
+ 
+                    <div class="form-group">
+                            <label for="ConditionsTypeAddOv">Metodo de pago</label>
+                            <input type="text" class="form-control" id="ConditionsTypeAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
+                            <div id="invalidFeedback-Form-EditOv-ConditionsTypeAddOv" class="invalid-feedback">
+                        </div>
+                    </div> 
+ 
                     <div class="form-group">
                         <label for="CommentsAddOv">Comentarios</label>
                         <textarea type="text" class="form-control" id="CommentsAddOv" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50" > </textarea>
-                    </div>
-                    
-
+                    </div> 
+                     
 
                 </form>
             </div>
@@ -193,7 +199,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="ShipToCodeRouteEdit">Código destino</label>
-                                <input type="text" class="form-control" id="ShipToCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="ShipToCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-ShipToCodeRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -202,7 +208,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="CardNameRouteEdit">Nombre del cliente</label>
-                                <input type="text" class="form-control" id="CardNameRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="CardNameRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-CardNameRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -213,7 +219,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="StreetRouteEdit">Dirección</label>
-                                <input type="text" class="form-control" id="StreetRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="StreetRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-StreetRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -222,7 +228,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="BlockRouteEdit">Colonia</label>
-                                <input type="text" class="form-control" id="BlockRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="BlockRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-BlockRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -233,7 +239,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="ZipCodeRouteEdit">C.P.</label>
-                                <input type="text" class="form-control" id="ZipCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="ZipCodeRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-ZipCodeRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -242,7 +248,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="CityRouteEdit">Ciudad</label>
-                                <input type="text" class="form-control" id="CityRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="CityRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-CityRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -253,7 +259,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="U_NAMERouteEdit">Ejecutivo(a)</label>
-                                <input type="text" class="form-control" id="U_NAMERouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="U_NAMERouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-U_NAMERouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -262,19 +268,36 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="ConditionRouteEdit">Condición de pago</label>
-                                <input type="text" class="form-control" id="ConditionRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                                <input type="text" class="form-control" id="ConditionRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
                                 <div id="invalidFeedback-Form-EditOv-ConditionRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
 
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="ConditionsTypeEdit">Metodo de pago</label>
+                                <input type="text" class="form-control" id="ConditionsTypeEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" readonly>
+                                <div id="invalidFeedback-Form-EditOv-ConditionsTypeEdit" class="invalid-feedback">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="PhoneRouteEdit">Telefono de contacto</label>
+                                <input type="text" class="form-control" id="PhoneRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
+                            </div>
+                        </div>  
+                    </div>
 
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label for="DocNumsRouteEdit">Cantidad de OV</label>
-                                <textarea type="text" class="form-control" id="DocNumsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50"> </textarea>
+                                <textarea type="text" class="form-control" id="DocNumsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50" readonly> </textarea>
                                 <div id="invalidFeedback-Form-EditOv-DocNumsRouteEdit" class="invalid-feedback">
                                 </div>
                             </div>
@@ -286,15 +309,7 @@
                                 <textarea type="text" class="form-control" id="CommentsRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;" rows="4" cols="50"> </textarea>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="PhoneRouteEdit">Telefono de contacto</label>
-                        <input type="text" class="form-control" id="PhoneRouteEdit" @*placeholder="*"*@ style="margin-bottom: 10px;">
-                    </div>
-
-
-
+                    </div> 
                 </form>
             </div>
             <div class="modal-footer">
@@ -322,3 +337,77 @@ aria-hidden="true">
         </div>
     </div>
 </div>
+
+@* OV Pendientes *@
+<!---
+<div class="modal fade" id="ModalPendingRoute" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @* <input id="DeleteRouteId" type="number" hidden> *@
+                <h5 class="modal-title" id="exampleModalLabel">Rutas Pendientes Rutas</h5> 
+            </div>
+            <div class="modal-body">Seleccione "Sí, agregar" a continuación si desea añadir las OV pendientes</div>
+         
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="CloseModalPendingRoute()">Cerrar</button>
+                <button class="btn btn-success" type="button" data-dismiss="modal" onclick="addPendingOv()">Sí, agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+--->
+
+  <!-- Large modal mostrar ruta-->
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" id="ModalPendingRoute" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Ordenes de venta Pendientes - <span id="description_id"></span>  </h5> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"  data-bs-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <meta name="csrf-token" content="{{ csrf_token() }}" hidden>
+
+                <input type="number" id="orders_details_id" hidden>
+
+                <div id="toolbar">  
+                  
+                </div>
+                <table id="Data-PendingRoute"
+                data-toggle="table"
+                data-toolbar="#toolbar"
+                data-height="560" 
+                data-search="true"
+                data-show-fullscreen="true"
+                data-show-columns="true"
+                data-show-columns-toggle-all="true" 
+                data-click-to-select="true"
+                data-detail-formatter="detailFormatter"
+                data-minimum-count-columns="2"
+                data-locale="es-MX" 
+                data-toggle="table" 
+                data-card-view="false"
+                >
+                  <thead>
+                    <tr>   
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th data-field="Id" class="text-center wrap-text"  >ID</th>
+                        <th data-field="CardCode" class="text-center wrap-text" >Codigo</th>
+                        <th data-field="CardName" class="text-center wrap-text" >Descripcion </th> 
+                        <th data-field="DocNums" class="text-center wrap-text" > Cantidad</th>   
+                        <th data-field="U_NAME" class="text-center wrap-text" >SKU</th>
+                    </tr>
+                  </thead>
+                </table>
+                
+              </div>        
+              <div class="modal-footer mt-5"> 
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> 
+              </div>
+            </div>
+          </div>
+        </div> 

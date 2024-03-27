@@ -10,6 +10,9 @@ let arrayDocnums = [];
 
 var route = "sin ruta";
 
+// Declarar boton para quitar ordenes de venta
+var $remove_order = $('#remove_order') 
+
 const LogOut = () => {
     swal.fire({
         title: "Cerrar Sesion",
@@ -112,7 +115,6 @@ const Address = () => {
 }
 
 const RouteMCDMX = () => {
-
     route = "R3";
 
     // StartMenu.style.color = "#6c757d";
@@ -144,21 +146,12 @@ const RouteMCDMX = () => {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
-
-            console.log('Mi data', data1);
+            
+            // Añadir el index a los registros
+            getIndex(data1);
  
-            // data1.forEach(element => {
-            //     // split(element).forEach(
-            //     //Separar docnums 
-            //     const words = element.DocNums.split(',').
-            //     console.log(words);
-
-
-            //     arrayDocnums.push(element.DocNums);
-
-            //     console.log(arrayDocnums);
-            // });
- 
+            // Asignar los Docnums para que no se repliquen
+            getDocnums(data1);
 
             if ($('#Data-Route').data('bootstrap.table')) {
                 // La tabla está inicializada, puedes realizar operaciones en ella
@@ -173,6 +166,10 @@ const RouteMCDMX = () => {
                 $('#Data-Route').bootstrapTable({ data: data1 });
                 // Aquí puedes agregar el código para inicializar la tabla si es necesario
             }
+
+            // Checar si existen rutas pendientes
+            checkPendingOv(1);
+
 
         }
 
@@ -214,28 +211,11 @@ const RouteTCDMX = () => {
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
 
-            arrayDocnums = [];
+            // Añadir el index a los registros
+            getIndex(data1);
 
-            data1.forEach(element => {
-                // split(element).forEach(
-                //Separar docnums 
-
-                console.log(element.DocNums);
-
-                // const words = element.DocNums.split(',').
-                // console.log(words);
-
-
-                arrayDocnums.push(element.DocNums);
-
-                console.log(arrayDocnums);
-            });
-
-            var array1 = JSON.parse(arrayDocnums);
-            console.log('array1', array1);
-
-            const words = arrayDocnums.split(',');
-            console.log(words);
+            //Asignar los Docnums para que no se repliquen
+            getDocnums(data1);
 
             if ($('#Data-Route').data('bootstrap.table')) {
                 // La tabla está inicializada, puedes realizar operaciones en ella
@@ -290,6 +270,12 @@ const RouteMGDL = () => {
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
 
+            // Añadir el index a los registros
+            getIndex(data1);
+
+            //Asignar los Docnums para que no se repliquen
+            getDocnums(data1);
+
             if ($('#Data-Route').data('bootstrap.table')) {
                 // La tabla está inicializada, puedes realizar operaciones en ella
                 console.log("La tabla está inicializada");
@@ -342,7 +328,11 @@ const RouteTGDL = () => {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
-
+            // Añadir el index a los registros
+            getIndex(data1);
+            
+            //Asignar los Docnums para que no se repliquen
+            getDocnums(data1);
             if ($('#Data-Route').data('bootstrap.table')) {
                 // La tabla está inicializada, puedes realizar operaciones en ella
                 console.log("La tabla está inicializada");
@@ -360,6 +350,48 @@ const RouteTGDL = () => {
 
     });
 
+}
+
+const getDocnums = (data) => {
+            //Limpiar areglo de Docnums
+            arrayDocnums = [];
+
+            //Iterar las OV
+            data.forEach(element => { 
+
+                //Variable para obtener el Docnum(s)
+                let cadena = element.DocNums;
+            
+                let separadaPorComa = cadena.includes(",");
+                // Validar si la cadena tiene ","
+                if(separadaPorComa){
+                    // La cadena tiene ","', cadena
+
+                    const numerosString = element.DocNums;
+                    const numerosArray = numerosString.split(","); // Dividir el string por la coma
+                    // console.log(numerosArray); // Mostrar el arreglo resultante
+
+                    numerosArray.forEach(Arrayelement => { 
+                        let entero = parseInt(Arrayelement);
+                        arrayDocnums.push(entero); 
+                    })
+
+                }else{
+                    // 'La cadena no tiene ","
+                    let entero = parseInt(cadena); 
+                    arrayDocnums.push(entero);  
+                } 
+            });
+
+   
+            console.log('arrayDocnums', arrayDocnums);
+}
+
+const getIndex = (data) => {
+    //añadir los index
+    data.forEach(function (row, i) {
+        row.index = i
+    })
 }
 
 const generatedRouteMCDMX = () => {
@@ -772,6 +804,7 @@ window.operateEventsThree = {
         document.getElementById("CityRouteEdit").value = row.City;
         document.getElementById("U_NAMERouteEdit").value = row.U_NAME;
         document.getElementById("ConditionRouteEdit").value = row.Condition;
+        document.getElementById("ConditionsTypeEdit").value = row.ConditionsType; 
         document.getElementById("DocNumsRouteEdit").value = row.DocNums;
         document.getElementById("CommentsRouteEdit").value = row.Comments;
         document.getElementById("PhoneRouteEdit").value = row.Phone;
@@ -862,7 +895,7 @@ function OptionsTwo(value, row, index) {
 
     const { Id, CreateDate, Name, Description } = row
     return [
-        `<a class="like" href="javascript:void(0)" onclick="ShowRoute('${Id},${CreateDate},${Name},${Description}')" title="Like">
+        `<a class="like" href="javascript:void(0)" onclick="ShowRoute('${Id},${CreateDate},${Name},${Description}')" title="Ver más...">
                     `,
         `<i class="fa fa-eye"></i>`,
         `
@@ -902,16 +935,21 @@ const ShowRoute = (row) => {
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
 
-            // Verificar si la tabla tiene registros antes de intentar eliminarlos
-            if ($('#Data-ShowRoute').bootstrapTable('getData').length > 0) {
-                // Si la tabla tiene registros, entonces eliminar todos los registros
-                $('#Data-ShowRoute').bootstrapTable('destroy'); // Destruir la tabla existente
-            }
-
+            //Mostrar el modal con las OV 
             $('#ModalshowRoute').modal('show')
-
-            // Inicializar la tabla nuevamente con nuevos datos
-            $('#Data-ShowRoute').bootstrapTable({ data: data1 });
+ 
+            if ($('#Data-ShowRoute').data('bootstrap.table')) {
+                // La tabla está inicializada, puedes realizar operaciones en ella
+                console.log("La tabla está inicializada");
+                $('#Data-ShowRoute').bootstrapTable('removeAll');
+                $('#Data-ShowRoute').bootstrapTable('refreshOptions', { data: data1 })
+                // Aquí puedes agregar cualquier código que quieras ejecutar si la tabla está inicializada
+            } else {
+                // La tabla no está inicializada, debes inicializarla antes de realizar operaciones en ella
+                console.log("La tabla no está inicializada");
+                $('#Data-ShowRoute').bootstrapTable({ data: data1 });
+                // Aquí puedes agregar el código para inicializar la tabla si es necesario
+            }
 
         }
 
@@ -920,12 +958,18 @@ const ShowRoute = (row) => {
 
 }
 
-function CloseModalShowRoute() {
+function ShowModalPendingRoute() {
+    $('#ModalPendingRoute').modal('show')  
+} 
 
-    $('#ModalshowRoute').modal('hide')
-
+function CloseModalPendingRoute() {
+    $('#ModalPendingRoute').modal('hide') 
 }
 
+function CloseModalShowRoute() { 
+    $('#ModalshowRoute').modal('hide') 
+}
+ 
 function ShowModalAddUser() {
 
     console.log('Show modal add user');
@@ -967,6 +1011,17 @@ function ShowModalAddUser() {
 function ShowModalDeleteUser() {
     $('#ModalDeleteUser').modal('show')
 }
+ 
+function ShowModalRemoveOv(){
+    $('#ModalRemoveOV').modal('show')
+}
+
+function closeModalRemoveOV() {   
+    $('#ModalRemoveOV').modal('hide')
+    $('#ModalshowRoute').modal('show')
+}
+
+
 function closeModalDeleteUser() {
     $('#ModalDeleteUser').modal('hide')
 }
@@ -1591,17 +1646,17 @@ const EditRoute = () => {
         if (number.Id == IDRouteEdit) {
             console.log("Encontro id");
             //Asignamos valores
-            number.ShipToCode = ShipToCodeRouteEdit;
-            number.CardName = CardNameRouteEdit;
-            number.Street = StreetRouteEdit;
-            number.Block = BlockRouteEdit;
-            number.ZipCode = ZipCodeRouteEdit;
-            number.City = CityRouteEdit;
-            number.U_NAME = U_NAMERouteEdit;
-            number.Condition = ConditionRouteEdit;
-            number.DocNums = DocNumsRouteEdit;
-            number.Comments = CommentsRouteEdit;
-            number.Phone = PhoneRouteEdit;
+            number.ShipToCode = ShipToCodeRouteEdit.toUpperCase();
+            number.CardName = CardNameRouteEdit.toUpperCase();
+            number.Street = StreetRouteEdit.toUpperCase();
+            number.Block = BlockRouteEdit.toUpperCase();
+            number.ZipCode = ZipCodeRouteEdit.toUpperCase();
+            number.City = CityRouteEdit.toUpperCase();
+            number.U_NAME = U_NAMERouteEdit.toUpperCase();
+            number.Condition = ConditionRouteEdit.toUpperCase();
+            number.DocNums = DocNumsRouteEdit.toUpperCase();
+            number.Comments = CommentsRouteEdit.toUpperCase();
+            number.Phone = PhoneRouteEdit.toUpperCase();
 
             found = true;
             return; // Sale de la función de devolución de llamada
@@ -1646,15 +1701,20 @@ const cleanModalEditOv = () => {
 
 const FindRouteOV = () => {
 
+
     const Orden = document.getElementById('OVText').value;
 
-    if (Orden == "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Es necesario introducir el número de folio de la orden de venta',
-            text: '',
+    // console.log('Mis docnums', arrayDocnums)
+    // console.log('Orden', typeof(Orden))
+ 
+    if(arrayDocnums.includes(parseInt(Orden,10))) {  
+        myMessage('error', 'La orden de venta ya existe en la ruta');
+        return  
+    }
 
-        })
+
+    if (Orden == "" || Orden == null) {
+        myMessage('warning', 'Es necesario introducir el número de folio de la orden de venta');
         return
     }
 
@@ -1667,19 +1727,20 @@ const FindRouteOV = () => {
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
 
-            console.log(data1)
+            console.log('data1 my data1', data1);
 
             if (data1.Id == 0) {
                 //Error en caso que no se encuentre resultados
                 myMessage('error', 'No se han encontrado resultados');
                 return
-            }
+            } 
 
+            //Cerrar el modal de busqueda
             CloseModalFindOV();
 
+            //Mostrar el modal para agregar la OV
             ShowModalAddOV();
-
-
+            PhoneAddOv
             document.getElementById("ShipToCodeAddOv").value = data1.ShipToCode;
             document.getElementById("CardNameAddOv").value = data1.CardName;
             document.getElementById("StreetAddOv").value = data1.Street;
@@ -1688,6 +1749,8 @@ const FindRouteOV = () => {
             document.getElementById("CityAddOv").value = data1.City;
             document.getElementById("U_NAMEAddOv").value = data1.U_NAME;
             document.getElementById("ConditionAddOv").value = data1.Condition;
+            document.getElementById("ConditionsTypeAddOv").value = data1.ConditionsType;
+            document.getElementById("PhoneAddOv").value = data1.Phone;
             document.getElementById("DocNumsAddOv").value = data1.DocNums;
             document.getElementById("DocDateAddOv").value = data1.DocDate;
             document.getElementById("RouteAddOv").value = data1.Route;
@@ -1732,39 +1795,54 @@ const AddOvToROute = () => {
 
     CloseModalAddOV();
 
+    //Añadir docnum al array
+    arrayDocnums.push(parseInt(DocNums));
+
     // Obtener referencia a la tabla Bootstrap
     var $table = $('#Data-Route');
 
     // Obtener los datos de la tabla
     var tableData = $table.bootstrapTable('getData');
 
+    // Iterar la tabla para ver si pertenecen al mismo domicilio
+    for (var i = 0; i < tableData.length; i++) {
+        if (tableData[i].ShipToCode == ShipToCode) {
+            // Mensaje exitoso de que se agrego correctamente la OV
+            myMessage('success', 'Se agrego correctamente la OV'); 
+            // Mensaje de que se agrego la OV a cierta direccion
+            setTimeout(() => {
+                myMessage('info', 'La OV se agrego en la dirección '+ShipToCode)
+            }, "2500");
+            // Actualizar la tabla con la nueva OV
+            $table.bootstrapTable('updateRow', {
+                index: tableData[i].index,
+                row: {  
+                    DocNums: tableData[i].DocNums + ', '+ DocNums, 
+                }
+            })
+
+            return
+        }
+    }
+
     var currentId =  tableData.length > 0 ? tableData.at(-1).Id + 1 : 1;
     console.log(currentId);
-    // tableData ahora contiene los datos de tu tabla
-    //console.log(tableData);
-
-    // Suponiendo que 'tabla' es tu arreglo de objetos
-    var ultimoRegistro = tableData[tableData.length - 1]; // Obtiene el último registro
-
-    // Si deseas obtener solo el ID del último registro
-    var ultimoID = ultimoRegistro.Id;
-
-    //console.log(ultimoID +1)
+  
 
     // Nuevo objeto a agregar
     var nuevoElemento = {
         "Id": currentId,
-        "ShipToCode": ShipToCode,
-        "CardName": CardName,
-        "Street": Street,
-        "Block": Block,
-        "ZipCode": ZipCode,
-        "City": City,
-        "U_NAME": U_NAME,
-        "Condition": Condition,
-        "DocNums": DocNums,
-        "Comments": Comments,
-        "Phone": Phone
+        "ShipToCode": ShipToCode.toUpperCase(),
+        "CardName": CardName.toUpperCase(),
+        "Street": Street.toUpperCase(),
+        "Block": Block.toUpperCase(),
+        "ZipCode": ZipCode.toUpperCase(),
+        "City": City.toUpperCase(),
+        "U_NAME": U_NAME.toUpperCase(),
+        "Condition": Condition.toUpperCase(),
+        "DocNums": DocNums.toUpperCase(),
+        "Comments": Comments.toUpperCase(),
+        "Phone": Phone.toUpperCase()
     };
 
     // Agregar el nuevo elemento a la tabla
@@ -1776,6 +1854,10 @@ const AddOvToROute = () => {
     //Mensaje Exitoso
     myMessage('success', 'Se ha agredado correctamente la OV')
 
+    //Refrescar Index
+    getIndex(tableData);
+
+    // Refrescar tabla
     $('#Data-Route').bootstrapTable('refreshOptions', { data: tableData })
 
 }
@@ -1784,7 +1866,7 @@ const SaveRoute = () => {
 
     //Mensaje de cargando
     loading('warning', 'Guardando...');
-
+    
     var r = route
     //return
 
@@ -1908,8 +1990,7 @@ const loading = (icon, title) => {
             allowOutsideClick: false,
             showConfirmButton: false,
             didOpen: () => {
-                Swal.showLoading()
-
+                Swal.showLoading() 
             },
         }) 
 }
@@ -2029,9 +2110,15 @@ const DeleteRoute = () => {
         values: [id]
     });
 
+    // Obtener los datos de la tabla
     let getdata = $('#Data-Route').bootstrapTable('getData');
-    console.log('getdata', getdata);
-
+    // Reiniciar los indices
+    getIndex(getdata); 
+    // Refrescar la tabla con la nueva información
+    $('#Data-Route').bootstrapTable('refreshOptions', { data: getdata })
+    // Obtener los nuevos Docnums
+    getDocnums(getdata);
+    
     //Mandar mensaje de exito 
     myMessage('success', 'Se ha eliminado correctamente la OV')
 
@@ -2059,15 +2146,12 @@ window.addEventListener('beforeunload',function(event) {
     console.log('Cerrar sesion');
 
     $.ajax({
-
         url: '/Home/Disable',
         dataType: "json",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (data1) {
-            console.log(data1);
-
-            // myMessage('info', 'Intento de cierre de sesion');
+            console.log(data1); 
         }
 
     });
@@ -2078,6 +2162,118 @@ window.addEventListener('beforeunload',function(event) {
         console.log((event || window.event).returnValue);
 
     return confirmationMessage;  
-});
+}); 
 
 
+
+//Función del boton para retirar las OV.
+$remove_order.click(function() {
+    
+    //Declarar la tabla
+    var $table = $('#Data-ShowRoute');
+
+    //Ordener la tabla
+    var tableDatalength = $table.bootstrapTable('getSelections').length;
+
+    //Ordener la tabla
+    var tableData = $table.bootstrapTable('getSelections');
+
+    // Si el tamaño de la tabla es 0 se mandara una alerta especifcando al usuario que 
+    // debe seleccionar al menos una OV.
+    if(tableDatalength == 0){
+        myMessage('warning', 'Debe seleccionar al menos una OV');
+        return;
+    }
+
+    var ids = tableData.map(function(row) { 
+        return parseInt(row.Id); // Obtener los Ids 
+    });
+
+    // Convertir el array a una cadena JSON
+    var arrayJSON_ids = JSON.stringify(ids);
+
+    // Pasarle los ids al modal
+    document.getElementById('RemoveOVId').value = arrayJSON_ids;
+ 
+    //Cerrar modal de OV
+    CloseModalShowRoute();
+    //Abrir modal de confirmacion
+    ShowModalRemoveOv();  
+})
+
+const RemoveOV = () => {
+   
+    // Obtenre el arreglo de Ids del modal
+    let ids = document.getElementById('RemoveOVId').value;
+ 
+    // Eliminar los registros de la tabla
+    $('#Data-ShowRoute').bootstrapTable('remove', {
+        field: 'Id',
+        values: ids
+    });
+ 
+    // Mandar alerta al usuario de que fueron eliminadas correctamente
+    myMessage('success', 'Las OV se han retirado correctamente');
+ 
+    // Cerrar modal de confirmacion y mostrar la tabla principal
+    closeModalRemoveOV();
+
+     // $.ajax({ 
+     //     url: '/Home/DeshabilitarRutas',
+     //     data: JSON.stringify({ ids }),
+     //     dataType: "json",
+     //     type: "POST",
+     //     contentType: "application/json; charset=utf-8",
+     //     success: function (data1) {
+  
+                 //Eliminar las Ov de la ruta 
+                 // $('#Data-ShowRoute').bootstrapTable('remove', {
+                 //     field: 'Id',
+                 //     values: [ids]
+                 // });
+     //     } 
+     // });
+  
+}
+
+const checkPendingOv = (typeroute) => {
+   
+  
+   $.ajax({ 
+         url: '/Home/RouteMCDMX',
+//          data: JSON.stringify({ typeroute }),
+         dataType: "json",
+         type: "POST",
+         contentType: "application/json; charset=utf-8",
+         success: function (data1) {
+
+                console.log('OV pendientes (Prueba) cambiar ruta', data1);
+
+                //  Validar si existen rutas pendientes
+  
+                    //
+
+                    if ($('#Data-PendingRoute').data('bootstrap.table')) {
+                        // La tabla está inicializada, puedes realizar operaciones en ella
+                        console.log("La tabla está inicializada");
+                        $('#Data-PendingRoute').bootstrapTable('removeAll');
+                        $('#Data-PendingRoute').bootstrapTable('refreshOptions', { data: data1 })
+                        // Aquí puedes agregar cualquier código que quieras ejecutar si la tabla está inicializada
+                    } else {
+                        // La tabla no está inicializada, debes inicializarla antes de realizar operaciones en ella
+                        console.log("La tabla no está inicializada");
+                        console.log(data1);
+                        $('#Data-PendingRoute').bootstrapTable({ data: data1 });
+                        // Aquí puedes agregar el código para inicializar la tabla si es necesario
+                    }
+ 
+                    //   Mostrar el modal 
+                    ShowModalPendingRoute();
+                
+         } 
+     });
+}
+
+const addPendingOv = (typeroute, table) => {
+
+}
